@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "710399060234",
+    "project_id": "ashu-ab900",
+    "storage_bucket": "ashu-ab900.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:710399060234:android:ab10efa5121cd56602f2f3",
+        "android_client_info": {
+          "package_name": "asm.ashutosh.firstapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "710399060234-goduuvh2htd6pomkdpaa1d7cbqa0htn0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "asm.ashutosh.firstapp",
+            "certificate_hash": "1efe5e6fc59540180eb5a9e24de32df473705a98"
+          }
+        },
+        {
+          "client_id": "710399060234-hul749pcmm8ecckcr158pft8u8pqb3p9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLLPpjPapRU-hLGxwHKve0KJPROiBjgXc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "710399060234-hul749pcmm8ecckcr158pft8u8pqb3p9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "710399060234-pp8npr5vbfm3depua0qsve9mc4oif0si.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "asm.ashutosh.firstapp",
+                "app_store_id": "123456789"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
