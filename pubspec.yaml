@@ -10,6 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  googleapis: 10.1.0
   cupertino_icons: ^1.0.2
   firebase_core: ^1.24.0
   cloud_firestore: 2.5.0
@@ -20,7 +21,7 @@ dependencies:
   sign_in_with_apple: 3.2.0
   crypto: 3.0.1
   font_awesome_flutter: 9.2.0
-  google_fonts: 2.1.0
+  google_fonts: ^2.0.0
   rxdart: 0.27.2
   get:
   json_annotation: ^4.6.0

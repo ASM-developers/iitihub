@@ -14,7 +14,6 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // title: 'FInallly',
       appBar: AppBar(
         title: Text('Hello ${AuthService().user?.displayName}'),
       ),

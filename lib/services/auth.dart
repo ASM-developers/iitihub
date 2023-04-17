@@ -4,7 +4,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 class AuthService {
   final userStream = FirebaseAuth.instance.authStateChanges();
   final user = FirebaseAuth.instance.currentUser;
-
+  final GoogleSignIn googleSignIn = GoogleSignIn();
   Future<void> anonLogin() async {
     try {
       await FirebaseAuth.instance.signInAnonymously();
@@ -29,8 +29,9 @@ class AuthService {
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-
       await FirebaseAuth.instance.signInWithCredential(authCredential);
-    } on FirebaseAuthException catch (e) {}
+    } on FirebaseAuthException catch (e) {
+      print(e);
+    }
   }
 }
