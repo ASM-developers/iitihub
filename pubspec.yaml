@@ -10,6 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+    
   googleapis: 10.1.0
   cupertino_icons: ^1.0.2
   firebase_core: ^1.24.0
@@ -36,6 +37,8 @@ dev_dependencies:
   build_runner : ^2.2.0
   json_serializable: ^6.3.1
 flutter:
+  assets:
+    - assets/images/download.png
   uses-material-design: true
 
  

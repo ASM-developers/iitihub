@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firstapp/services/firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firstapp/services/auth.dart';
 import 'package:firstapp/login/login.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:firstapp/services/gmail.dart';
+import 'dart:io';
 
 class ProfileScreen extends StatefulWidget {
   ProfileScreen({super.key});
@@ -14,10 +16,9 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final data1 = TextEditingController();
-
   final data2 = TextEditingController();
-
   final data3 = TextEditingController();
+  List<String>? thing;
 
   //sample queryResult thing to be fetched from the backend
   final queryResult = ['a', 'b', 'ak', 'c'];
@@ -35,7 +36,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             );
           },
         ),
-        title: Text('My App'),
+        title: Text('Hello ${AuthService().user?.displayName}'),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.search),
@@ -65,27 +66,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
             ListTile(
-              title: Text('Item 1'),
+              title: Text('ABOUT'),
               onTap: () {
-                // Handle item 1 press
+                // Handle about press
               },
             ),
             ListTile(
-              title: Text('Item 2'),
+              title: Text('SETTINGS'),
               onTap: () {
-                // Handle item 2 press
+                // Handle settings press
               },
+            ),
+            LoginButton(
+              text: 'sign out',
+              color: Colors.black45,
+              icon: FontAwesomeIcons.doorOpen,
+              loginMethod: AuthService().signOut,
             ),
           ],
         ),
       ),
       body: Column(children: [
-        LoginButton(
-          text: 'sign out',
-          color: Colors.black45,
-          icon: FontAwesomeIcons.doorOpen,
-          loginMethod: AuthService().signOut,
-        ),
+        Center(
+            child: CircularImage(
+          imageFile: 'assets/images/download.png',
+        )),
         TextField(
           controller: data1,
         ),
@@ -100,12 +105,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
             await createUser(
                 dept: data1.text, email: data2.text, grad_yr: data3.text);
           },
-          child: const Text('submit'),
+          child: const Text('Submits'),
         ),
         ElevatedButton(
             onPressed: () => mailStreamliner()
                 .PrintMessages('in:inbox subject:night AND subject:canteen'),
-            child: const Text('print msges'))
+            child: const Text('print msges')),
+        ElevatedButton(
+            onPressed: () async {
+              thing = await FirestoreService().getResults('h');
+              if (thing != null) {
+                for (final i in thing ?? []) {
+                  print(i);
+                }
+              }
+            },
+            child: Text('print searchQuery func'))
       ]),
     );
   }
@@ -132,6 +147,9 @@ class SearchBar extends SearchDelegate {
   SearchBar(this.queryResult);
 
   @override
+  //manipulation of tags should be done from here
+  //remember if query's last character is # then listen for the next whitespace and add the tag into search list
+  //also make a tag results column too
   List<Widget> buildActions(BuildContext context) {
     return [
       IconButton(
@@ -159,7 +177,7 @@ class SearchBar extends SearchDelegate {
         queryResult.where((item) => item.startsWith(query)).toList();
 
     if (results.isEmpty) {
-      return Center(
+      return const Center(
         child: Text(
           'No results found.',
           style: TextStyle(fontSize: 24),
@@ -198,6 +216,27 @@ class SearchBar extends SearchDelegate {
         title: Text(suggestionList[index]),
       ),
       itemCount: suggestionList.length,
+    );
+  }
+}
+
+class CircularImage extends StatelessWidget {
+  final String imageFile;
+  final double size;
+
+  CircularImage({Key? key, required this.imageFile, this.size = 100.0})
+      : super(key: key);
+
+  @override
+  //when we are able to fetch image uri from backend replace the placeholder with Image.fronUri() and add the text obtained in imageFile
+  Widget build(BuildContext context) {
+    return ClipOval(
+      child: Image.asset(
+        imageFile,
+        width: size,
+        height: size,
+        fit: BoxFit.cover,
+      ),
     );
   }
 }

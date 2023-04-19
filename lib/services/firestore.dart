@@ -7,6 +7,7 @@ import 'package:firstapp/services/models.dart';
 class FirestoreService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
+  //currently extracts students with a given dept name but can be edited
   Future<List<String>> getResults(String query) async {
     // replace this with your actual firestore collection path
     final CollectionReference collection = _db.collection('student');
