@@ -5,19 +5,79 @@ import 'package:firstapp/login/login.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:firstapp/services/gmail.dart';
 
-class ProfileScreen extends StatelessWidget {
-  final data1 = TextEditingController();
-  final data2 = TextEditingController();
-  final data3 = TextEditingController();
-
+class ProfileScreen extends StatefulWidget {
   ProfileScreen({super.key});
 
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  final data1 = TextEditingController();
+
+  final data2 = TextEditingController();
+
+  final data3 = TextEditingController();
+
+  //sample queryResult thing to be fetched from the backend
+  final queryResult = ['a', 'b', 'ak', 'c'];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // title: Text('Hello ${AuthService().user?.displayName}'),
-        title: SearchBar(),
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: const Icon(Icons.menu),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+            );
+          },
+        ),
+        title: Text('My App'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              showSearch(
+                context: context,
+                delegate: SearchBar(queryResult),
+              );
+            },
+          ),
+        ],
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text(
+                'Drawer Header',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                ),
+              ),
+            ),
+            ListTile(
+              title: Text('Item 1'),
+              onTap: () {
+                // Handle item 1 press
+              },
+            ),
+            ListTile(
+              title: Text('Item 2'),
+              onTap: () {
+                // Handle item 2 press
+              },
+            ),
+          ],
+        ),
       ),
       body: Column(children: [
         LoginButton(
@@ -66,29 +126,78 @@ class ProfileScreen extends StatelessWidget {
   }
 }
 
-class SearchBar extends StatefulWidget {
-  @override
-  _SearchBarState createState() => _SearchBarState();
-}
+class SearchBar extends SearchDelegate {
+  final List<String> queryResult;
 
-class _SearchBarState extends State<SearchBar> {
-  String _searchQuery = '';
+  SearchBar(this.queryResult);
 
   @override
-  Widget build(BuildContext context) {
-    return TextField(
-      decoration: InputDecoration(
-        hintText: 'Search',
-        hintStyle: TextStyle(color: Colors.white),
-        border: InputBorder.none,
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+        icon: Icon(Icons.clear),
+        onPressed: () {
+          query = '';
+        },
       ),
-      style: TextStyle(color: Colors.white),
-      onChanged: (query) {
-        setState(() {
-          _searchQuery = query;
-        });
-        // Call function to fetch search results using _searchQuery
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+      icon: Icon(Icons.arrow_back),
+      onPressed: () {
+        close(context, null);
       },
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    final results =
+        queryResult.where((item) => item.startsWith(query)).toList();
+
+    if (results.isEmpty) {
+      return Center(
+        child: Text(
+          'No results found.',
+          style: TextStyle(fontSize: 24),
+        ),
+      );
+    } else {
+      return ListView.builder(
+        itemCount: results.length,
+        itemBuilder: (BuildContext context, int index) {
+          final result = results[index];
+          return ListTile(
+            title: Text(result),
+            onTap: () {
+              // Handle result selection
+            },
+          );
+        },
+      );
+    }
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    final suggestionList = query.isEmpty
+        ? []
+        : queryResult.where((item) => item.startsWith(query)).toList();
+
+    return ListView.builder(
+      itemBuilder: (context, index) => ListTile(
+        //here you can change what happens when someone clicks on an object rendered by query
+        //TODO : on encountering a # await a whitespace to add to the list of tags with which we fetch a list of projects
+        onTap: () {
+          query = suggestionList[index];
+          showResults(context);
+        },
+        title: Text(suggestionList[index]),
+      ),
+      itemCount: suggestionList.length,
     );
   }
 }
