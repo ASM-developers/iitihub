@@ -28,6 +28,7 @@ dependencies:
   json_annotation: ^4.6.0
   extension_google_sign_in_as_googleapis_auth: ^2.0.9
   http: ^0.13.5
+  image_picker: ^0.8.7+3
   # google_auth_io: ^2.1.0
 # auth: FirebaseAuthWeb.instance;
 dev_dependencies:
