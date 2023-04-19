@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firstapp/services/firestore.dart';
+import 'package:firstapp/services/models.dart';
 import 'package:flutter/material.dart';
 import 'package:firstapp/services/auth.dart';
 import 'package:firstapp/login/login.dart';
@@ -113,10 +114,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: const Text('print msges')),
         ElevatedButton(
             onPressed: () async {
-              thing = await FirestoreService().getResults('h');
+              thing = await (FirestoreService().getResults('h'));
               if (thing != null) {
                 for (final i in thing ?? []) {
-                  print(i);
+                  print(i.grad_yr);
                 }
               }
             },
@@ -200,6 +201,7 @@ class SearchBar extends SearchDelegate {
   }
 
   @override
+  //optionally wrapping in a futurebuilder to listen to streams
   Widget buildSuggestions(BuildContext context) {
     final suggestionList = query.isEmpty
         ? []

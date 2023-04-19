@@ -34,15 +34,20 @@ class mailStreamliner {
     if (client != null) {
       final gmail.GmailApi? gmailAPI = gmail.GmailApi(client);
       final response = await gmailAPI!.users.messages.list('me', q: query);
-      final messages = response.messages!;
 
-      for (final message in messages) {
+      final messages = response.messages;
+
+      for (final message in messages ?? []) {
         final fullMessage =
             await gmailAPI.users.messages.get('me', (message.id)!);
         final headers = fullMessage.payload!.headers;
         final subjectHeader =
             headers!.firstWhere((header) => header.name == 'Subject');
         print(subjectHeader.value);
+      }
+
+      if (messages == null) {
+        print('no results found');
       }
     } else {
       print('fuck');
