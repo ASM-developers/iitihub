@@ -21,8 +21,8 @@ class FirestoreService {
 
     // extract the data from the snapshot and return as a list of strings
 
-    List<String> results =
-        snapshot.docs.map((doc) => doc.data() as String).toList();
+    var results =
+        snapshot.docs.map((doc) => doc.get('dept') as String).toList();
 
     return results;
   }

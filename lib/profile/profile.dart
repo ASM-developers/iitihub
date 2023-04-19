@@ -117,7 +117,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               thing = await (FirestoreService().getResults('h'));
               if (thing != null) {
                 for (final i in thing ?? []) {
-                  print(i.grad_yr);
+                  print(i);
                 }
               }
             },
