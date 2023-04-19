@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firstapp/services/auth.dart';
 import 'package:firstapp/login/login.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:firstapp/services/gmail.dart';
 
 class ProfileScreen extends StatelessWidget {
   final data1 = TextEditingController();
@@ -15,7 +16,8 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Hello ${AuthService().user?.displayName}'),
+        // title: Text('Hello ${AuthService().user?.displayName}'),
+        title: SearchBar(),
       ),
       body: Column(children: [
         LoginButton(
@@ -39,7 +41,11 @@ class ProfileScreen extends StatelessWidget {
                 dept: data1.text, email: data2.text, grad_yr: data3.text);
           },
           child: const Text('submit'),
-        )
+        ),
+        ElevatedButton(
+            onPressed: () => mailStreamliner()
+                .PrintMessages('in:inbox subject:night AND subject:canteen'),
+            child: const Text('print msges'))
       ]),
     );
   }
@@ -57,5 +63,32 @@ class ProfileScreen extends StatelessWidget {
       'grad_yr': grad_yr,
     };
     await docuser.set(json);
+  }
+}
+
+class SearchBar extends StatefulWidget {
+  @override
+  _SearchBarState createState() => _SearchBarState();
+}
+
+class _SearchBarState extends State<SearchBar> {
+  String _searchQuery = '';
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      decoration: InputDecoration(
+        hintText: 'Search',
+        hintStyle: TextStyle(color: Colors.white),
+        border: InputBorder.none,
+      ),
+      style: TextStyle(color: Colors.white),
+      onChanged: (query) {
+        setState(() {
+          _searchQuery = query;
+        });
+        // Call function to fetch search results using _searchQuery
+      },
+    );
   }
 }

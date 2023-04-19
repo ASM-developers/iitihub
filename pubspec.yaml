@@ -25,7 +25,9 @@ dependencies:
   rxdart: 0.27.2
   get:
   json_annotation: ^4.6.0
-
+  extension_google_sign_in_as_googleapis_auth: ^2.0.9
+  http: ^0.13.5
+  # google_auth_io: ^2.1.0
 # auth: FirebaseAuthWeb.instance;
 dev_dependencies:
   flutter_test:
