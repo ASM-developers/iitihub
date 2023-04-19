@@ -7,6 +7,7 @@ import 'package:firstapp/login/login.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:firstapp/services/gmail.dart';
 import 'dart:io';
+import 'package:googleapis_auth/auth.dart';
 
 class ProfileScreen extends StatefulWidget {
   ProfileScreen({super.key});
@@ -233,11 +234,12 @@ class CircularImage extends StatelessWidget {
   //when we are able to fetch image uri from backend replace the placeholder with Image.fronUri() and add the text obtained in imageFile
   Widget build(BuildContext context) {
     return ClipOval(
-      child: Image.asset(
-        imageFile,
-        width: size,
-        height: size,
-        fit: BoxFit.cover,
+      child: Padding(
+        padding: const EdgeInsets.all(25.0),
+        child: CircleAvatar(
+          foregroundImage: NetworkImage('${AuthService().user?.photoURL}'),
+          radius: 55,
+        ),
       ),
     );
   }
