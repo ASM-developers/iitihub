@@ -22,7 +22,7 @@ dependencies:
   sign_in_with_apple: 3.2.0
   crypto: 3.0.1
   font_awesome_flutter: 9.2.0
-  google_fonts: ^2.0.0
+  google_fonts: ^4.0.3
   rxdart: 0.27.2
   get:
   json_annotation: ^4.6.0
@@ -42,6 +42,14 @@ dev_dependencies:
 flutter:
   assets:
     - assets/images/download.png
+    - assets/images/Transperant_IITI.png
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: assets/Roboto/Roboto-Regular.ttf
+        - asset: assets/Roboto/Roboto-Bold.ttf
+          weight: 700
+
   uses-material-design: true
 
  

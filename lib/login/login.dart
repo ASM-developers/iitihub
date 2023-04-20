@@ -1,33 +1,73 @@
+import 'dart:ffi';
+import 'dart:ui';
+
 import 'package:firstapp/services/auth.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth_web/firebase_auth_web.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment(0.1, 1),
+            colors: <Color>[
+              Color(0xFF000000),
+              Color(0xFF020202),
+              Color(0xFF040404),
+              Color(0xFF060606),
+              Color(0xFF080808),
+              Color(0xFF101010),
+              Color(0xFF121212),
+              Color(0xFF141414),
+              Color(0xFF161616),
+              Color(0xFF181818),
+              Color(0xFF202020),
+              Color(0xFF222222),
+              Color(0xFF242424),
+              Color(0xFF262626),
+              Color(0xFF282828),
+            ],
+            tileMode: TileMode.mirror,
+          ),
+        ),
         padding: const EdgeInsets.all(30),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            const FlutterLogo(
-              size: 150,
+            Image(
+              image: AssetImage('assets/images/Transperant_IITI.png'),
+              width: 150,
             ),
-            Flexible(
-              child: LoginButton(
-                color: Colors.deepPurple,
-                icon: FontAwesomeIcons.userNinja,
-                text: 'Continue as Guest',
-                loginMethod: AuthService().anonLogin,
-              ),
+            SizedBox(
+              width: double.infinity,
+              height: 30,
             ),
             LoginButton(
-              color: Colors.blue,
+              color: Colors.red,
+              icon: FontAwesomeIcons.gem,
+              text: 'Continue as Guest',
+              loginMethod: AuthService().anonLogin,
+            ),
+            SizedBox(
+              width: double.infinity,
+              height: 20,
+            ),
+            LoginButton(
+              color: Colors.black,
               icon: FontAwesomeIcons.google,
               text: 'Continue via google',
               loginMethod: AuthService().googleLogin,
@@ -59,13 +99,29 @@ class LoginButton extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
       child: ElevatedButton.icon(
+        style: ButtonStyle(
+          backgroundColor: MaterialStatePropertyAll<Color>(Colors.black54),
+          elevation: MaterialStatePropertyAll<double>(25),
+          surfaceTintColor: MaterialStatePropertyAll<Color>(Colors.white),
+          padding:
+              MaterialStatePropertyAll<EdgeInsetsGeometry>(EdgeInsets.all(30)),
+          // textStyle: MaterialStatePropertyAll<TextStyle>(TextStyle(color: Colors.red)),
+        ),
         icon: Icon(
           icon,
-          color: Colors.white,
+          color: Colors.white70,
           size: 20,
         ),
         onPressed: () => loginMethod(),
-        label: Text(this.text),
+        label: Text(
+          this.text,
+          style: TextStyle(
+            color: Colors.grey.shade100,
+            fontSize: 20,
+            height: 1.1,
+            fontFamily: 'Roboto',
+          ),
+        ),
       ),
     );
   }
