@@ -6,9 +6,15 @@ import 'package:firstapp/services/auth.dart';
 import 'package:firstapp/login/login.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:firstapp/services/gmail.dart';
+import 'package:get/get.dart';
+import 'package:googleapis/analyticsreporting/v4.dart';
+import 'package:googleapis/bigquery/v2.dart';
 import 'dart:io';
+import 'package:provider/provider.dart';
 import 'package:googleapis_auth/auth.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class ProfileScreen extends StatefulWidget {
   ProfileScreen({super.key});
@@ -224,12 +230,84 @@ class SearchBar extends SearchDelegate {
   }
 }
 
-class CircularImage extends StatelessWidget {
+class CircularImage extends StatefulWidget {
   final String imageFile;
   final double size;
-
   CircularImage({Key? key, required this.imageFile, this.size = 100.0})
       : super(key: key);
+
+  @override
+  State<CircularImage> createState() => _CircularImageState();
+}
+
+class _CircularImageState extends State<CircularImage> {
+  DatabaseReference ref = FirebaseDatabase.instance.ref().child('User');
+
+  firebase_storage.FirebaseStorage storage =
+      firebase_storage.FirebaseStorage.instance;
+  var b = AuthService().user?.photoURL.toString();
+  String spp = 'Show profile Picture';
+  String hpp = 'Hide profile Picture';
+  void setImag() async {
+    final a = await ref.child('${AuthService().user?.uid}/photoURL').get();
+    if (a.value == null) {}
+    print(a.value.toString());
+    print('Thank You Madhav');
+    setState(() {
+      b = a.value.toString();
+      String mad = spp;
+      spp = hpp;
+      hpp = mad;
+    });
+  }
+
+  void setImag2() {
+    setState(() {
+      b = AuthService().user?.photoURL.toString();
+      String mad = spp;
+      spp = hpp;
+      hpp = mad;
+    });
+  }
+
+  final picker = ImagePicker();
+
+  // final snapshot = FirebaseDatabase.instance
+  //     .ref()
+  //     .child('User/${AuthService().user?.uid}/photoURL')
+  //     .get();
+  XFile? _image;
+
+  XFile? get image => _image;
+
+  void uploadImage(BuildContext context) async {
+    firebase_storage.Reference sRef = firebase_storage.FirebaseStorage.instance
+        .ref('${AuthService().user?.uid}');
+    firebase_storage.UploadTask uploadTask =
+        sRef.putFile(File(image!.path).absolute);
+    await Future.value(uploadTask);
+    final newURL = await sRef.getDownloadURL();
+    // print(snapshot.toString());
+
+    print(newURL);
+    setImag();
+    setState(() {
+      b = newURL.toString();
+    });
+    ref
+        .child('${AuthService().user?.uid}')
+        .update({'photoURL': b}).then((value) => _image = null);
+    // print('${AuthService().user}');
+  }
+
+  Future pickGalleryImage(BuildContext context) async {
+    final pickedFile =
+        await picker.pickImage(source: ImageSource.gallery, imageQuality: 100);
+    if (pickedFile != null) {
+      _image = XFile(pickedFile.path);
+      uploadImage(context);
+    }
+  }
 
   @override
 
@@ -241,9 +319,21 @@ class CircularImage extends StatelessWidget {
         child: Column(
           children: [
             CircleAvatar(
-              foregroundImage: NetworkImage('${AuthService().user?.photoURL}'),
+              foregroundImage: NetworkImage('${b}'),
               radius: 55,
             ),
+            Padding(
+                padding: EdgeInsets.only(top: 10.0),
+                child: Card(
+                    child: TextButton(
+                        onPressed: () {
+                          if (spp == 'Show profile Picture') {
+                            setImag();
+                          } else {
+                            setImag2();
+                          }
+                        },
+                        child: Text(spp)))),
             Padding(
               padding: EdgeInsets.only(top: 60.0),
               child: IconButton(
@@ -252,7 +342,8 @@ class CircularImage extends StatelessWidget {
                   size: 30.0,
                 ),
                 onPressed: () {
-                  print('I am here');
+                  print('${AuthService().user}');
+                  pickGalleryImage(context);
                 },
               ),
             ),
