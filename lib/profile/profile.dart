@@ -23,7 +23,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   //stores the value of current user can be accessed using a constructor
 
-  List<String>? thing;
+  List<Student>? thing;
 
   //here lies the constructor which should be called upon clicking signin
 
@@ -60,7 +60,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            DrawerHeader(
+            const DrawerHeader(
               decoration: BoxDecoration(
                 color: Colors.blue,
               ),
@@ -120,10 +120,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: const Text('print msges')),
         ElevatedButton(
             onPressed: () async {
-              thing = await (FirestoreService().getResults('h'));
+              thing = await (FirestoreService().getStudentsByDept('H'));
               if (thing != null) {
                 for (final i in thing ?? []) {
-                  print(i);
+                  print(i.grad_yr);
                 }
               }
             },
