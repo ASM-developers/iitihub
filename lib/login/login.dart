@@ -35,7 +35,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   name: (AuthService().user?.displayName)!,
                   tags: tags,
                 );
+
                 await FirestoreService().createUser(newUser);
+
                 Navigator.of(context).pop();
               },
             ),

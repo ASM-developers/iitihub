@@ -43,9 +43,9 @@ class FirestoreService {
         .get();
 
     if (snapshot.docs.isNotEmpty) {
-      throw Exception('User already exists');
+      print('User already exists');
+    } else {
+      await FirebaseFirestore.instance.collection('users').add(user.toJson());
     }
-    print(user);
-    await FirebaseFirestore.instance.collection('users').add(user.toJson());
   }
 }
