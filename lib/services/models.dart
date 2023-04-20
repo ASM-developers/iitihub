@@ -7,14 +7,24 @@ class User {
   final String ID;
   final String email;
   final String name;
-  final String type;
+  String type;
+  List<String> tags;
 
   User({
     this.ID = '',
     this.email = '',
     this.name = '',
     this.type = '',
+    this.tags = const [],
   });
+
+  Map<String, dynamic> toJson() => {
+        'ID': ID,
+        'name': name,
+        'email': email,
+        'type': type,
+        'tags': tags,
+      };
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 }

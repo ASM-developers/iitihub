@@ -1,10 +1,49 @@
 import 'package:firstapp/services/auth.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth_web/firebase_auth_web.dart';
+import 'package:firstapp/services/models.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firstapp/services/firestore.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+//TODO : add a modal onClick to a button. Next we add a
+
+class _LoginScreenState extends State<LoginScreen> {
+  String? _userType;
+  void showMyModal(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('My Modal'),
+          content: Text('This is my modal.'),
+          actions: [
+            TextButton(
+              child: Text('Next'),
+              onPressed: () async {
+                await AuthService().googleLogin();
+                //await function that will take in some text handling and give us the tags in those lists
+                final List<String> tags = const [];
+                User newUser = User(
+                  email: (AuthService().user?.email)!,
+                  name: (AuthService().user?.displayName)!,
+                  tags: tags,
+                );
+                await FirestoreService().createUser(newUser);
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +71,12 @@ class LoginScreen extends StatelessWidget {
               text: 'Continue via google',
               loginMethod: AuthService().googleLogin,
             ),
+            ElevatedButton(
+              onPressed: () {
+                showMyModal(context);
+              },
+              child: Text('Show Modal'),
+            ),
           ],
         ),
       ),
@@ -45,7 +90,7 @@ class LoginButton extends StatelessWidget {
   final Color color;
   final IconData icon;
   final String text;
-  final Function loginMethod;
+  final loginMethod;
   const LoginButton({
     super.key,
     required this.color,
@@ -70,5 +115,3 @@ class LoginButton extends StatelessWidget {
     );
   }
 }
-
-signInWithGoogle() {}

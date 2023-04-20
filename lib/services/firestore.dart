@@ -25,4 +25,27 @@ class FirestoreService {
 
     return Students;
   }
+
+  Future<void> createUser(User user) async {
+    final RegExp isStudent = RegExp(r'^[a-z]{2,4}\d{9}@iiti\.ac\.in$');
+
+    //Note: for a particular insti we have to add another regexp isMember for testing purposes not added
+    if (isStudent.hasMatch(user.email)) {
+      user.type = 'student';
+    } else {
+      user.type = 'professor';
+    }
+    //if this expression matches then its a student. Otherwise its a prof
+    //use this regex query to decide wh
+    final snapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .where('email', isEqualTo: user.email)
+        .get();
+
+    if (snapshot.docs.isNotEmpty) {
+      throw Exception('User already exists');
+    }
+    print(user);
+    await FirebaseFirestore.instance.collection('users').add(user.toJson());
+  }
 }
