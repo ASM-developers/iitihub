@@ -1,3 +1,4 @@
+import 'package:firstapp/services/firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firstapp/profile/profile.dart';
 import 'package:firstapp/login/login.dart';
@@ -20,6 +21,9 @@ class HomeScreen extends StatelessWidget {
           );
         } else if (snapshot.hasData) {
           // return News();
+
+          // FirestoreService().createUser(AuthService().user?.email,
+          //     AuthService().user?.displayName, context);
           return ProfileScreen();
         } else {
           return LoginScreen();

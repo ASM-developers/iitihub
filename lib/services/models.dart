@@ -15,7 +15,7 @@ class User {
     this.email = '',
     this.name = '',
     this.type = '',
-    this.tags = const [],
+    this.tags = const ['a', 'b'],
   });
 
   Map<String, dynamic> toJson() => {

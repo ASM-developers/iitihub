@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:firstapp/services/auth.dart';
 import 'package:firstapp/services/models.dart';
 
+import '../tags/tagsInput.dart';
+
 class FirestoreService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
@@ -72,10 +74,14 @@ Future<bool> checkadmin (String? email) async {
   //   );
   // }
 
-  Future<void> createUser(User user) async {
+  Future<void> createUser(
+      String? email, String? name, BuildContext context) async {
     final RegExp isStudent = RegExp(r'^[a-z]{2,4}\d{9}@iiti\.ac\.in$');
+    User user = User(
+      email: email ?? "",
+      name: name ?? "",
+    );
 
-    //Note: for a particular insti we have to add another regexp isMember for testing purposes not added
     if (isStudent.hasMatch(user.email)) {
       user.type = 'student';
     } else {
@@ -91,7 +97,33 @@ Future<bool> checkadmin (String? email) async {
     if (snapshot.docs.isNotEmpty) {
       print('User already exists');
     } else {
-      await FirebaseFirestore.instance.collection('users').add(user.toJson());
+      await showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (BuildContext context) {
+          return SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom,
+              ),
+              child: Container(
+                child: TagInput(
+                  someone: user,
+                  onSubmit: (tags) async {
+                    // Do something with the tags
+                    user.tags = tags;
+                    await FirebaseFirestore.instance
+                        .collection('users')
+                        .add(user.toJson());
+
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+            ),
+          );
+        },
+      ); //Note: for a particular insti we have to add another regexp isMember for testing purposes not added
     }
   }
 }
