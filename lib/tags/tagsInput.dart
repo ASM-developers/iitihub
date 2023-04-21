@@ -5,8 +5,10 @@ import '../services/models.dart';
 
 class TagInput extends StatefulWidget {
   final Function(List<String>) onSubmit;
-  User someone = User();
-  TagInput({required this.onSubmit, required this.someone});
+
+  TagInput({
+    required this.onSubmit,
+  });
 
   @override
   _TagInputState createState() => _TagInputState();

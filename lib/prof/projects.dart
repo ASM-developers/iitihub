@@ -1,3 +1,4 @@
+import 'package:firstapp/services/firestore.dart';
 import 'package:firstapp/services/models.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
@@ -27,18 +28,16 @@ class _ProjectScreenState extends State<ProjectScreen> {
               child: TextField(
                 controller: searchtext,
                 decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.search),
-                  hintText: "search project",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10)
-                  )
-                ),
+                    prefixIcon: Icon(Icons.search),
+                    hintText: "search project",
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10))),
                 onChanged: searchProject,
               ),
             ),
             Flexible(
               child: StreamBuilder<List<Projects>>(
-                stream: readProjects(),
+                stream: FirestoreService().readProjects(),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
                     return Text("something is wrong");
@@ -77,14 +76,6 @@ class _ProjectScreenState extends State<ProjectScreen> {
           },
         ),
       );
-  Stream<List<Projects>> readProjects() => FirebaseFirestore.instance
-      .collection('prof')
-      .snapshots()
-      .map((snapshot) =>
-          snapshot.docs.map((e) => Projects.fromJson(e.data())).toList());
 
-  void searchProject(String query) {
-    
-
-  }
+  void searchProject(String query) {}
 }

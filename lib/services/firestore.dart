@@ -29,50 +29,19 @@ class FirestoreService {
     return Students;
   }
 
-Future<bool> checkadmin (String? email) async {
-    final check= await FirebaseFirestore.instance
-      .collection('admin').where("email", isEqualTo:email).get();
-      
+  Future<bool> checkadmin(String? email) async {
+    final check = await FirebaseFirestore.instance
+        .collection('admin')
+        .where("email", isEqualTo: email)
+        .get();
 
-    if(check.size>0)
-    {
+    if (check.size > 0) {
       print("hurrya");
       return true;
     }
     print("fuck off");
     return false;
   }
-
-  // void showMyModal(BuildContext context) {
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return AlertDialog(
-  //         title: Text('My Modal'),
-  //         content: Text('This is my modal.'),
-  //         actions: [
-  //           TextButton(
-  //             child: Text('Next'),
-  //             onPressed: () async {
-  //               await AuthService().googleLogin();
-  //               //await function that will take in some text handling and give us the tags in those lists
-  //               final List<String> tags = const [];
-  //               User newUser = User(
-  //                 email: (AuthService().user?.email)!,
-  //                 name: (AuthService().user?.displayName)!,
-  //                 tags: tags,
-  //               );
-
-  //               await FirestoreService().createUser(newUser);
-
-  //               Navigator.of(context).pop();
-  //             },
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
 
   Future<void> createUser(
       String? email, String? name, BuildContext context) async {
@@ -108,7 +77,6 @@ Future<bool> checkadmin (String? email) async {
               ),
               child: Container(
                 child: TagInput(
-                  someone: user,
                   onSubmit: (tags) async {
                     // Do something with the tags
                     user.tags = tags;
@@ -126,4 +94,42 @@ Future<bool> checkadmin (String? email) async {
       ); //Note: for a particular insti we have to add another regexp isMember for testing purposes not added
     }
   }
+
+  Future createStudent({
+    required String dept,
+    required String email,
+    required String grad_yr,
+  }) async {
+    final docuser = FirebaseFirestore.instance.collection('student').doc();
+    final json = {
+      'ID': docuser.id,
+      'dept': dept,
+      'email': email,
+      'grad_yr': grad_yr,
+    };
+    await docuser.set(json);
+  }
+
+  Future submitdata(
+      {required String projname,
+      required String projdes,
+      required List<String> tags,
+      required String date}) async {
+    final docuser = FirebaseFirestore.instance.collection('prof').doc();
+    final json = {
+      'ID': docuser.id,
+      'date': date,
+      'description': projdes,
+      'name': projname,
+      'prof': AuthService().user?.email.toString(),
+      'tags': tags,
+    };
+    await docuser.set(json);
+  }
+
+  Stream<List<Projects>> readProjects() => FirebaseFirestore.instance
+      .collection('prof')
+      .snapshots()
+      .map((snapshot) =>
+          snapshot.docs.map((e) => Projects.fromJson(e.data())).toList());
 }

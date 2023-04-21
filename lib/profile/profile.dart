@@ -30,8 +30,6 @@ import 'package:firstapp/services/firestore.dart';
 class ProfileScreen extends StatefulWidget {
   ProfileScreen({super.key});
 
-
-  
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
@@ -40,13 +38,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final data1 = TextEditingController();
   final data2 = TextEditingController();
   final data3 = TextEditingController();
-  Future<bool> check= FirestoreService().checkadmin(AuthService().user?.email.toString());
+  Future<bool> check =
+      FirestoreService().checkadmin(AuthService().user?.email.toString());
   // bool check2=check.get();
-
 
 // int checkori = 0 ;
 // int returncheckori(Future<bool> check){
-  
+
 //   if(check){
 //     checkori
 //   }
@@ -108,7 +106,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 // Handle about press
               },
             ),
-            
             ListTile(
               title: Text('SETTINGS'),
               onTap: () {},
@@ -141,17 +138,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ); // Handle settings press
               },
             ),
-            if(true)...[
-
+            if (true) ...[
               ListTile(
-              title: Text('Admin'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Admin()),
-                ); // Handle settings press
-              },
-            ),
+                title: Text('Admin'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Admin()),
+                  ); // Handle settings press
+                },
+              ),
             ],
             LoginButton(
               text: 'sign out',
@@ -178,7 +174,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         ElevatedButton(
           onPressed: () async {
-            await createUser(
+            await FirestoreService().createStudent(
                 dept: data1.text, email: data2.text, grad_yr: data3.text);
           },
           child: const Text('Submits'),
@@ -210,21 +206,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         // ),
       ]),
     );
-  }
-
-  Future createUser({
-    required String dept,
-    required String email,
-    required String grad_yr,
-  }) async {
-    final docuser = FirebaseFirestore.instance.collection('student').doc();
-    final json = {
-      'ID': docuser.id,
-      'dept': dept,
-      'email': email,
-      'grad_yr': grad_yr,
-    };
-    await docuser.set(json);
   }
 }
 
