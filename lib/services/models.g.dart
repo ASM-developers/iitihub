@@ -13,7 +13,7 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       type: json['type'] as String? ?? '',
       tags:
           (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList() ??
-              const [],
+              const ['a', 'b'],
     );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
