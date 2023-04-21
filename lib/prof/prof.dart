@@ -2,6 +2,7 @@ import 'dart:core';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firstapp/services/auth.dart';
+import 'package:firstapp/services/firestore.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:intl/intl.dart';
@@ -69,7 +70,14 @@ class _MultiSelectState extends State<MultiSelect> {
 class _ProfScreenState extends State<ProfScreen> {
   List<String> _selectedItems = [];
   void _showmultiselect() async {
-    final List<String> mylist = ['CSE', 'AI/ML', 'Competitive programming', 'Material Science', 'Civil', 'Quantum Physics'];
+    final List<String> mylist = [
+      'CSE',
+      'AI/ML',
+      'Competitive programming',
+      'Material Science',
+      'Civil',
+      'Quantum Physics'
+    ];
 
     final List<String>? result = await showDialog(
       context: context,
@@ -141,15 +149,14 @@ class _ProfScreenState extends State<ProfScreen> {
                   _showmultiselect();
                 },
                 child: Text("Add tags")),
-            
             Wrap(
               children: _selectedItems
                   .map((e) => Padding(
-                    padding: const EdgeInsets.all(3.0),
-                    child: Chip(
+                        padding: const EdgeInsets.all(3.0),
+                        child: Chip(
                           label: Text(e),
                         ),
-                  ))
+                      ))
                   .toList(),
             ),
             Padding(
@@ -160,38 +167,45 @@ class _ProfScreenState extends State<ProfScreen> {
                       icon: Icon(Icons.calendar_today), //icon of text field
                       labelText: "Enter Date" //label text of field
                       ),
-                       readOnly: true,  //set it true, so that user will not able to edit text
+                  readOnly:
+                      true, //set it true, so that user will not able to edit text
                   onTap: () async {
                     DateTime? pickedDate = await showDatePicker(
-                        context: context, initialDate: DateTime.now(),
-                        firstDate: DateTime(2000), //DateTime.now() - not to allow to choose before today.
-                        lastDate: DateTime(2101)
-                    );
-                    
-                    if(pickedDate != null ){
-                        // print(pickedDate);  //pickedDate output format => 2021-03-10 00:00:00.000
-                        String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate); 
-                        // print(formattedDate); //formatted date output using intl package =>  2021-03-16
-                          //you can implement different kind of Date Format here according to your requirement
-            
-                        setState(() {
-                           dateinput.text = formattedDate; //set output date to TextField value. 
-                        });
-                    }else{
-                        // print("Date is not selected");
-                    }
-                  }
-                      ),
-            ),
-            ElevatedButton(onPressed: (){
-              final _projname=projname.text;
-              final _projdes=projdes.text;
-              final _tags=_selectedItems;
-              final _date1=dateinput.text;
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(
+                            2000), //DateTime.now() - not to allow to choose before today.
+                        lastDate: DateTime(2101));
 
-              _submitdata(projname: _projname, projdes: _projdes, tags: _tags, date: _date1);
-            }, child: Text("Submit"))
-                    
+                    if (pickedDate != null) {
+                      // print(pickedDate);  //pickedDate output format => 2021-03-10 00:00:00.000
+                      String formattedDate =
+                          DateFormat('yyyy-MM-dd').format(pickedDate);
+                      // print(formattedDate); //formatted date output using intl package =>  2021-03-16
+                      //you can implement different kind of Date Format here according to your requirement
+
+                      setState(() {
+                        dateinput.text = formattedDate;//set output date to TextField value.
+                      });
+                    } else {
+                      print("Date is not selected");
+                    }
+                  }),
+            ),
+            ElevatedButton(
+                onPressed: () {
+                  final _projname = projname.text;
+                  final _projdes = projdes.text;
+                  final _tags = _selectedItems;
+                  final _date1 = dateinput.text;
+                  print(_date1);
+                  FirestoreService().submitdata(
+                      projname: _projname,
+                      projdes: _projdes,
+                      tags: _tags,
+                      date: _date1);
+                },
+                child: Text("Submit"))
           ],
         ),
       ),

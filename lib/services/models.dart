@@ -15,7 +15,7 @@ class User {
     this.email = '',
     this.name = '',
     this.type = '',
-    this.tags = const [],
+    this.tags = const ['a', 'b'],
   });
 
   Map<String, dynamic> toJson() => {
@@ -66,7 +66,7 @@ class Prof {
 @JsonSerializable()
 class Projects {
   final String ID;
-  final String Date;
+  final String date;
   final String description;
   final String name;
   final String prof;
@@ -74,7 +74,7 @@ class Projects {
 
   Projects({
     this.ID = '',
-    this.Date = '',
+    this.date = '',
     this.description = '',
     this.name = '',
     this.prof = '',

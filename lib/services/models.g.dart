@@ -13,7 +13,7 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       type: json['type'] as String? ?? '',
       tags:
           (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList() ??
-              const [],
+              const ['a', 'b'],
     );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
@@ -56,7 +56,7 @@ Map<String, dynamic> _$ProfToJson(Prof instance) => <String, dynamic>{
 
 Projects _$ProjectsFromJson(Map<String, dynamic> json) => Projects(
       ID: json['ID'] as String? ?? '',
-      Date: json['Date'] as String? ?? '',
+      date: json['date'] as String? ?? '',
       description: json['description'] as String? ?? '',
       name: json['name'] as String? ?? '',
       prof: json['prof'] as String? ?? '',
@@ -67,7 +67,7 @@ Projects _$ProjectsFromJson(Map<String, dynamic> json) => Projects(
 
 Map<String, dynamic> _$ProjectsToJson(Projects instance) => <String, dynamic>{
       'ID': instance.ID,
-      'Date': instance.Date,
+      'date': instance.date,
       'description': instance.description,
       'name': instance.name,
       'prof': instance.prof,

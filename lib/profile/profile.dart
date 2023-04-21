@@ -8,8 +8,11 @@ import 'package:firstapp/services/auth.dart';
 import 'package:firstapp/login/login.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:firstapp/services/gmail.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firstapp/admin/admin.dart';
 
 import 'package:get/get.dart';
+import 'package:firstapp/tags/tagsInput.dart';
 import 'package:googleapis/analyticsreporting/v4.dart';
 // import 'package:googleapis/bigquery/v2.dart';
 
@@ -18,10 +21,11 @@ import 'package:firstapp/news/news.dart';
 
 import 'dart:io';
 import 'package:provider/provider.dart';
-import 'package:googleapis_auth/auth.dart';
+
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:firstapp/services/firestore.dart';
 
 class ProfileScreen extends StatefulWidget {
   ProfileScreen({super.key});
@@ -34,6 +38,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final data1 = TextEditingController();
   final data2 = TextEditingController();
   final data3 = TextEditingController();
+  Future<bool> check =
+      FirestoreService().checkadmin(AuthService().user?.email.toString());
+  // bool check2=check.get();
+
+// int checkori = 0 ;
+// int returncheckori(Future<bool> check){
+
+//   if(check){
+//     checkori
+//   }
+//   return checkori;
+// }
 
   //stores the value of current user can be accessed using a constructor
 
@@ -45,6 +61,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final queryResult = ['a', 'b', 'ak', 'c'];
   @override
   Widget build(BuildContext context) {
+    Future.delayed(Duration.zero, () {
+      FirestoreService().createUser(
+          AuthService().user?.email, AuthService().user?.displayName, context);
+    });
     return Scaffold(
       appBar: AppBar(
         leading: Builder(
@@ -63,10 +83,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
             icon: Icon(Icons.search),
             onPressed: () {
               showSearch(
-                context: context,
-                delegate: SearchBar(queryResult),
-              );
+                  context: context,
+                  delegate: SearchBar(FirestoreService().getUsersByName));
             },
+            color: Colors.white,
+            splashColor: Colors.white60,
+            highlightColor: Colors.white30,
+            tooltip: 'Search',
           ),
         ],
       ),
@@ -74,17 +97,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            const DrawerHeader(
+            DrawerHeader(
               decoration: BoxDecoration(
                 color: Colors.blue,
               ),
-              child: Text(
-                'Drawer Header',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
+              child: Text('Hi'),
             ),
             ListTile(
               title: Text('ABOUT'),
@@ -94,9 +111,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             ListTile(
               title: Text('SETTINGS'),
-              onTap: () {
-                // Handle settings press
-              },
+              onTap: () {},
             ),
             ListTile(
               title: Text('NEWS'),
@@ -112,7 +127,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const ProjectScreen()),
+                  MaterialPageRoute(
+                      builder: (context) => const ProjectScreen()),
                 ); // Handle settings press
               },
             ),
@@ -125,6 +141,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ); // Handle settings press
               },
             ),
+            if (true) ...[
+              ListTile(
+                title: Text('Admin'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Admin()),
+                  ); // Handle settings press
+                },
+              ),
+            ],
             LoginButton(
               text: 'sign out',
               color: Colors.black45,
@@ -150,7 +177,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         ElevatedButton(
           onPressed: () async {
-            await createUser(
+            await FirestoreService().createStudent(
                 dept: data1.text, email: data2.text, grad_yr: data3.text);
           },
           child: const Text('Submits'),
@@ -183,102 +210,87 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ]),
     );
   }
-
-  Future createUser({
-    required String dept,
-    required String email,
-    required String grad_yr,
-  }) async {
-    final docuser = FirebaseFirestore.instance.collection('student').doc();
-    final json = {
-      'ID': docuser.id,
-      'dept': dept,
-      'email': email,
-      'grad_yr': grad_yr,
-    };
-    await docuser.set(json);
-  }
 }
 
-class SearchBar extends SearchDelegate {
-  final List<String> queryResult;
+// class SearchBar extends SearchDelegate {
+//   final List<String> queryResult;
 
-  SearchBar(this.queryResult);
+//   SearchBar(this.queryResult);
 
-  @override
-  //manipulation of tags should be done from here
-  //remember if query's last character is # then listen for the next whitespace and add the tag into search list
-  //also make a tag results column too
-  List<Widget> buildActions(BuildContext context) {
-    return [
-      IconButton(
-        icon: Icon(Icons.clear),
-        onPressed: () {
-          query = '';
-        },
-      ),
-    ];
-  }
+//   @override
+//   //manipulation of tags should be done from here
+//   //remember if query's last character is # then listen for the next whitespace and add the tag into search list
+//   //also make a tag results column too
+//   List<Widget> buildActions(BuildContext context) {
+//     return [
+//       IconButton(
+//         icon: Icon(Icons.clear),
+//         onPressed: () {
+//           query = '';
+//         },
+//       ),
+//     ];
+//   }
 
-  @override
-  Widget buildLeading(BuildContext context) {
-    return IconButton(
-      icon: Icon(Icons.arrow_back),
-      onPressed: () {
-        close(context, null);
-      },
-    );
-  }
+//   @override
+//   Widget buildLeading(BuildContext context) {
+//     return IconButton(
+//       icon: Icon(Icons.arrow_back),
+//       onPressed: () {
+//         close(context, null);
+//       },
+//     );
+//   }
 
-  @override
-  Widget buildResults(BuildContext context) {
-    final results =
-        queryResult.where((item) => item.startsWith(query)).toList();
+//   @override
+//   Widget buildResults(BuildContext context) {
+//     final results =
+//         queryResult.where((item) => item.startsWith(query)).toList();
 
-    if (results.isEmpty) {
-      return const Center(
-        child: Text(
-          'No results found.',
-          style: TextStyle(fontSize: 24),
-        ),
-      );
-    } else {
-      return ListView.builder(
-        itemCount: results.length,
-        itemBuilder: (BuildContext context, int index) {
-          final result = results[index];
-          return ListTile(
-            title: Text(result),
-            onTap: () {
-              // Handle result selection
-            },
-          );
-        },
-      );
-    }
-  }
+//     if (results.isEmpty) {
+//       return const Center(
+//         child: Text(
+//           'No results found.',
+//           style: TextStyle(fontSize: 24),
+//         ),
+//       );
+//     } else {
+//       return ListView.builder(
+//         itemCount: results.length,
+//         itemBuilder: (BuildContext context, int index) {
+//           final result = results[index];
+//           return ListTile(
+//             title: Text(result),
+//             onTap: () {
+//               // Handle result selection
+//             },
+//           );
+//         },
+//       );
+//     }
+//   }
 
-  @override
-  //optionally wrapping in a futurebuilder to listen to streams
-  Widget buildSuggestions(BuildContext context) {
-    final suggestionList = query.isEmpty
-        ? []
-        : queryResult.where((item) => item.startsWith(query)).toList();
+//   @override
+//   //optionally wrapping in a futurebuilder to listen to streams
+//   Widget buildSuggestions(BuildContext context) {
+//     final suggestionList = query.isEmpty
+//         ? []
+//         : queryResult.where((item) => item.startsWith(query)).toList();
 
-    return ListView.builder(
-      itemBuilder: (context, index) => ListTile(
-        //here you can change what happens when someone clicks on an object rendered by query
-        //TODO : on encountering a # await a whitespace to add to the list of tags with which we fetch a list of projects
-        onTap: () {
-          query = suggestionList[index];
-          showResults(context);
-        },
-        title: Text(suggestionList[index]),
-      ),
-      itemCount: suggestionList.length,
-    );
-  }
-}
+//     return ListView.builder(
+//       itemBuilder: (context, index) => ListTile(
+//         //here you can change what happens when someone clicks on an object rendered by query
+//         //TODO : on encountering a # await a whitespace to add to the list of tags with which we fetch a list of projects
+//         onTap: () {
+//           query = suggestionList[index];
+//           showResults(context);
+//         },
+//         title: Text(suggestionList[index]),
+//       ),
+//       itemCount: suggestionList.length,
+//     );
+//   }
+// }
 
 class CircularImage extends StatefulWidget {
   final String imageFile;

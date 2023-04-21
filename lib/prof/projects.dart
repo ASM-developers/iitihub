@@ -1,3 +1,4 @@
+import 'package:firstapp/services/firestore.dart';
 import 'package:firstapp/services/models.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
@@ -5,16 +6,108 @@ import 'package:flutter/material.dart';
 import 'package:firstapp/services/models.dart';
 import 'package:firstapp/prof/details.dart';
 import 'package:firstapp/services/firestore.dart';
+// import 'package:firstapp/prof/prof.dart';
 // FirestoreService ins= FirestoreService()
+
 class ProjectScreen extends StatefulWidget {
   const ProjectScreen({super.key});
 
   @override
   State<ProjectScreen> createState() => _ProjectScreenState();
 }
+class MultiSelect extends StatefulWidget {
+  final List<String> items;
+  final Function(List<String>) onSelectedTagsChanged; // add this line
+  const MultiSelect({super.key, required this.items, required this.onSelectedTagsChanged});
+
+  @override
+  State<MultiSelect> createState() => _MultiSelectState();
+}
+
+class _MultiSelectState extends State<MultiSelect> {
+  final List<String> _selectedItems = [];
+  void _itemChange(String itemvalue, bool isSelected) {
+    setState(() {
+      if (isSelected) {
+        _selectedItems.add(itemvalue);
+      } else {
+        _selectedItems.remove(itemvalue);
+      }
+    });
+  }
+
+  void _cancel() {
+    Navigator.pop(context);
+  }
+
+  void _submit() {
+    widget.onSelectedTagsChanged(_selectedItems);
+    Navigator.pop(context, _selectedItems);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+        title: Text("Select tags"),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: widget.items
+                .map((item) => CheckboxListTile(
+              value: _selectedItems.contains(item),
+              title: Text(item),
+              controlAffinity: ListTileControlAffinity.leading,
+              onChanged: (isChecked) => _itemChange(item, isChecked!),
+            ))
+                .toList(),
+          ),
+        ),
+        actions: [
+          TextButton(onPressed: _cancel, child: const Text("cancel")),
+          TextButton(onPressed: _submit, child: const Text("submit")),
+        ]);
+  }
+}
 
 class _ProjectScreenState extends State<ProjectScreen> {
+  void _showmultiselect() async {
+    final List<String> mylist = [
+      'CSE',
+      'AI/ML',
+      'Competitive programming',
+      'Material Science',
+      'Civil',
+      'Quantum Physics'
+    ];
+
+    final List<String>? result = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return MultiSelect(
+          items: mylist,
+          onSelectedTagsChanged: (tags) {
+          setState(() {
+            _selectedTags = tags;
+          });
+          searchProject(searchtext.text); // call searchProject to update the stream
+        },
+        );
+      },
+    );
+    if (result != null) {
+      setState(() {
+        _selectedTags = result;
+      });
+    }
+  }
+  Stream<List<Projects>> _projectStream = FirestoreService().getprojectbyTag(["Competitive programming","Material Science"], '');
+  List<String> _selectedTags = [];
+  List<String> _availableTags = ["Competitive programming", "Material Science", "Tag 3", "Tag 4"];
   TextEditingController searchtext = TextEditingController();
+  void searchProject(String searchText) {
+    setState(() {
+      _projectStream = FirestoreService().getprojectbyTag(_selectedTags, searchText);
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,18 +121,31 @@ class _ProjectScreenState extends State<ProjectScreen> {
               child: TextField(
                 controller: searchtext,
                 decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.search),
-                  hintText: "search project",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10)
-                  )
-                ),
+                    prefixIcon: Icon(Icons.search),
+                    hintText: "search project",
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10))),
                 onChanged: searchProject,
               ),
             ),
+            ElevatedButton(
+                onPressed: () {
+                  _showmultiselect();
+                },
+                child: Text("Add tags")),
+            Wrap(
+              children: _selectedTags
+                  .map((e) => Padding(
+                padding: const EdgeInsets.all(3.0),
+                child: Chip(
+                  label: Text(e),
+                ),
+              ))
+                  .toList(),
+            ),
             Flexible(
               child: StreamBuilder<List<Projects>>(
-                stream: FirestoreService().getprojectbyTag(["Competitive programming","Material Science"],''),
+                stream: _projectStream,
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
                     return Text("something is wrong");
@@ -57,7 +163,6 @@ class _ProjectScreenState extends State<ProjectScreen> {
           ],
         ));
   }
-
   Widget buildProject(Projects projects) => Padding(
         padding: const EdgeInsets.all(10.0),
         child: ListTile(
@@ -78,12 +183,4 @@ class _ProjectScreenState extends State<ProjectScreen> {
           },
         ),
       );
-  // Stream<List<Projects>> readProjects() => FirebaseFirestore.instance
-  //     .collection('prof')
-  //     .snapshots()
-  //     .map((snapshot) =>
-  //         snapshot.docs.map((e) => Projects.fromJson(e.data())).toList());
-
-  void searchProject(String query) {
-  }
 }
