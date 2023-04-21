@@ -30,6 +30,15 @@ class SearchBar extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
+    if (query.isEmpty) {
+      return const Center(
+        child: Text(
+          'Please enter a search term.',
+          style: TextStyle(fontSize: 24),
+        ),
+      );
+    }
+
     return FutureBuilder<List<User>>(
       future: getUsersByName(query),
       builder: (BuildContext context, AsyncSnapshot<List<User>> snapshot) {
@@ -64,6 +73,15 @@ class SearchBar extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
+    if (query.isEmpty) {
+      return const Center(
+        child: Text(
+          'Search for a user',
+          style: TextStyle(fontSize: 24),
+        ),
+      );
+    }
+
     return FutureBuilder<List<User>>(
       future: getUsersByName(query),
       builder: (BuildContext context, AsyncSnapshot<List<User>> snapshot) {
