@@ -7,6 +7,8 @@ import 'package:firstapp/login/login.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:firstapp/services/gmail.dart';
 import 'package:firstapp/profile/searchBar.dart';
+import 'package:firstapp/home/news.dart';
+
 import 'dart:io';
 
 class ProfileScreen extends StatefulWidget {
@@ -84,6 +86,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 // Handle settings press
               },
             ),
+            ListTile(
+              title: Text('NEWS'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => News()),
+                ); // Handle settings press
+              },
+            ),
             LoginButton(
               text: 'sign out',
               color: Colors.black45,
@@ -114,20 +125,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
           },
           child: const Text('Submits'),
         ),
-        ElevatedButton(
-            onPressed: () => mailStreamliner()
-                .PrintMessages('in:inbox subject:night AND subject:canteen'),
-            child: const Text('print msges')),
-        ElevatedButton(
-            onPressed: () async {
-              thing = await (FirestoreService().getStudentsByDept('H'));
-              if (thing != null) {
-                for (final i in thing ?? []) {
-                  print(i.grad_yr);
-                }
-              }
-            },
-            child: Text('print searchQuery func'))
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ElevatedButton(
+                onPressed: () => mailStreamliner().PrintMessages(
+                    'in:inbox subject:night AND subject:canteen'),
+                child: const Text('print msges')),
+            ElevatedButton(
+                onPressed: () async {
+                  thing = await (FirestoreService().getStudentsByDept('H'));
+                  if (thing != null) {
+                    for (final i in thing ?? []) {
+                      print(i.grad_yr);
+                    }
+                  }
+                },
+                child: Text('print searchQuery func')),
+          ],
+        ),
+
+        // News(),
+        // ListView(
+        //   shrinkWrap: true,
+        //   children: [News()],
+        // ),
       ]),
     );
   }

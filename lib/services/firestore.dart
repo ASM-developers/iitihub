@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:flutter/material.dart';
 import 'package:firstapp/services/auth.dart';
 import 'package:firstapp/services/models.dart';
 
@@ -25,6 +26,37 @@ class FirestoreService {
 
     return Students;
   }
+
+  // void showMyModal(BuildContext context) {
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         title: Text('My Modal'),
+  //         content: Text('This is my modal.'),
+  //         actions: [
+  //           TextButton(
+  //             child: Text('Next'),
+  //             onPressed: () async {
+  //               await AuthService().googleLogin();
+  //               //await function that will take in some text handling and give us the tags in those lists
+  //               final List<String> tags = const [];
+  //               User newUser = User(
+  //                 email: (AuthService().user?.email)!,
+  //                 name: (AuthService().user?.displayName)!,
+  //                 tags: tags,
+  //               );
+
+  //               await FirestoreService().createUser(newUser);
+
+  //               Navigator.of(context).pop();
+  //             },
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 
   Future<void> createUser(User user) async {
     final RegExp isStudent = RegExp(r'^[a-z]{2,4}\d{9}@iiti\.ac\.in$');

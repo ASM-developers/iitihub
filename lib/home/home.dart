@@ -19,7 +19,8 @@ class HomeScreen extends StatelessWidget {
             child: Text('error'),
           );
         } else if (snapshot.hasData) {
-          return News();
+          // return News();
+          return ProfileScreen();
         } else {
           return LoginScreen();
         }

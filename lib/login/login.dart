@@ -15,38 +15,6 @@ class LoginScreen extends StatefulWidget {
 //TODO : add a modal onClick to a button. Next we add a
 
 class _LoginScreenState extends State<LoginScreen> {
-  String? _userType;
-  void showMyModal(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('My Modal'),
-          content: Text('This is my modal.'),
-          actions: [
-            TextButton(
-              child: Text('Next'),
-              onPressed: () async {
-                await AuthService().googleLogin();
-                //await function that will take in some text handling and give us the tags in those lists
-                final List<String> tags = const [];
-                User newUser = User(
-                  email: (AuthService().user?.email)!,
-                  name: (AuthService().user?.displayName)!,
-                  tags: tags,
-                );
-
-                await FirestoreService().createUser(newUser);
-
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,12 +41,12 @@ class _LoginScreenState extends State<LoginScreen> {
               text: 'Continue via google',
               loginMethod: AuthService().googleLogin,
             ),
-            ElevatedButton(
-              onPressed: () {
-                showMyModal(context);
-              },
-              child: Text('Show Modal'),
-            ),
+            // ElevatedButton(
+            //   onPressed: () {
+            //     showMyModal(context);
+            //   },
+            //   child: Text('Show Modal'),
+            // ),
           ],
         ),
       ),
