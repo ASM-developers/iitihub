@@ -6,9 +6,15 @@ import 'package:firstapp/services/auth.dart';
 import 'package:firstapp/login/login.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:firstapp/services/gmail.dart';
+
 import 'package:get/get.dart';
 import 'package:googleapis/analyticsreporting/v4.dart';
 import 'package:googleapis/bigquery/v2.dart';
+
+import 'package:firstapp/profile/searchBar.dart';
+import 'package:firstapp/news/news.dart';
+
+
 import 'dart:io';
 import 'package:provider/provider.dart';
 import 'package:googleapis_auth/auth.dart';
@@ -27,7 +33,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final data1 = TextEditingController();
   final data2 = TextEditingController();
   final data3 = TextEditingController();
-  List<String>? thing;
+
+  //stores the value of current user can be accessed using a constructor
+
+  List<Student>? thing;
+
+  //here lies the constructor which should be called upon clicking signin
 
   //sample queryResult thing to be fetched from the backend
   final queryResult = ['a', 'b', 'ak', 'c'];
@@ -62,7 +73,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            DrawerHeader(
+            const DrawerHeader(
               decoration: BoxDecoration(
                 color: Colors.blue,
               ),
@@ -84,6 +95,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
               title: Text('SETTINGS'),
               onTap: () {
                 // Handle settings press
+              },
+            ),
+            ListTile(
+              title: Text('NEWS'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => News()),
+                ); // Handle settings press
               },
             ),
             LoginButton(
@@ -116,20 +136,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
           },
           child: const Text('Submits'),
         ),
-        ElevatedButton(
-            onPressed: () => mailStreamliner()
-                .PrintMessages('in:inbox subject:night AND subject:canteen'),
-            child: const Text('print msges')),
-        ElevatedButton(
-            onPressed: () async {
-              thing = await (FirestoreService().getResults('h'));
-              if (thing != null) {
-                for (final i in thing ?? []) {
-                  print(i);
-                }
-              }
-            },
-            child: Text('print searchQuery func'))
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ElevatedButton(
+                onPressed: () => mailStreamliner().PrintMessages(
+                    'in:inbox subject:night AND subject:canteen'),
+                child: const Text('print msges')),
+            ElevatedButton(
+                onPressed: () async {
+                  thing = await (FirestoreService().getStudentsByDept('H'));
+                  if (thing != null) {
+                    for (final i in thing ?? []) {
+                      print(i.grad_yr);
+                    }
+                  }
+                },
+                child: Text('print searchQuery func')),
+          ],
+        ),
+
+        // News(),
+        // ListView(
+        //   shrinkWrap: true,
+        //   children: [News()],
+        // ),
       ]),
     );
   }
@@ -231,6 +262,7 @@ class SearchBar extends SearchDelegate {
 }
 
 class CircularImage extends StatefulWidget {
+
   final String imageFile;
   final double size;
   CircularImage({Key? key, required this.imageFile, this.size = 100.0})

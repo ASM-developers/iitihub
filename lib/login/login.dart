@@ -6,6 +6,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth_web/firebase_auth_web.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:firstapp/services/models.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firstapp/services/firestore.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -13,6 +16,10 @@ class LoginScreen extends StatefulWidget {
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
+
+
+//TODO : add a modal onClick to a button. Next we add a
+
 
 class _LoginScreenState extends State<LoginScreen> {
   @override
@@ -72,6 +79,12 @@ class _LoginScreenState extends State<LoginScreen> {
               text: 'Continue via google',
               loginMethod: AuthService().googleLogin,
             ),
+            // ElevatedButton(
+            //   onPressed: () {
+            //     showMyModal(context);
+            //   },
+            //   child: Text('Show Modal'),
+            // ),
           ],
         ),
       ),
@@ -85,7 +98,7 @@ class LoginButton extends StatelessWidget {
   final Color color;
   final IconData icon;
   final String text;
-  final Function loginMethod;
+  final loginMethod;
   const LoginButton({
     super.key,
     required this.color,
@@ -126,5 +139,3 @@ class LoginButton extends StatelessWidget {
     );
   }
 }
-
-signInWithGoogle() {}
