@@ -5,7 +5,6 @@ import 'package:firstapp/services/auth.dart';
 import 'package:firstapp/services/firestore.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:multiselect/multiselect.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -186,11 +185,12 @@ class _ProfScreenState extends State<ProfScreen> {
                       //you can implement different kind of Date Format here according to your requirement
 
                       setState(() {
-                        dateinput.text =
-                            formattedDate; //set output date to TextField value.
+
+                        dateinput.text = formattedDate;//set output date to TextField value.
                       });
                     } else {
-                      // print("Date is not selected");
+                      print("Date is not selected");
+
                     }
                   }),
             ),
@@ -200,7 +200,6 @@ class _ProfScreenState extends State<ProfScreen> {
                   final _projdes = projdes.text;
                   final _tags = _selectedItems;
                   final _date1 = dateinput.text;
-
                   FirestoreService().submitdata(
                       projname: _projname,
                       projdes: _projdes,
@@ -213,4 +212,5 @@ class _ProfScreenState extends State<ProfScreen> {
       ),
     );
   }
+
 }

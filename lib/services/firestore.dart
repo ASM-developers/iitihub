@@ -28,6 +28,36 @@ class FirestoreService {
 
     return Students;
   }
+  
+  Stream<List<Projects>> getprojectbyTag(List<String> query,String searchQuery) {
+    if(query.isNotEmpty){
+      return FirebaseFirestore
+          .instance
+          .collection('Projects')
+          .orderBy('date', descending: true)
+          .where('tags',arrayContainsAny:query)
+          .snapshots()
+          .map((snapshot) =>
+      snapshot.docs.where((doc) =>
+          doc.data().toString().toLowerCase().contains(searchQuery.toLowerCase()))
+          .map((doc) => Projects.fromJson(doc.data()))
+          .toList()..sort((a, b) => b.tags.where((tag) => query.contains(tag)).length.compareTo(a.tags.where((tag) => query.contains(tag)).length))
+      );
+    }else{
+      return FirebaseFirestore
+          .instance
+          .collection('Projects')
+          .orderBy('date', descending: true)
+          .snapshots()
+          .map((snapshot) =>
+      snapshot.docs.where((doc) =>
+          doc.data().toString().toLowerCase().contains(searchQuery.toLowerCase()))
+          .map((doc) => Projects.fromJson(doc.data()))
+          .toList()..sort((a, b) => b.tags.where((tag) => query.contains(tag)).length.compareTo(a.tags.where((tag) => query.contains(tag)).length))
+      );
+    }
+  }
+
 
   Future<List<User>> getUsersByName(String query) async {
     List<User> users = [];
