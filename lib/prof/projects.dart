@@ -4,7 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firstapp/services/models.dart';
 import 'package:firstapp/prof/details.dart';
-
+import 'package:firstapp/services/firestore.dart';
+// FirestoreService ins= FirestoreService()
 class ProjectScreen extends StatefulWidget {
   const ProjectScreen({super.key});
 
@@ -38,7 +39,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
             ),
             Flexible(
               child: StreamBuilder<List<Projects>>(
-                stream: readProjects(),
+                stream: FirestoreService().getprojectbyTag(["Competitive programming","Material Science"],''),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
                     return Text("something is wrong");
@@ -77,14 +78,12 @@ class _ProjectScreenState extends State<ProjectScreen> {
           },
         ),
       );
-  Stream<List<Projects>> readProjects() => FirebaseFirestore.instance
-      .collection('prof')
-      .snapshots()
-      .map((snapshot) =>
-          snapshot.docs.map((e) => Projects.fromJson(e.data())).toList());
+  // Stream<List<Projects>> readProjects() => FirebaseFirestore.instance
+  //     .collection('prof')
+  //     .snapshots()
+  //     .map((snapshot) =>
+  //         snapshot.docs.map((e) => Projects.fromJson(e.data())).toList());
 
   void searchProject(String query) {
-    
-
   }
 }

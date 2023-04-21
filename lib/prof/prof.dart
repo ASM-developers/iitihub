@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firstapp/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:multiselect/multiselect.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -203,7 +202,7 @@ class _ProfScreenState extends State<ProfScreen> {
       required String projdes,
       required List<String> tags,
       required String date}) async {
-    final docuser = FirebaseFirestore.instance.collection('prof').doc();
+    final docuser = FirebaseFirestore.instance.collection('Projects').doc();
     final json = {
       'ID': docuser.id,
       'date': date,
