@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firstapp/prof/prof.dart';
+import 'package:firstapp/prof/projects.dart';
 import 'package:firstapp/services/firestore.dart';
 import 'package:firstapp/services/models.dart';
 import 'package:flutter/material.dart';
@@ -101,12 +103,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
               },
             ),
             ListTile(
-              title: Text('TAGS'),
+              title: Text('PROJECTS'),
               onTap: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => TagInput()),
-                // );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ProjectScreen()),
+                ); // Handle settings press
+              },
+            ),
+            ListTile(
+              title: Text('ADD PROJECTS'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfScreen()),
+                ); // Handle settings press
               },
             ),
             LoginButton(
