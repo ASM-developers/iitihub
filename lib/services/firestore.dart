@@ -28,32 +28,7 @@ class FirestoreService {
 
     return Students;
   }
-  // Stream<List<Projects>> getprojectbyTag(List<String> query,String searchQuery) {
-  //   if(query.isNotEmpty){
-  //     return FirebaseFirestore
-  //         .instance
-  //         .collection('Projects')
-  //         .where('tags',arrayContainsAny:query)
-  //         .snapshots()
-  //         .map((snapshot) =>
-  //         snapshot.docs.where((doc) =>
-  //             doc.data().toString().toLowerCase().contains(searchQuery.toLowerCase()))
-  //             .map((doc) => Projects.fromJson(doc.data()))
-  //             .toList());
-  //   }else{
-  //     return FirebaseFirestore
-  //         .instance
-  //         .collection('Projects')
-  //         .snapshots()
-  //         .map((snapshot) =>
-  //         snapshot.docs.where((doc) =>
-  //             doc.data().toString().toLowerCase().contains(searchQuery.toLowerCase()))
-  //             .map((doc) => Projects.fromJson(doc.data()))
-  //             .toList()
-  //     );
-  //   }
-  //
-  // }
+  
   Stream<List<Projects>> getprojectbyTag(List<String> query,String searchQuery) {
     if(query.isNotEmpty){
       return FirebaseFirestore
@@ -82,6 +57,7 @@ class FirestoreService {
       );
     }
   }
+
 
   Future<List<User>> getUsersByName(String query) async {
     List<User> users = [];

@@ -185,10 +185,12 @@ class _ProfScreenState extends State<ProfScreen> {
                       //you can implement different kind of Date Format here according to your requirement
 
                       setState(() {
+
                         dateinput.text = formattedDate;//set output date to TextField value.
                       });
                     } else {
                       print("Date is not selected");
+
                     }
                   }),
             ),
@@ -198,7 +200,6 @@ class _ProfScreenState extends State<ProfScreen> {
                   final _projdes = projdes.text;
                   final _tags = _selectedItems;
                   final _date1 = dateinput.text;
-                  print(_date1);
                   FirestoreService().submitdata(
                       projname: _projname,
                       projdes: _projdes,
@@ -211,21 +212,5 @@ class _ProfScreenState extends State<ProfScreen> {
       ),
     );
   }
-  Future _submitdata(
-      {required String projname,
-      required String projdes,
-      required List<String> tags,
-      required String date}) async {
-    final docuser = FirebaseFirestore.instance.collection('Projects').doc();
-    final json = {
-      'ID': docuser.id,
-      'date': date,
-      'description': projdes,
-      'name': projname,
-      'prof': AuthService().user?.email.toString(),
-      'tags': tags,
-    };
-    await docuser.set(json);
-}
 
 }
