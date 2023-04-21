@@ -8,6 +8,10 @@ import 'package:firstapp/services/auth.dart';
 import 'package:firstapp/login/login.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:firstapp/services/gmail.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firstapp/admin/admin.dart';
+
+import 'package:get/get.dart';
 import 'package:firstapp/tags/tagsInput.dart';
 import 'package:googleapis/analyticsreporting/v4.dart';
 // import 'package:googleapis/bigquery/v2.dart';
@@ -21,10 +25,13 @@ import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:firstapp/services/firestore.dart';
 
 class ProfileScreen extends StatefulWidget {
   ProfileScreen({super.key});
 
+
+  
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
@@ -33,6 +40,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final data1 = TextEditingController();
   final data2 = TextEditingController();
   final data3 = TextEditingController();
+  Future<bool> check= FirestoreService().checkadmin(AuthService().user?.email.toString());
+  // bool check2=check.get();
+
+
+// int checkori = 0 ;
+// int returncheckori(Future<bool> check){
+  
+//   if(check){
+//     checkori
+//   }
+//   return checkori;
+// }
 
   //stores the value of current user can be accessed using a constructor
 
@@ -89,6 +108,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 // Handle about press
               },
             ),
+            
             ListTile(
               title: Text('SETTINGS'),
               onTap: () {},
@@ -121,6 +141,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ); // Handle settings press
               },
             ),
+            if(true)...[
+
+              ListTile(
+              title: Text('Admin'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Admin()),
+                ); // Handle settings press
+              },
+            ),
+            ],
             LoginButton(
               text: 'sign out',
               color: Colors.black45,

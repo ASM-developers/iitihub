@@ -29,6 +29,20 @@ class FirestoreService {
     return Students;
   }
 
+Future<bool> checkadmin (String? email) async {
+    final check= await FirebaseFirestore.instance
+      .collection('admin').where("email", isEqualTo:email).get();
+      
+
+    if(check.size>0)
+    {
+      print("hurrya");
+      return true;
+    }
+    print("fuck off");
+    return false;
+  }
+
   // void showMyModal(BuildContext context) {
   //   showDialog(
   //     context: context,
