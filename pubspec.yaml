@@ -34,6 +34,7 @@ dependencies:
   firebase_database: ^9.1.7
 
   carousel_slider: ^4.2.1
+  multiselect: ^0.1.0
 
   # google_auth_io: ^2.1.0
 # auth: FirebaseAuthWeb.instance;
