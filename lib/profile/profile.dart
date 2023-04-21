@@ -9,11 +9,10 @@ import 'package:firstapp/services/gmail.dart';
 
 import 'package:get/get.dart';
 import 'package:googleapis/analyticsreporting/v4.dart';
-import 'package:googleapis/bigquery/v2.dart';
+// import 'package:googleapis/bigquery/v2.dart';
 
 import 'package:firstapp/profile/searchBar.dart';
 import 'package:firstapp/news/news.dart';
-
 
 import 'dart:io';
 import 'package:provider/provider.dart';
@@ -262,7 +261,6 @@ class SearchBar extends SearchDelegate {
 }
 
 class CircularImage extends StatefulWidget {
-
   final String imageFile;
   final double size;
   CircularImage({Key? key, required this.imageFile, this.size = 100.0})
