@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:googleapis/androidenterprise/v1.dart';
-import 'package:firstapp/home/news_details.dart';
+import 'package:firstapp/news/news_details.dart';
 // import 'package:logintut/home_page.dart';
 
 class News extends StatefulWidget {

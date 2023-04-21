@@ -7,7 +7,7 @@ import 'package:firstapp/login/login.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:firstapp/services/gmail.dart';
 import 'package:firstapp/profile/searchBar.dart';
-import 'package:firstapp/home/news.dart';
+import 'package:firstapp/news/news.dart';
 
 import 'dart:io';
 

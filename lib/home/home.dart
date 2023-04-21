@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firstapp/profile/profile.dart';
 import 'package:firstapp/login/login.dart';
 import 'package:firstapp/services/auth.dart';
-import 'package:firstapp/home/news.dart';
+import 'package:firstapp/news/news.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
