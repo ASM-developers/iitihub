@@ -115,7 +115,7 @@ class FirestoreService {
       required String projdes,
       required List<String> tags,
       required String date}) async {
-    final docuser = FirebaseFirestore.instance.collection('prof').doc();
+    final docuser = FirebaseFirestore.instance.collection('Projects').doc();
     final json = {
       'ID': docuser.id,
       'date': date,
