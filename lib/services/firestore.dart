@@ -29,6 +29,23 @@ class FirestoreService {
     return Students;
   }
 
+  Future<List<User>> getUsersByName(String query) async {
+    List<User> users = [];
+
+    QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+        .instance
+        .collection('users')
+        .where('name', isGreaterThanOrEqualTo: query)
+        .where('name', isLessThan: query + 'z')
+        .get();
+
+    for (QueryDocumentSnapshot<Map<String, dynamic>> doc in snapshot.docs) {
+      users.add(User.fromJson(doc.data()));
+    }
+
+    return users;
+  }
+
   Future<bool> checkadmin(String? email) async {
     final check = await FirebaseFirestore.instance
         .collection('admin')

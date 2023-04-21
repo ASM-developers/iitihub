@@ -83,10 +83,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
             icon: Icon(Icons.search),
             onPressed: () {
               showSearch(
-                context: context,
-                delegate: SearchBar(queryResult),
-              );
+                  context: context,
+                  delegate: SearchBar(FirestoreService().getUsersByName));
             },
+            color: Colors.white,
+            splashColor: Colors.white60,
+            highlightColor: Colors.white30,
+            tooltip: 'Search',
           ),
         ],
       ),
