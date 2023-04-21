@@ -1,3 +1,4 @@
+import 'package:firstapp/profile/viewProfile.dart';
 import 'package:firstapp/services/models.dart';
 import 'package:flutter/material.dart';
 
@@ -62,6 +63,12 @@ class SearchBar extends SearchDelegate {
                 title: Text(result.name),
                 onTap: () {
                   // Handle result selection
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => viewProfile(
+                                user: result,
+                              )));
                 },
               );
             },
