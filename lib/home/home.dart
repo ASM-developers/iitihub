@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firstapp/profile/profile.dart';
 import 'package:firstapp/login/login.dart';
 import 'package:firstapp/services/auth.dart';
+import 'package:firstapp/home/news.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -18,7 +19,7 @@ class HomeScreen extends StatelessWidget {
             child: Text('error'),
           );
         } else if (snapshot.hasData) {
-          return ProfileScreen();
+          return News();
         } else {
           return LoginScreen();
         }
