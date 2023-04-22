@@ -36,34 +36,34 @@ class _InboxWidgetState extends State<InboxWidget> {
               _isExpandedMap[heading] = isExpanded;
             });
           },
-          children: messages.map((message) {
-            return ListTile(
-              title: Text(
-                message.payload.headers
-                    .firstWhere((header) => header.name == "Subject")
-                    .value,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text(
-                        message.payload.headers
-                            .firstWhere((header) => header.name == "Subject")
-                            .value,
-                      ),
-                      content: SingleChildScrollView(
-                        child: Text(_extractMessageBody(message)),
-                      ),
-                    );
-                  },
-                );
-              },
-            );
-          }).toList(),
+          // children: messages.map((message) {
+          //   return ListTile(
+          //     title: Text(
+          //       message.payload.headers
+          //           .firstWhere((header) => header.name == "Subject")
+          //           .value,
+          //       maxLines: 1,
+          //       overflow: TextOverflow.ellipsis,
+          //     ),
+          //     onTap: () {
+          //       showDialog(
+          //         context: context,
+          //         builder: (BuildContext context) {
+          //           return AlertDialog(
+          //             title: Text(
+          //               message.payload.headers
+          //                   .firstWhere((header) => header.name == "Subject")
+          //                   .value,
+          //             ),
+          //             content: SingleChildScrollView(
+          //               child: Text(_extractMessageBody(message)),
+          //             ),
+          //           );
+          //         },
+          //       );
+          //     },
+          //   );
+          // }).toList(),
         );
       },
     );

@@ -248,7 +248,7 @@ class _ProfileScreenState extends State<ProfileScreen>  {
                   children: [
                     ElevatedButton(
                         style: lalpiwla,
-                        onPressed: (){ Navigator.push(context , MaterialPageRoute(builder: (context)=>GmailWidget() ) ); },
+                        onPressed: (){ },//Navigator.push(context , MaterialPageRoute(builder: (context)=>GmailWidget() ) ); },
                         child: Text(
                           'Email Aankh',
                           style: robo,
