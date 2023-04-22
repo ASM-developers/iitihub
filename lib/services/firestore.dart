@@ -4,8 +4,11 @@ import 'package:rxdart/rxdart.dart';
 import 'package:flutter/material.dart';
 import 'package:firstapp/services/auth.dart';
 import 'package:firstapp/services/models.dart';
+import 'package:firstapp/profile/profile.dart';
+import 'package:firstapp/prof/quickalertsProjectCreation.dart';
 
 import '../tags/tagsInput.dart';
+
 
 class FirestoreService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -76,22 +79,26 @@ class FirestoreService {
     return users;
   }
 
-  Future<bool> checkadmin(String? email) async {
+  Future<int> checkadmin(String? email) async {
     final check = await FirebaseFirestore.instance
         .collection('admin')
         .where("email", isEqualTo: email)
         .get();
 
     if (check.size > 0) {
-      print("hurrya");
-      return true;
+      print("Admin has Logged in");
+      // adminval[0] = 1;
+      return 1;
     }
-    print("fuck off");
-    return false;
+    print("User- NOT an Admin");
+    // adminval[0] = 0;
+    return 0;
   }
 
   Future<void> createUser(
-      String? email, String? name, BuildContext context) async {
+      String? email,
+      String? name,
+      BuildContext context) async {
     final RegExp isStudent = RegExp(r'^[a-z]{2,4}\d{9}@iiti\.ac\.in$');
     User user = User(
       email: email ?? "",
@@ -157,21 +164,51 @@ class FirestoreService {
     await docuser.set(json);
   }
 
-  Future submitdata(
-      {required String projname,
-      required String projdes,
-      required List<String> tags,
-      required String date}) async {
-    final docuser = FirebaseFirestore.instance.collection('Projects').doc();
+  Future submitEntitydata(
+      {required String entityname,
+        required String entityemail,
+        required List<String> tags,}) async {
+    final docuser = FirebaseFirestore.instance.collection('Entities').doc();
     final json = {
       'ID': docuser.id,
-      'date': date,
-      'description': projdes,
-      'name': projname,
-      'prof': AuthService().user?.email.toString(),
+      'name': entityname,
+      'email': entityemail,
       'tags': tags,
     };
     await docuser.set(json);
+  }
+
+  Future<int> submitProjectdata(
+      {required String projname,
+      required String projdes,
+      required List<String> tags,
+      required String date,
+      required BuildContext context }
+       ) async {
+
+
+    final docuser = FirebaseFirestore.instance.collection('Projects').doc();
+
+    final snapshot = await FirebaseFirestore.instance
+        .collection('Projects')
+        .where('name', isEqualTo: projname)
+        .get();
+
+    if (snapshot.docs.isNotEmpty) {qa_nameAlreadyExists(context); return 0;}
+    else {
+      final json = {
+        'ID': docuser.id,
+        'date': date,
+        'description': projdes,
+        'name': projname,
+        'prof': AuthService().user?.email.toString(),
+        'tags': tags,
+      };
+      await docuser.set(json);
+      qa_successMsg(context, projname, projdes, tags, date );
+    }
+
+    return 1;
   }
 
   Stream<List<Projects>> readProjects() => FirebaseFirestore.instance
