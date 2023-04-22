@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firstapp/prof/prof.dart';
 import 'package:firstapp/prof/projects.dart';
+import 'package:firstapp/profile/picture.dart';
 import 'package:firstapp/services/firestore.dart';
 import 'package:firstapp/services/models.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,6 @@ import 'package:firstapp/admin/admin.dart';
 import 'package:firstapp/admin/add_entity.dart';
 
 import 'package:get/get.dart';
-import 'package:firstapp/tags/tagsInput.dart';
 import 'package:googleapis/analyticsreporting/v4.dart';
 // import 'package:googleapis/bigquery/v2.dart';
 
@@ -57,30 +57,25 @@ class _ProfileScreenState extends State<ProfileScreen>  {
   final data1 = TextEditingController();
   final data2 = TextEditingController();
   final data3 = TextEditingController();
-
+  TextStyle robo = TextStyle(
+      fontFamily: 'Roboto', fontSize: 16, color: Colors.orange.shade100);
+  ButtonStyle lalpiwla = ButtonStyle(
+    backgroundColor: MaterialStatePropertyAll<Color>(Colors.black26),
+    elevation: MaterialStatePropertyAll<double>(10),
+  );
 
   @override
- void initState()  {
+  void initState() {
+    FirestoreService().createUser(
+        AuthService().user?.email, AuthService().user?.displayName, context);
     super.initState();
-    int val = adminval ;
-    // FirestoreService().createUser(
-    //     AuthService().user?.email, AuthService().user?.displayName, context);
-    // print("inside initstate before update adminval $val");
-    // // await updateadminval();
-    //
-    // print("inside initstate after update adminval $val");
-
   }
 
-
-
-  //stores the value of current user can be accessed using a constructor
+  Future<bool> check =
+      FirestoreService().checkadmin(AuthService().user?.email.toString());
 
   List<Student>? thing;
 
-  //here lies the constructor which should be called upon clicking signin
-
-  //sample queryResult thing to be fetched from the backend
   final queryResult = ['a', 'b', 'ak', 'c'];
   @override
   Widget build(BuildContext context) {
@@ -97,6 +92,7 @@ class _ProfileScreenState extends State<ProfileScreen>  {
 
       resizeToAvoidBottomInset : false,
       appBar: AppBar(
+        backgroundColor: Colors.black,
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
@@ -113,10 +109,13 @@ class _ProfileScreenState extends State<ProfileScreen>  {
             icon: Icon(Icons.search),
             onPressed: () {
               showSearch(
-                context: context,
-                delegate: SearchBar(queryResult),
-              );
+                  context: context,
+                  delegate: SearchBar(FirestoreService().getUsersByName));
             },
+            color: Colors.white,
+            splashColor: Colors.white60,
+            highlightColor: Colors.white30,
+            tooltip: 'Search',
           ),
         ],
       ),
@@ -124,11 +123,18 @@ class _ProfileScreenState extends State<ProfileScreen>  {
         child: ListView (
           padding: EdgeInsets.zero,
           children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
+            Container(
+              height: 100,
+              child: DrawerHeader(
+                padding: EdgeInsetsDirectional.fromSTEB(10, 20, 5, 10),
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                ),
+                child: Text(
+                  'Welcome to IITIHUB',
+                  style: TextStyle(fontSize: 25, fontFamily: 'Roboto'),
+                ),
               ),
-              child: Text('Hi'),
             ),
             ListTile(
               title: Text('ABOUT'),
@@ -200,46 +206,69 @@ class _ProfileScreenState extends State<ProfileScreen>  {
           ],
         ),
       ),
-      body: Column(children: [
-        Center(
-            child: CircularImage(
-              imageFile: 'assets/images/download.png',
-            )),
-        TextField(
-          controller: data1,
-        ),
-        TextField(
-          controller: data2,
-        ),
-        TextField(
-          controller: data3,
-        ),
-        ElevatedButton(
-          onPressed: () async {
-            await FirestoreService().createStudent(
-                dept: data1.text, email: data2.text, grad_yr: data3.text);
-          },
-          child: const Text('Submits'),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            ElevatedButton(
-                onPressed: () => mailStreamliner().PrintMessages(
-                    'in:inbox subject:night AND subject:canteen'),
-                child: const Text('print msges')),
-            ElevatedButton(
-                onPressed: () async {
-                  thing = await (FirestoreService().getStudentsByDept('H'));
-                  if (thing != null) {
-                    for (final i in thing ?? []) {
-                      print(i.grad_yr);
-                    }
-                  }
-                },
-                child: Text('print searchQuery func')),
-          ],
-        ),
+      body: Container(
+        color: Colors.black54,
+        child: Center(
+          child: Container(
+            width: 320,
+            child: SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
+              child: Column(children: [
+                Center(
+                  child: CircularImage(
+                    imageFile: 'assets/images/download.png',
+                  ),
+                ),
+                TextField(
+                  controller: data1,
+                ),
+                TextField(
+                  controller: data2,
+                ),
+                TextField(
+                  controller: data3,
+                ),
+                ElevatedButton(
+                  style: lalpiwla,
+                  onPressed: () async {
+                    await FirestoreService().createStudent(
+                        dept: data1.text,
+                        email: data2.text,
+                        grad_yr: data3.text);
+                  },
+                  child: Text(
+                    'Submits',
+                    style: robo,
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                        style: lalpiwla,
+                        onPressed: () => mailStreamliner().PrintMessages(
+                            'in:inbox subject:night AND subject:canteen'),
+                        child: Text(
+                          'PMSG',
+                          style: robo,
+                        )),
+                    ElevatedButton(
+                        style: lalpiwla,
+                        onPressed: () async {
+                          thing =
+                              await (FirestoreService().getStudentsByDept('H'));
+                          if (thing != null) {
+                            for (final i in thing ?? []) {
+                              print(i.grad_yr);
+                            }
+                          }
+                        },
+                        child: Text(
+                          'PSQF',
+                          style: robo,
+                        )),
+                  ],
+                ),
 
         // News(),
         // ListView(
@@ -430,32 +459,7 @@ class _CircularImageState extends State<CircularImage> {
               foregroundImage: NetworkImage('${b}'),
               radius: 55,
             ),
-            Padding(
-                padding: EdgeInsets.only(top: 10.0),
-                child: Card(
-                    child: TextButton(
-                        onPressed: () {
-                          if (spp == 'Show profile Picture') {
-                            setImag();
-                          } else {
-                            setImag2();
-                          }
-                        },
-                        child: Text(spp)))),
-            Padding(
-              padding: EdgeInsets.only(top: 60.0),
-              child: IconButton(
-                icon: Icon(
-                  FontAwesomeIcons.camera,
-                  size: 30.0,
-                ),
-                onPressed: () {
-                  print('${AuthService().user}');
-                  pickGalleryImage(context);
-                },
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

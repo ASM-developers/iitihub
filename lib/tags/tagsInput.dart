@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-
 import '../services/models.dart';
 
 class TagInput extends StatefulWidget {
@@ -17,6 +16,10 @@ class TagInput extends StatefulWidget {
 class _TagInputState extends State<TagInput> {
   final _tagController = TextEditingController();
   final List<String> tags = [];
+  ButtonStyle lalpiwla = ButtonStyle(
+    backgroundColor: MaterialStatePropertyAll<Color>(Colors.black26),
+    elevation: MaterialStatePropertyAll<double>(10),
+  );
 
   void _addTag(String tag) {
     if (tag.isNotEmpty) {
@@ -49,6 +52,7 @@ class _TagInputState extends State<TagInput> {
           ),
         ),
         ElevatedButton(
+          style: lalpiwla,
           onPressed: () {
             widget.onSubmit(tags);
             tags.clear();

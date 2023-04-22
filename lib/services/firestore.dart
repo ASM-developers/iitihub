@@ -31,6 +31,53 @@ class FirestoreService {
 
     return Students;
   }
+  
+  Stream<List<Projects>> getprojectbyTag(List<String> query,String searchQuery) {
+    if(query.isNotEmpty){
+      return FirebaseFirestore
+          .instance
+          .collection('Projects')
+          .orderBy('date', descending: true)
+          .where('tags',arrayContainsAny:query)
+          .snapshots()
+          .map((snapshot) =>
+      snapshot.docs.where((doc) =>
+          doc.data().toString().toLowerCase().contains(searchQuery.toLowerCase()))
+          .map((doc) => Projects.fromJson(doc.data()))
+          .toList()..sort((a, b) => b.tags.where((tag) => query.contains(tag)).length.compareTo(a.tags.where((tag) => query.contains(tag)).length))
+      );
+    }else{
+      return FirebaseFirestore
+          .instance
+          .collection('Projects')
+          .orderBy('date', descending: true)
+          .snapshots()
+          .map((snapshot) =>
+      snapshot.docs.where((doc) =>
+          doc.data().toString().toLowerCase().contains(searchQuery.toLowerCase()))
+          .map((doc) => Projects.fromJson(doc.data()))
+          .toList()..sort((a, b) => b.tags.where((tag) => query.contains(tag)).length.compareTo(a.tags.where((tag) => query.contains(tag)).length))
+      );
+    }
+  }
+
+
+  Future<List<User>> getUsersByName(String query) async {
+    List<User> users = [];
+
+    QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+        .instance
+        .collection('users')
+        .where('name', isGreaterThanOrEqualTo: query)
+        .where('name', isLessThan: query + 'z')
+        .get();
+
+    for (QueryDocumentSnapshot<Map<String, dynamic>> doc in snapshot.docs) {
+      users.add(User.fromJson(doc.data()));
+    }
+
+    return users;
+  }
 
   Future<int> checkadmin(String? email) async {
     final check = await FirebaseFirestore.instance

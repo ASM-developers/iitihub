@@ -35,6 +35,7 @@ dependencies:
 
   carousel_slider: ^4.2.1
   multiselect: ^0.1.0
+  dynamic_color: ^1.6.3
 
   # google_auth_io: ^2.1.0
 # auth: FirebaseAuthWeb.instance;

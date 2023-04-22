@@ -1,14 +1,13 @@
+import 'package:firstapp/profile/viewProfile.dart';
+import 'package:firstapp/services/models.dart';
 import 'package:flutter/material.dart';
 
 class SearchBar extends SearchDelegate {
-  final List<String> queryResult;
+  final Future<List<User>> Function(String) getUsersByName;
 
-  SearchBar(this.queryResult);
+  SearchBar(this.getUsersByName);
 
   @override
-  //manipulation of tags should be done from here
-  //remember if query's last character is # then listen for the next whitespace and add the tag into search list
-  //also make a tag results column too
   List<Widget> buildActions(BuildContext context) {
     return [
       IconButton(
@@ -32,50 +31,86 @@ class SearchBar extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    final results =
-        queryResult.where((item) => item.startsWith(query)).toList();
-
-    if (results.isEmpty) {
+    if (query.isEmpty) {
       return const Center(
         child: Text(
-          'No results found.',
+          'Please enter a search term.',
           style: TextStyle(fontSize: 24),
         ),
       );
-    } else {
-      return ListView.builder(
-        itemCount: results.length,
-        itemBuilder: (BuildContext context, int index) {
-          final result = results[index];
-          return ListTile(
-            title: Text(result),
-            onTap: () {
-              // Handle result selection
+    }
+
+    return FutureBuilder<List<User>>(
+      future: getUsersByName(query),
+      builder: (BuildContext context, AsyncSnapshot<List<User>> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return const Center(child: Text('Error'));
+        } else if (snapshot.data == null || snapshot.data!.isEmpty) {
+          return const Center(
+            child: Text(
+              'No results found.',
+              style: TextStyle(fontSize: 24),
+            ),
+          );
+        } else {
+          return ListView.builder(
+            itemCount: snapshot.data!.length,
+            itemBuilder: (BuildContext context, int index) {
+              final result = snapshot.data![index];
+              return ListTile(
+                title: Text(result.name),
+                onTap: () {
+                  // Handle result selection
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => viewProfile(
+                                user: result,
+                              )));
+                },
+              );
             },
           );
-        },
-      );
-    }
+        }
+      },
+    );
   }
 
   @override
-  //optionally wrapping in a futurebuilder to listen to streams
   Widget buildSuggestions(BuildContext context) {
-    final suggestionList = query.isEmpty
-        ? []
-        : queryResult.where((item) => item.startsWith(query)).toList();
+    if (query.isEmpty) {
+      return const Center(
+        child: Text(
+          'Search for a user',
+          style: TextStyle(fontSize: 24),
+        ),
+      );
+    }
 
-    return ListView.builder(
-      itemBuilder: (context, index) => ListTile(
-        //here you can change what happens when someone clicks on an object rendered by query
-        //TODO : on encountering a # await a whitespace to add to the list of tags with which we fetch a list of projects
-        onTap: () {
-          query = suggestionList[index];
-          showResults(context);
-        },
-        title: Text(suggestionList[index]),
-      ),
-      itemCount: suggestionList.length,
+    return FutureBuilder<List<User>>(
+      future: getUsersByName(query),
+      builder: (BuildContext context, AsyncSnapshot<List<User>> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return const Center(child: Text('Error'));
+        } else {
+          final suggestionList = snapshot.data ?? [];
+
+          return ListView.builder(
+            itemCount: suggestionList.length,
+            itemBuilder: (context, index) => ListTile(
+              onTap: () {
+                query = suggestionList[index].name;
+                showResults(context);
+              },
+              title: Text(suggestionList[index].name),
+            ),
+          );
+        }
+      },
     );
   }
 }
