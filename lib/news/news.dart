@@ -21,7 +21,7 @@ class _NewsState extends State<News> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            "Updates",
+            "Bulletin @ IIT Indore",
             style: TextStyle(color: Colors.white70, fontFamily: 'Roboto'),
           ),
           backgroundColor: Colors.black,

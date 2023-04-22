@@ -17,5 +17,8 @@ var appRoutes = {
   '/news': (context) => const News(),
   '/project': (context) => const ProjectScreen(),
   '/profscreen': (context) => ProfScreen(),
+
   '/map': (context) => CommonUseCasesExamples(),
+
+
 };
