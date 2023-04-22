@@ -222,7 +222,7 @@ class _ProfScreenState extends State<ProfScreen> {
                       context: context,
                       type: QuickAlertType.warning,
                       text: 'Please fill all details',
-                      autoCloseDuration: const Duration(seconds: 5),
+                      // autoCloseDuration: const Duration(seconds: 5),
                     );
                   }
                   else{val = await FirestoreService().submitProjectdata(

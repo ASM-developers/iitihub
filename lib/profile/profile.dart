@@ -71,8 +71,7 @@ class _ProfileScreenState extends State<ProfileScreen>  {
     super.initState();
   }
 
-  Future<bool> check =
-      FirestoreService().checkadmin(AuthService().user?.email.toString());
+
 
   List<Student>? thing;
 
@@ -276,6 +275,10 @@ class _ProfileScreenState extends State<ProfileScreen>  {
         //   children: [News()],
         // ),
       ]),
+    )
+    )
+    )
+      )
     );
     // Future.delayed(Duration.zero, () {
     //   FirestoreService().createUser(
@@ -458,10 +461,9 @@ class _CircularImageState extends State<CircularImage> {
             CircleAvatar(
               foregroundImage: NetworkImage('${b}'),
               radius: 55,
-            ),
+            )],
           ),
         ),
-      ),
     );
   }
 }
