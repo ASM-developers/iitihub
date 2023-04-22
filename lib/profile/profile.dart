@@ -169,67 +169,72 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Center(
           child: Container(
             width: 320,
-            child: Column(children: [
-              Center(
-                child: CircularImage(
-                  imageFile: 'assets/images/download.png',
+            child: SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
+              child: Column(children: [
+                Center(
+                  child: CircularImage(
+                    imageFile: 'assets/images/download.png',
+                  ),
                 ),
-              ),
-              TextField(
-                controller: data1,
-              ),
-              TextField(
-                controller: data2,
-              ),
-              TextField(
-                controller: data3,
-              ),
-              ElevatedButton(
-                style: lalpiwla,
-                onPressed: () async {
-                  await FirestoreService().createStudent(
-                      dept: data1.text, email: data2.text, grad_yr: data3.text);
-                },
-                child: Text(
-                  'Submits',
-                  style: robo,
+                TextField(
+                  controller: data1,
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ElevatedButton(
-                      style: lalpiwla,
-                      onPressed: () => mailStreamliner().PrintMessages(
-                          'in:inbox subject:night AND subject:canteen'),
-                      child: Text(
-                        'PMSG',
-                        style: robo,
-                      )),
-                  ElevatedButton(
-                      style: lalpiwla,
-                      onPressed: () async {
-                        thing =
-                            await (FirestoreService().getStudentsByDept('H'));
-                        if (thing != null) {
-                          for (final i in thing ?? []) {
-                            print(i.grad_yr);
+                TextField(
+                  controller: data2,
+                ),
+                TextField(
+                  controller: data3,
+                ),
+                ElevatedButton(
+                  style: lalpiwla,
+                  onPressed: () async {
+                    await FirestoreService().createStudent(
+                        dept: data1.text,
+                        email: data2.text,
+                        grad_yr: data3.text);
+                  },
+                  child: Text(
+                    'Submits',
+                    style: robo,
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                        style: lalpiwla,
+                        onPressed: () => mailStreamliner().PrintMessages(
+                            'in:inbox subject:night AND subject:canteen'),
+                        child: Text(
+                          'PMSG',
+                          style: robo,
+                        )),
+                    ElevatedButton(
+                        style: lalpiwla,
+                        onPressed: () async {
+                          thing =
+                              await (FirestoreService().getStudentsByDept('H'));
+                          if (thing != null) {
+                            for (final i in thing ?? []) {
+                              print(i.grad_yr);
+                            }
                           }
-                        }
-                      },
-                      child: Text(
-                        'PSQF',
-                        style: robo,
-                      )),
-                ],
-              ),
+                        },
+                        child: Text(
+                          'PSQF',
+                          style: robo,
+                        )),
+                  ],
+                ),
 
-              // News(),
-              // ListView(
-              //   shrinkWrap: true,
-              //   children: [News()],
-              // ),
-            ]),
+                // News(),
+                // ListView(
+                //   shrinkWrap: true,
+                //   children: [News()],
+                // ),
+              ]),
+            ),
           ),
         ),
       ),
