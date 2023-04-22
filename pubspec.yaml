@@ -36,6 +36,7 @@ dependencies:
   carousel_slider: ^4.2.1
   multiselect: ^0.1.0
   dynamic_color: ^1.6.3
+  photo_view: ^0.14.0
 
   # google_auth_io: ^2.1.0
 # auth: FirebaseAuthWeb.instance;
@@ -49,6 +50,7 @@ flutter:
   assets:
     - assets/images/download.png
     - assets/images/Transperant_IITI.png
+    - assets/images/campus.png
   fonts:
     - family: Roboto
       fonts:

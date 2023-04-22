@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firstapp/camap/camap.dart';
 import 'package:firstapp/prof/prof.dart';
 import 'package:firstapp/prof/projects.dart';
 import 'package:firstapp/profile/picture.dart';
@@ -15,7 +16,7 @@ import 'package:firstapp/admin/admin.dart';
 import 'package:get/get.dart';
 import 'package:googleapis/analyticsreporting/v4.dart';
 // import 'package:googleapis/bigquery/v2.dart';
-
+import 'package:firstapp/camap/common_example_wrapper.dart';
 import 'package:firstapp/profile/searchBar.dart';
 import 'package:firstapp/news/news.dart';
 
@@ -136,6 +137,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ); // Handle settings press
               },
             ),
+            ListTile(
+                title: Text('MAP'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const CommonExampleRouteWrapper(
+                        imageProvider:
+                            const AssetImage("assets/images/campus.png"),
+                      ),
+                    ),
+                  );
+                }),
             ListTile(
               title: Text('PROJECTS'),
               onTap: () {

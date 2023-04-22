@@ -1,3 +1,6 @@
+// import 'dart:js';
+
+import 'package:firstapp/camap/camap.dart';
 import 'package:firstapp/home/home.dart';
 import 'package:firstapp/login/login.dart';
 import 'package:firstapp/prof/prof.dart';
@@ -12,6 +15,7 @@ var appRoutes = {
   '/profile': (context) => ProfileScreen(),
   '/about': (context) => const AboutScreen(),
   '/news': (context) => const News(),
-  '/project': (context)=>const ProjectScreen(),
-  '/profscreen': (context)=>ProfScreen(),
+  '/project': (context) => const ProjectScreen(),
+  '/profscreen': (context) => ProfScreen(),
+  '/map': (context) => CommonUseCasesExamples(),
 };
