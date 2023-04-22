@@ -23,11 +23,14 @@ import 'package:firstapp/news/news.dart';
 import 'dart:io';
 import 'package:provider/provider.dart';
 
+import 'package:firstapp/Emails/querymap.dart';
+
+
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firstapp/services/firestore.dart';
-
+import 'package:firstapp/Emails/querymap.dart';
 
 
 
@@ -245,10 +248,9 @@ class _ProfileScreenState extends State<ProfileScreen>  {
                   children: [
                     ElevatedButton(
                         style: lalpiwla,
-                        onPressed: () => mailStreamliner().PrintMessages(
-                            'in:inbox subject:night AND subject:canteen'),
+                        onPressed: (){ Navigator.push(context , MaterialPageRoute(builder: (context)=>GmailWidget() ) ); },
                         child: Text(
-                          'PMSG',
+                          'Email Aankh',
                           style: robo,
                         )),
                     ElevatedButton(

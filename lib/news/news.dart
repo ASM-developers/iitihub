@@ -32,6 +32,7 @@ class _NewsState extends State<News> {
             padding: const EdgeInsets.fromLTRB(8, 80, 8, 0),
             child: ListView(
               children: [
+
                 CarouselSlider(
                   items: [
                     InkWell(

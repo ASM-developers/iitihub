@@ -9,8 +9,13 @@ import 'package:googleapis_auth/auth_io.dart';
 
 import 'dart:convert';
 
+
 class mailStreamliner {
+
+
+
   final List<String> labels = [];
+
 
   //labels can be appended using addLabel function
   void addLabel({required String newLabel}) {
@@ -25,7 +30,26 @@ class mailStreamliner {
   //we need a function that returns all the messages requested under each label: will be called getUserMails
   //getUserMails will be the endpoint of this API that will be used to return a bunch of Mails
 
-  Future<void> PrintMessages(String? query) async {
+  
+
+
+  Future<List<gmail.Message>> printWatchQuery(List<String> searchStrings) {
+    // Construct a query string that watches for new messages containing any of the search strings
+    String query = "in:inbox ";
+
+    if (searchStrings != null && searchStrings.isNotEmpty) {
+      query += "(";
+      query += searchStrings.map((s) => "subject:${s}").join(" OR ");
+      query += ") ";
+    }
+    // query += "category:primary";
+    print('query final $query') ;
+
+    // Return the query string
+    return PrintMessages(query);
+  }
+  
+  Future<List<gmail.Message>> PrintMessages(String? query) async {
     //gets the current client authenticated from auth service
     final client = (await AuthService().httpClient());
     //TODO: need to requestscopes locally for implementing incremental authorization
@@ -33,7 +57,7 @@ class mailStreamliner {
     //checks if the user is anonymously logged in or not
     if (client != null) {
       final gmail.GmailApi? gmailAPI = gmail.GmailApi(client);
-      final response = await gmailAPI!.users.messages.list('me', q: query);
+      final response = await gmailAPI!.users.messages.list('me', q: query, maxResults: 1);
 
       final messages = response.messages;
 
@@ -49,9 +73,14 @@ class mailStreamliner {
       if (messages == null) {
         print('no results found');
       }
+
+      return messages ?? [] ;
     } else {
-      print('fuck');
+      print('');
+      return [] ;
     }
+
+
   }
 }
   //labels can be displayed by mapping mailStreamliner.labels so you don't need a function for that
