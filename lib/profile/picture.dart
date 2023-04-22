@@ -102,19 +102,30 @@ class _CircularImageState extends State<CircularImage> {
               radius: 55,
             ),
             Padding(
-                padding: EdgeInsets.only(top: 10.0),
-                child: Card(
-                    child: TextButton(
-                        onPressed: () {
-                          if (spp == 'Show profile Picture') {
-                            setImag();
-                          } else {
-                            setImag2();
-                          }
-                        },
-                        child: Text(spp)))),
+              padding: EdgeInsets.only(top: 10.0),
+              child: Card(
+                color: Colors.black45,
+                elevation: 10,
+                child: TextButton(
+                  onPressed: () {
+                    if (spp == 'Show profile Picture') {
+                      setImag();
+                    } else {
+                      setImag2();
+                    }
+                  },
+                  child: Text(
+                    spp,
+                    style: TextStyle(
+                      color: Colors.orange.shade200,
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+              ),
+            ),
             Padding(
-              padding: EdgeInsets.only(top: 60.0),
+              padding: EdgeInsets.only(top: 8.0),
               child: IconButton(
                 icon: Icon(
                   FontAwesomeIcons.camera,

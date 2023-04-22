@@ -15,10 +15,12 @@ class ProjectScreen extends StatefulWidget {
   @override
   State<ProjectScreen> createState() => _ProjectScreenState();
 }
+
 class MultiSelect extends StatefulWidget {
   final List<String> items;
   final Function(List<String>) onSelectedTagsChanged; // add this line
-  const MultiSelect({super.key, required this.items, required this.onSelectedTagsChanged});
+  const MultiSelect(
+      {super.key, required this.items, required this.onSelectedTagsChanged});
 
   @override
   State<MultiSelect> createState() => _MultiSelectState();
@@ -26,6 +28,7 @@ class MultiSelect extends StatefulWidget {
 
 class _MultiSelectState extends State<MultiSelect> {
   final List<String> _selectedItems = [];
+
   void _itemChange(String itemvalue, bool isSelected) {
     setState(() {
       if (isSelected) {
@@ -53,11 +56,11 @@ class _MultiSelectState extends State<MultiSelect> {
           child: ListBody(
             children: widget.items
                 .map((item) => CheckboxListTile(
-              value: _selectedItems.contains(item),
-              title: Text(item),
-              controlAffinity: ListTileControlAffinity.leading,
-              onChanged: (isChecked) => _itemChange(item, isChecked!),
-            ))
+                      value: _selectedItems.contains(item),
+                      title: Text(item),
+                      controlAffinity: ListTileControlAffinity.leading,
+                      onChanged: (isChecked) => _itemChange(item, isChecked!),
+                    ))
                 .toList(),
           ),
         ),
@@ -85,11 +88,12 @@ class _ProjectScreenState extends State<ProjectScreen> {
         return MultiSelect(
           items: mylist,
           onSelectedTagsChanged: (tags) {
-          setState(() {
-            _selectedTags = tags;
-          });
-          searchProject(searchtext.text); // call searchProject to update the stream
-        },
+            setState(() {
+              _selectedTags = tags;
+            });
+            searchProject(
+                searchtext.text); // call searchProject to update the stream
+          },
         );
       },
     );
@@ -99,15 +103,28 @@ class _ProjectScreenState extends State<ProjectScreen> {
       });
     }
   }
-  Stream<List<Projects>> _projectStream = FirestoreService().getprojectbyTag(["Competitive programming","Material Science"], '');
+
+  Stream<List<Projects>> _projectStream = FirestoreService()
+      .getprojectbyTag(["Competitive programming", "Material Science"], '');
   List<String> _selectedTags = [];
-  List<String> _availableTags = ["Competitive programming", "Material Science", "Tag 3", "Tag 4"];
+  List<String> _availableTags = [
+    "Competitive programming",
+    "Material Science",
+    "Tag 3",
+    "Tag 4"
+  ];
   TextEditingController searchtext = TextEditingController();
   void searchProject(String searchText) {
     setState(() {
-      _projectStream = FirestoreService().getprojectbyTag(_selectedTags, searchText);
+      _projectStream =
+          FirestoreService().getprojectbyTag(_selectedTags, searchText);
     });
   }
+
+  ButtonStyle lalpiwla = ButtonStyle(
+    backgroundColor: MaterialStatePropertyAll<Color>(Colors.black26),
+    elevation: MaterialStatePropertyAll<double>(10),
+  );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -129,6 +146,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
               ),
             ),
             ElevatedButton(
+                style: lalpiwla,
                 onPressed: () {
                   _showmultiselect();
                 },
@@ -136,11 +154,11 @@ class _ProjectScreenState extends State<ProjectScreen> {
             Wrap(
               children: _selectedTags
                   .map((e) => Padding(
-                padding: const EdgeInsets.all(3.0),
-                child: Chip(
-                  label: Text(e),
-                ),
-              ))
+                        padding: const EdgeInsets.all(3.0),
+                        child: Chip(
+                          label: Text(e),
+                        ),
+                      ))
                   .toList(),
             ),
             Flexible(
@@ -163,6 +181,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
           ],
         ));
   }
+
   Widget buildProject(Projects projects) => Padding(
         padding: const EdgeInsets.all(10.0),
         child: ListTile(

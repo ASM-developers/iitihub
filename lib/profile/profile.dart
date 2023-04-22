@@ -13,7 +13,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firstapp/admin/admin.dart';
 
 import 'package:get/get.dart';
-import 'package:firstapp/tags/tagsInput.dart';
 import 'package:googleapis/analyticsreporting/v4.dart';
 // import 'package:googleapis/bigquery/v2.dart';
 
@@ -39,6 +38,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final data1 = TextEditingController();
   final data2 = TextEditingController();
   final data3 = TextEditingController();
+  TextStyle robo = TextStyle(
+      fontFamily: 'Roboto', fontSize: 16, color: Colors.orange.shade100);
+  ButtonStyle lalpiwla = ButtonStyle(
+    backgroundColor: MaterialStatePropertyAll<Color>(Colors.black26),
+    elevation: MaterialStatePropertyAll<double>(10),
+  );
   Future<bool> check =
       FirestoreService().checkadmin(AuthService().user?.email.toString());
   // bool check2=check.get();
@@ -68,6 +73,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.black,
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
@@ -98,11 +104,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
+            Container(
+              height: 100,
+              child: DrawerHeader(
+                padding: EdgeInsetsDirectional.fromSTEB(10, 20, 5, 10),
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                ),
+                child: Text(
+                  'Welcome to IITIHUB',
+                  style: TextStyle(fontSize: 25, fontFamily: 'Roboto'),
+                ),
               ),
-              child: Text('Hi'),
             ),
             ListTile(
               title: Text('ABOUT'),
@@ -162,53 +175,75 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ],
         ),
       ),
-      body: Column(children: [
-        Center(
-            child: CircularImage(
-          imageFile: 'assets/images/download.png',
-        )),
-        TextField(
-          controller: data1,
-        ),
-        TextField(
-          controller: data2,
-        ),
-        TextField(
-          controller: data3,
-        ),
-        ElevatedButton(
-          onPressed: () async {
-            await FirestoreService().createStudent(
-                dept: data1.text, email: data2.text, grad_yr: data3.text);
-          },
-          child: const Text('Submits'),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            ElevatedButton(
-                onPressed: () => mailStreamliner().PrintMessages(
-                    'in:inbox subject:night AND subject:canteen'),
-                child: const Text('print msges')),
-            ElevatedButton(
+      body: Container(
+        color: Colors.black54,
+        child: Center(
+          child: Container(
+            width: 320,
+            child: Column(children: [
+              Center(
+                child: CircularImage(
+                  imageFile: 'assets/images/download.png',
+                ),
+              ),
+              TextField(
+                controller: data1,
+              ),
+              TextField(
+                controller: data2,
+              ),
+              TextField(
+                controller: data3,
+              ),
+              ElevatedButton(
+                style: lalpiwla,
                 onPressed: () async {
-                  thing = await (FirestoreService().getStudentsByDept('H'));
-                  if (thing != null) {
-                    for (final i in thing ?? []) {
-                      print(i.grad_yr);
-                    }
-                  }
+                  await FirestoreService().createStudent(
+                      dept: data1.text, email: data2.text, grad_yr: data3.text);
                 },
-                child: Text('print searchQuery func')),
-          ],
-        ),
+                child: Text(
+                  'Submits',
+                  style: robo,
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                      style: lalpiwla,
+                      onPressed: () => mailStreamliner().PrintMessages(
+                          'in:inbox subject:night AND subject:canteen'),
+                      child: Text(
+                        'PMSG',
+                        style: robo,
+                      )),
+                  ElevatedButton(
+                      style: lalpiwla,
+                      onPressed: () async {
+                        thing =
+                            await (FirestoreService().getStudentsByDept('H'));
+                        if (thing != null) {
+                          for (final i in thing ?? []) {
+                            print(i.grad_yr);
+                          }
+                        }
+                      },
+                      child: Text(
+                        'PSQF',
+                        style: robo,
+                      )),
+                ],
+              ),
 
-        // News(),
-        // ListView(
-        //   shrinkWrap: true,
-        //   children: [News()],
-        // ),
-      ]),
+              // News(),
+              // ListView(
+              //   shrinkWrap: true,
+              //   children: [News()],
+              // ),
+            ]),
+          ),
+        ),
+      ),
     );
   }
 }
