@@ -44,33 +44,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
     backgroundColor: MaterialStatePropertyAll<Color>(Colors.black26),
     elevation: MaterialStatePropertyAll<double>(10),
   );
+
+  @override
+  void initState() {
+    FirestoreService().createUser(
+        AuthService().user?.email, AuthService().user?.displayName, context);
+    super.initState();
+  }
+
   Future<bool> check =
       FirestoreService().checkadmin(AuthService().user?.email.toString());
-  // bool check2=check.get();
-
-// int checkori = 0 ;
-// int returncheckori(Future<bool> check){
-
-//   if(check){
-//     checkori
-//   }
-//   return checkori;
-// }
-
-  //stores the value of current user can be accessed using a constructor
 
   List<Student>? thing;
 
-  //here lies the constructor which should be called upon clicking signin
-
-  //sample queryResult thing to be fetched from the backend
   final queryResult = ['a', 'b', 'ak', 'c'];
   @override
   Widget build(BuildContext context) {
-    Future.delayed(Duration.zero, () {
-      FirestoreService().createUser(
-          AuthService().user?.email, AuthService().user?.displayName, context);
-    });
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,

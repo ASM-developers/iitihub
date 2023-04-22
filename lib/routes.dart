@@ -12,6 +12,6 @@ var appRoutes = {
   '/profile': (context) => ProfileScreen(),
   '/about': (context) => const AboutScreen(),
   '/news': (context) => const News(),
-  '/project': (context)=>const ProjectScreen(),
-  '/profscreen': (context)=>ProfScreen(),
+  '/project': (context) => const ProjectScreen(),
+  '/profscreen': (context) => ProfScreen(),
 };
