@@ -10,6 +10,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:firstapp/services/gmail.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firstapp/admin/admin.dart';
+import 'package:firstapp/admin/add_entity.dart';
 
 import 'package:get/get.dart';
 import 'package:firstapp/tags/tagsInput.dart';
@@ -27,6 +28,9 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firstapp/services/firestore.dart';
 
+
+
+
 class ProfileScreen extends StatefulWidget {
   ProfileScreen({super.key});
 
@@ -34,22 +38,41 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+
+int adminval = 0 ;
+
+Future<int> updateadminval() async {
+
+  int valS = await  FirestoreService().checkadmin(AuthService().user?.email.toString(),) ;
+  print('valS $valS');
+
+  adminval = valS ; //= vals
+  print('adminval $valS ');
+
+
+  return valS ;
+}
+
+class _ProfileScreenState extends State<ProfileScreen>  {
   final data1 = TextEditingController();
   final data2 = TextEditingController();
   final data3 = TextEditingController();
-  Future<bool> check =
-      FirestoreService().checkadmin(AuthService().user?.email.toString());
-  // bool check2=check.get();
 
-// int checkori = 0 ;
-// int returncheckori(Future<bool> check){
 
-//   if(check){
-//     checkori
-//   }
-//   return checkori;
-// }
+  @override
+ void initState()  {
+    super.initState();
+    int val = adminval ;
+    // FirestoreService().createUser(
+    //     AuthService().user?.email, AuthService().user?.displayName, context);
+    // print("inside initstate before update adminval $val");
+    // // await updateadminval();
+    //
+    // print("inside initstate after update adminval $val");
+
+  }
+
+
 
   //stores the value of current user can be accessed using a constructor
 
@@ -61,11 +84,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final queryResult = ['a', 'b', 'ak', 'c'];
   @override
   Widget build(BuildContext context) {
-    Future.delayed(Duration.zero, () {
-      FirestoreService().createUser(
+
+    FirestoreService().createUser(
           AuthService().user?.email, AuthService().user?.displayName, context);
-    });
+    // sleep(const Duration(milliseconds: 2000));
+    // print('inside build $adminval');
+    updateadminval();
+    // sleep(const Duration(milliseconds: 5000));
+    // print('just before scaffold $adminval');
+
     return Scaffold(
+
+      resizeToAvoidBottomInset : false,
       appBar: AppBar(
         leading: Builder(
           builder: (BuildContext context) {
@@ -91,7 +121,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ],
       ),
       drawer: Drawer(
-        child: ListView(
+        child: ListView (
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
@@ -138,10 +168,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ); // Handle settings press
               },
             ),
-            if (true) ...[
+
+            if ( adminval == 1) ...[
               ListTile(
                 title: Text('Admin'),
                 onTap: () {
+
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => Admin()),
@@ -149,6 +181,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 },
               ),
             ],
+            ListTile(
+              title: Text('Add Enitties'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => AddEntityScreen()),
+                ); // Handle settings press
+              },
+            ),
             LoginButton(
               text: 'sign out',
               color: Colors.black45,
@@ -161,8 +203,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: Column(children: [
         Center(
             child: CircularImage(
-          imageFile: 'assets/images/download.png',
-        )),
+              imageFile: 'assets/images/download.png',
+            )),
         TextField(
           controller: data1,
         ),
@@ -206,7 +248,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
         // ),
       ]),
     );
-  }
+    // Future.delayed(Duration.zero, () {
+    //   FirestoreService().createUser(
+    //       AuthService().user?.email, AuthService().user?.displayName, context);
+    // });
+    // return CircularProgressIndicator();
+
+
+  }//build
 }
 
 // class SearchBar extends SearchDelegate {

@@ -9,6 +9,11 @@ import 'package:multiselect/multiselect.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+
+//alert relate package
+import 'package:quickalert/quickalert.dart';
+import 'package:firstapp/prof/quickalertsProjectCreation.dart';
+
 class ProfScreen extends StatefulWidget {
   ProfScreen({super.key});
 
@@ -77,7 +82,11 @@ class _ProfScreenState extends State<ProfScreen> {
       'Competitive programming',
       'Material Science',
       'Civil',
-      'Quantum Physics'
+      'Quantum Physics',
+      'Robotics',
+      'Intelligent Vehicles',
+      'Electronics',
+
     ];
 
     final List<String>? result = await showDialog(
@@ -112,8 +121,11 @@ class _ProfScreenState extends State<ProfScreen> {
     // final projname = TextEditingController();
     // final projdes = TextEditingController();
 
+
+
     return Scaffold(
-      appBar: AppBar(title: const Text("professor dhishkau")),
+      resizeToAvoidBottomInset : false,
+      appBar: AppBar(title: const Text("Add your Project")),
       body: Padding(
         padding: const EdgeInsets.all(15),
         child: Column(
@@ -194,18 +206,37 @@ class _ProfScreenState extends State<ProfScreen> {
                     }
                   }),
             ),
+
             ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   final _projname = projname.text;
                   final _projdes = projdes.text;
                   final _tags = _selectedItems;
                   final _date1 = dateinput.text;
+                  int val = 1 ;
 
-                  FirestoreService().submitdata(
-                      projname: _projname,
-                      projdes: _projdes,
-                      tags: _tags,
-                      date: _date1);
+
+
+                  if(checkempty(_projname,_projdes,_tags,_date1)){
+                    QuickAlert.show(
+                      context: context,
+                      type: QuickAlertType.warning,
+                      text: 'Please fill all details',
+                      autoCloseDuration: const Duration(seconds: 5),
+                    );
+                  }
+                  else{val = await FirestoreService().submitProjectdata(
+                    projname: _projname,
+                    projdes: _projdes,
+                    tags: _tags,
+                    date: _date1,
+                    context: context);
+                  }
+
+                  // if(val ==0){ qa_nameAlreadyExists(context);}
+                  // else if (val ==1  ){ qa_successMsg(context, _projname,_projdes,_tags,_date1);  }
+
+
                 },
                 child: Text("Submit"))
           ],

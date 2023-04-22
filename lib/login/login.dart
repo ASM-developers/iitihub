@@ -91,7 +91,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
-
 //make a class which returns a button given login method, color, string and icon
 
 class LoginButton extends StatelessWidget {

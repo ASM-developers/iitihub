@@ -20,7 +20,7 @@ class _NewsState extends State<News> {
       ),
       child: Scaffold(
         appBar: AppBar(
-          title: Text("IIT Indore"),
+          title: Text("Bulletin @ IIT Indore"),
         ),
         body: Padding(
           padding: const EdgeInsets.fromLTRB(8, 80, 8, 0),
