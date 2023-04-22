@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firstapp/Emails/MessageList.dart';
+import 'package:firstapp/Emails/MailList.dart';
 import 'package:firstapp/camap/camap.dart';
 import 'package:firstapp/prof/prof.dart';
 import 'package:firstapp/prof/projects.dart';
@@ -25,13 +25,13 @@ import 'package:firstapp/news/news.dart';
 import 'dart:io';
 import 'package:provider/provider.dart';
 
-import 'package:firstapp/Emails/querymap.dart';
+import 'package:firstapp/Emails/MessageDetiails.dart';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firstapp/services/firestore.dart';
-import 'package:firstapp/Emails/querymap.dart';
+import 'package:firstapp/Emails/MessageDetiails.dart';
 
 class ProfileScreen extends StatefulWidget {
   ProfileScreen({super.key});
@@ -252,8 +252,42 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           children: [
                             ElevatedButton(
                                 style: lalpiwla,
-                                onPressed:
-                                    () {}, //Navigator.push(context , MaterialPageRoute(builder: (context)=>GmailWidget() ) ); },
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => MailList(
+                                                buttonTexts: {
+                                                  'TECH': [
+                                                    'Cynaptics',
+                                                    'Robotics',
+                                                    'IVDC',
+                                                    'PClub',
+                                                    'GDSC'
+                                                  ],
+                                                  'CULT': [
+                                                    'Kalakriti',
+                                                    'Aaina',
+                                                    'debsoc',
+                                                    'literary',
+                                                    'dance',
+                                                    'music'
+                                                  ],
+                                                  'CERP': ['CERP'],
+                                                  'SPORTS': [
+                                                    'Swimming',
+                                                    'Table',
+                                                    'Tennis',
+                                                    'Cricket'
+                                                  ],
+                                                  'Dinning': ['Ajay'],
+                                                  'Hostel': [
+                                                    'Room',
+                                                    'Hostel',
+                                                  ]
+                                                },
+                                              )));
+                                },
                                 child: Text(
                                   'Email Aankh',
                                   style: robo,
