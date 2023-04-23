@@ -271,6 +271,6 @@ class FirestoreService {
     }
 
     print(users[0].type);
-    return !users.isEmpty && users[0].type == 'student';
+    return users[0].type[0] == 's';
   }
 }

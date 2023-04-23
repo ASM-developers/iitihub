@@ -1,3 +1,5 @@
+import 'package:firstapp/prof/prof.dart';
+import 'package:firstapp/services/auth.dart';
 import 'package:firstapp/services/firestore.dart';
 import 'package:firstapp/services/models.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -72,6 +74,17 @@ class _MultiSelectState extends State<MultiSelect> {
 }
 
 class _ProjectScreenState extends State<ProjectScreen> {
+  bool isStudent = false;
+  int adminval = 0;
+
+  Future<void> checkUserType() async {
+    adminval = await FirestoreService().checkadmin(
+      AuthService().user?.email,
+    );
+    isStudent = await FirestoreService().isStudent(AuthService().user?.email);
+    print(isStudent);
+  }
+
   void _showmultiselect() async {
     final List<String> mylist = [
       'CSE',
@@ -126,8 +139,27 @@ class _ProjectScreenState extends State<ProjectScreen> {
     elevation: MaterialStatePropertyAll<double>(10),
   );
   @override
+  void initState() {
+    super.initState();
+    checkUserType();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
+        floatingActionButton: Visibility(
+          visible: !isStudent,
+          child: ElevatedButton(
+            child: Text("+"),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ProfScreen()),
+              );
+              // Handle settings press
+            },
+          ),
+        ),
         appBar: AppBar(
           title: Text("Projects"),
         ),

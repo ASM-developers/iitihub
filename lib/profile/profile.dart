@@ -48,6 +48,7 @@ Future<void> checkUserType() async {
     AuthService().user?.email,
   );
   isStudent = await FirestoreService().isStudent(AuthService().user?.email);
+  print(isStudent);
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
@@ -160,27 +161,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     );
                   }),
-              if (!isStudent) ...[
-                ListTile(
-                  title: Text('PROJECTS'),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ProjectScreen()),
-                    ); // Handle settings press
-                  },
-                ),
-                ListTile(
-                  title: Text('ADD PROJECTS'),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ProfScreen()),
-                    ); // Handle settings press
-                  },
-                ),
-              ],
+              ListTile(
+                title: Text('PROJECTS'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ProjectScreen()),
+                  ); // Handle settings press
+                },
+              ),
               if (adminval == 1) ...[
                 ListTile(
                   title: Text('Admin'),
