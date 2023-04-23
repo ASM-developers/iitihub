@@ -25,8 +25,8 @@ class _CircularImageState extends State<CircularImage> {
   firebase_storage.FirebaseStorage storage =
       firebase_storage.FirebaseStorage.instance;
   var b = AuthService().user?.photoURL.toString();
-  String spp = 'Show profile Picture';
-  String hpp = 'Hide profile Picture';
+  String spp = 'show pic';
+  String hpp = 'hide pic';
   void setImag() async {
     final a = await ref.child('${AuthService().user?.uid}/photoURL').get();
     if (a.value == null) {}
@@ -92,48 +92,57 @@ class _CircularImageState extends State<CircularImage> {
 
   //when we are able to fetch image uri from backend replace the placeholder with Image.fronUri() and add the text obtained in imageFile
   Widget build(BuildContext context) {
-    return ClipOval(
+    return Center(
       child: Padding(
-        padding: const EdgeInsets.all(25.0),
-        child: Column(
+        padding: const EdgeInsets.only(
+          left: 50.0,
+        ),
+        child: Row(
           children: [
             CircleAvatar(
               foregroundImage: NetworkImage('${b}'),
               radius: 55,
             ),
-            Padding(
-              padding: EdgeInsets.only(top: 10.0),
-              child: Card(
-                color: Colors.black45,
-                elevation: 10,
-                child: TextButton(
-                  onPressed: () {
-                    if (spp == 'Show profile Picture') {
-                      setImag();
-                    } else {
-                      setImag2();
-                    }
-                  },
-                  child: Text(
-                    spp,
-                    style: TextStyle(
-                      color: Colors.orange.shade200,
-                      fontSize: 18,
+            Center(
+              child: Column(
+                children: [
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+                    child: IconButton(
+                      icon: Icon(
+                        FontAwesomeIcons.camera,
+                        size: 30.0,
+                      ),
+                      onPressed: () {
+                        pickGalleryImage(context);
+                      },
                     ),
                   ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 8.0),
-              child: IconButton(
-                icon: Icon(
-                  FontAwesomeIcons.camera,
-                  size: 30.0,
-                ),
-                onPressed: () {
-                  pickGalleryImage(context);
-                },
+                  Padding(
+                    padding: EdgeInsets.only(top: 10.0),
+                    child: Card(
+                      color: Colors.black45,
+                      elevation: 10,
+                      child: TextButton(
+                        onPressed: () {
+                          if (spp == 'show pic') {
+                            setImag();
+                          } else {
+                            setImag2();
+                          }
+                        },
+                        child: Text(
+                          spp,
+                          style: TextStyle(
+                            color: Colors.orange.shade200,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

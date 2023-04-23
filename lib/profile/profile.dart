@@ -215,15 +215,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
         body: Container(
           color: Colors.black54,
           child: Center(
-            child: Container(
+            child: SizedBox(
               width: 320,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Center(
-                    child: CircularImage(
-                      imageFile: 'assets/images/download.png',
-                    ),
+                  CircularImage(
+                    imageFile: 'assets/images/download.png',
                   ),
                   TextField(
                     controller: data1,
@@ -234,19 +232,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   TextField(
                     controller: data3,
                   ),
-                  ElevatedButton(
-                    style: lalpiwla,
-                    onPressed: () async {
-                      await FirestoreService().createStudent(
-                          dept: data1.text,
-                          email: data2.text,
-                          grad_yr: data3.text);
-                    },
-                    child: Text(
-                      'Submits',
-                      style: robo,
-                    ),
-                  ),
+                  // ElevatedButton(
+                  //   style: lalpiwla,
+                  //   onPressed: () async {
+                  //     await FirestoreService().createStudent(
+                  //         dept: data1.text,
+                  //         email: data2.text,
+                  //         grad_yr: data3.text);
+                  //   },
+                  //   child: Text(
+                  //     'Submits',
+                  //     style: robo,
+                  //   ),
+                  // ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -308,18 +306,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 'Email',
                                 style: robo,
                               )),
-                          ElevatedButton(
-                              style: lalpiwla,
-                              onPressed: () async {
-                                thing = await (FirestoreService()
-                                    .getUsersByEmail(
-                                        "cse210001027@iiti.ac.in"));
-                                print(thing?.ID);
-                              },
-                              child: Text(
-                                'PSQF',
-                                style: robo,
-                              )),
+                          //   ElevatedButton(
+                          //       style: lalpiwla,
+                          //       onPressed: () async {
+                          //         thing = await (FirestoreService()
+                          //             .getUsersByEmail(
+                          //                 "cse210001027@iiti.ac.in"));
+                          //         print(thing?.ID);
+                          //       },
+                          //       child: Text(
+                          //         'PSQF',
+                          //         style: robo,
+                          //       )),
                         ],
                       ),
 
@@ -423,136 +421,136 @@ class _ProfileScreenState extends State<ProfileScreen> {
 //   }
 // }
 
-class CircularImage extends StatefulWidget {
-  final String imageFile;
-  final double size;
-  CircularImage({Key? key, required this.imageFile, this.size = 100.0})
-      : super(key: key);
+// class CircularImage extends StatefulWidget {
+//   final String imageFile;
+//   final double size;
+//   CircularImage({Key? key, required this.imageFile, this.size = 100.0})
+//       : super(key: key);
 
-  @override
-  State<CircularImage> createState() => _CircularImageState();
-}
+//   @override
+//   State<CircularImage> createState() => _CircularImageState();
+// }
 
-class _CircularImageState extends State<CircularImage> {
-  DatabaseReference ref = FirebaseDatabase.instance.ref().child('User');
+// class _CircularImageState extends State<CircularImage> {
+//   DatabaseReference ref = FirebaseDatabase.instance.ref().child('User');
 
-  firebase_storage.FirebaseStorage storage =
-      firebase_storage.FirebaseStorage.instance;
-  var b = AuthService().user?.photoURL.toString();
-  String spp = 'Show profile Picture';
-  String hpp = 'Hide profile Picture';
-  void setImag() async {
-    final a = await ref.child('${AuthService().user?.uid}/photoURL').get();
-    if (a.value == null) {}
-    print(a.value.toString());
-    print('Thank You Madhav');
-    setState(() {
-      b = a.value.toString();
-      String mad = spp;
-      spp = hpp;
-      hpp = mad;
-    });
-  }
+//   firebase_storage.FirebaseStorage storage =
+//       firebase_storage.FirebaseStorage.instance;
+//   var b = AuthService().user?.photoURL.toString();
+//   String spp = 'Show profile Picture';
+//   String hpp = 'Hide profile Picture';
+//   void setImag() async {
+//     final a = await ref.child('${AuthService().user?.uid}/photoURL').get();
+//     if (a.value == null) {}
+//     print(a.value.toString());
+//     print('Thank You Madhav');
+//     setState(() {
+//       b = a.value.toString();
+//       String mad = spp;
+//       spp = hpp;
+//       hpp = mad;
+//     });
+//   }
 
-  void setImag2() {
-    setState(() {
-      b = AuthService().user?.photoURL.toString();
-      String mad = spp;
-      spp = hpp;
-      hpp = mad;
-    });
-  }
+//   void setImag2() {
+//     setState(() {
+//       b = AuthService().user?.photoURL.toString();
+//       String mad = spp;
+//       spp = hpp;
+//       hpp = mad;
+//     });
+//   }
 
-  final picker = ImagePicker();
+//   final picker = ImagePicker();
 
-  // final snapshot = FirebaseDatabase.instance
-  //     .ref()
-  //     .child('User/${AuthService().user?.uid}/photoURL')
-  //     .get();
-  XFile? _image;
+//   // final snapshot = FirebaseDatabase.instance
+//   //     .ref()
+//   //     .child('User/${AuthService().user?.uid}/photoURL')
+//   //     .get();
+//   XFile? _image;
 
-  XFile? get image => _image;
+//   XFile? get image => _image;
 
-  void uploadImage(BuildContext context) async {
-    firebase_storage.Reference sRef = firebase_storage.FirebaseStorage.instance
-        .ref('${AuthService().user?.uid}');
-    firebase_storage.UploadTask uploadTask =
-        sRef.putFile(File(image!.path).absolute);
-    await Future.value(uploadTask);
-    final newURL = await sRef.getDownloadURL();
-    // print(snapshot.toString());
+//   void uploadImage(BuildContext context) async {
+//     firebase_storage.Reference sRef = firebase_storage.FirebaseStorage.instance
+//         .ref('${AuthService().user?.uid}');
+//     firebase_storage.UploadTask uploadTask =
+//         sRef.putFile(File(image!.path).absolute);
+//     await Future.value(uploadTask);
+//     final newURL = await sRef.getDownloadURL();
+//     // print(snapshot.toString());
 
-    print(newURL);
-    setImag();
-    setState(() {
-      b = newURL.toString();
-    });
-    ref
-        .child('${AuthService().user?.uid}')
-        .update({'photoURL': b}).then((value) => _image = null);
-    // print('${AuthService().user}');
-  }
+//     print(newURL);
+//     setImag();
+//     setState(() {
+//       b = newURL.toString();
+//     });
+//     ref
+//         .child('${AuthService().user?.uid}')
+//         .update({'photoURL': b}).then((value) => _image = null);
+//     // print('${AuthService().user}');
+//   }
 
-  Future pickGalleryImage(BuildContext context) async {
-    final pickedFile =
-        await picker.pickImage(source: ImageSource.gallery, imageQuality: 100);
-    if (pickedFile != null) {
-      _image = XFile(pickedFile.path);
-      uploadImage(context);
-    }
-  }
+//   Future pickGalleryImage(BuildContext context) async {
+//     final pickedFile =
+//         await picker.pickImage(source: ImageSource.gallery, imageQuality: 100);
+//     if (pickedFile != null) {
+//       _image = XFile(pickedFile.path);
+//       uploadImage(context);
+//     }
+//   }
 
-  @override
+//   @override
 
-  //when we are able to fetch image uri from backend replace the placeholder with Image.fronUri() and add the text obtained in imageFile
-  Widget build(BuildContext context) {
-    return ClipOval(
-      child: Padding(
-        padding: const EdgeInsets.all(25.0),
-        child: Column(
-          children: [
-            CircleAvatar(
-              foregroundImage: NetworkImage('${b}'),
-              radius: 55,
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 10.0),
-              child: Card(
-                color: Colors.black45,
-                elevation: 10,
-                child: TextButton(
-                  onPressed: () {
-                    if (spp == 'Show profile Picture') {
-                      setImag();
-                    } else {
-                      setImag2();
-                    }
-                  },
-                  child: Text(
-                    spp,
-                    style: TextStyle(
-                      color: Colors.orange.shade200,
-                      fontSize: 18,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 8.0),
-              child: IconButton(
-                icon: Icon(
-                  FontAwesomeIcons.camera,
-                  size: 30.0,
-                ),
-                onPressed: () {
-                  pickGalleryImage(context);
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+//   //when we are able to fetch image uri from backend replace the placeholder with Image.fronUri() and add the text obtained in imageFile
+//   Widget build(BuildContext context) {
+//     return ClipOval(
+//       child: Padding(
+//         padding: const EdgeInsets.all(25.0),
+//         child: Column(
+//           children: [
+//             CircleAvatar(
+//               foregroundImage: NetworkImage('${b}'),
+//               radius: 55,
+//             ),
+//             Padding(
+//               padding: EdgeInsets.only(top: 10.0),
+//               child: Card(
+//                 color: Colors.black45,
+//                 elevation: 10,
+//                 child: TextButton(
+//                   onPressed: () {
+//                     if (spp == 'Show profile Picture') {
+//                       setImag();
+//                     } else {
+//                       setImag2();
+//                     }
+//                   },
+//                   child: Text(
+//                     spp,
+//                     style: TextStyle(
+//                       color: Colors.orange.shade200,
+//                       fontSize: 18,
+//                     ),
+//                   ),
+//                 ),
+//               ),
+//             ),
+//             Padding(
+//               padding: EdgeInsets.only(top: 8.0),
+//               child: IconButton(
+//                 icon: Icon(
+//                   FontAwesomeIcons.camera,
+//                   size: 30.0,
+//                 ),
+//                 onPressed: () {
+//                   pickGalleryImage(context);
+//                 },
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }

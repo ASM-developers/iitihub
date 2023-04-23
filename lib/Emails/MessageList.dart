@@ -30,8 +30,6 @@ class MessageList extends StatelessWidget {
           final headers = message.payload?.headers;
           final subject =
               headers?.firstWhere((header) => header.name == 'Subject');
-
-          print(subject?.value);
           return InkWell(
             onTap: () {
               Navigator.push(
