@@ -67,7 +67,7 @@ class _viewProfileState extends State<viewProfile> {
         children: [
           Column(
             children: [
-              ClipOval(
+              Container(
                 child: Padding(
                   padding: const EdgeInsets.all(25.0),
                   child: Column(
