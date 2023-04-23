@@ -5,7 +5,7 @@ import 'package:firstapp/prof/prof.dart';
 import 'package:firstapp/prof/projects.dart';
 import 'package:firstapp/profile/picture.dart';
 import 'package:firstapp/services/firestore.dart';
-import 'package:firstapp/services/models.dart';
+import 'package:firstapp/services/models.dart' as lol;
 import 'package:flutter/material.dart';
 import 'package:firstapp/services/auth.dart';
 import 'package:firstapp/login/login.dart';
@@ -14,7 +14,7 @@ import 'package:firstapp/services/gmail.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firstapp/admin/admin.dart';
 import 'package:firstapp/admin/add_entity.dart';
-
+import 'package:firstapp/services/models.dart';
 import 'package:get/get.dart';
 import 'package:googleapis/analyticsreporting/v4.dart';
 // import 'package:googleapis/bigquery/v2.dart';
@@ -25,12 +25,15 @@ import 'package:firstapp/news/news.dart';
 import 'dart:io';
 import 'package:provider/provider.dart';
 
+
+import 'package:firstapp/Emails/querymap.dart';
 import 'package:firstapp/Emails/MessageDetiails.dart';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firstapp/services/firestore.dart';
+import 'package:firstapp/Emails/querymap.dart';
 import 'package:firstapp/Emails/MessageDetiails.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -72,6 +75,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.initState();
   }
 
+  lol.User? thing;
   List<Student>? thing;
 
   final queryResult = ['a', 'b', 'ak', 'c'];
@@ -217,24 +221,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Center(
                 child: Container(
                     width: 320,
-                    child: SingleChildScrollView(
-                      physics: BouncingScrollPhysics(),
-                      child: Column(children: [
-                        Center(
-                          child: CircularImage(
-                            imageFile: 'assets/images/download.png',
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Center(
+                            child: CircularImage(
+                              imageFile: 'assets/images/download.png',
+                            ),
                           ),
-                        ),
-                        TextField(
-                          controller: data1,
-                        ),
-                        TextField(
-                          controller: data2,
-                        ),
-                        TextField(
-                          controller: data3,
-                        ),
-                        ElevatedButton(
+                          TextField(
+                            controller: data1,
+                          ),
+                          TextField(
+                            controller: data2,
+                          ),
+                          TextField(
+                            controller: data3,
+                          ),
+                          ElevatedButton(
+                            style: lalpiwla,
+                            onPressed: () async {
+                              await FirestoreService().createStudent(
+                                  dept: data1.text,
+                                  email: data2.text,
+                                  grad_yr: data3.text);
+                            },
+                            child: Text(
+                              'Submits',
+                              style: robo,
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                                                      ElevatedButton(
                           style: lalpiwla,
                           onPressed: () async {
                             await FirestoreService().createStudent(
@@ -289,34 +309,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               )));
                                 },
                                 child: Text(
-                                  'Email Aankh',
+                                  'Email',
                                   style: robo,
                                 )),
-                            ElevatedButton(
-                                style: lalpiwla,
-                                onPressed: () async {
-                                  thing = await (FirestoreService()
-                                      .getStudentsByDept('H'));
-                                  if (thing != null) {
-                                    for (final i in thing ?? []) {
-                                      print(i.grad_yr);
-                                    }
-                                  }
-                                },
-                                child: Text(
-                                  'PSQF',
-                                  style: robo,
-                                )),
-                          ],
-                        ),
+                              ElevatedButton(
+                                  style: lalpiwla,
+                                  onPressed: () async {
+                                    thing = await (FirestoreService()
+                                        .getUsersByEmail(
+                                            "cse210001027@iiti.ac.in"));
+                                    print(thing?.ID);
+                                  },
+                                  child: Text(
+                                    'PSQF',
+                                    style: robo,
+                                  )),
+                            ],
+                          ),
 
-                        // News(),
-                        // ListView(
-                        //   shrinkWrap: true,
-                        //   children: [News()],
-                        // ),
-                      ]),
-                    )))));
+                          // News(),
+                          // ListView(
+                          //   shrinkWrap: true,
+                          //   children: [News()],
+                          // ),
+                        ])))));
     // Future.delayed(Duration.zero, () {
     //   FirestoreService().createUser(
     //       AuthService().user?.email, AuthService().user?.displayName, context);
@@ -496,7 +512,42 @@ class _CircularImageState extends State<CircularImage> {
             CircleAvatar(
               foregroundImage: NetworkImage('${b}'),
               radius: 55,
-            )
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 10.0),
+              child: Card(
+                color: Colors.black45,
+                elevation: 10,
+                child: TextButton(
+                  onPressed: () {
+                    if (spp == 'Show profile Picture') {
+                      setImag();
+                    } else {
+                      setImag2();
+                    }
+                  },
+                  child: Text(
+                    spp,
+                    style: TextStyle(
+                      color: Colors.orange.shade200,
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 8.0),
+              child: IconButton(
+                icon: Icon(
+                  FontAwesomeIcons.camera,
+                  size: 30.0,
+                ),
+                onPressed: () {
+                  pickGalleryImage(context);
+                },
+              ),
+            ),
           ],
         ),
       ),

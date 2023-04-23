@@ -15,14 +15,29 @@ class FirestoreService {
 
   //currently extracts students with a given dept name but can be done for name fetching
   //TODO : add a function that takes in a list of tags and pulls out a matching set of strings
+  Future<User> getUsersByEmail(String email) async {
+    List<User> users = [];
+
+    QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+        .instance
+        .collection('users')
+        .where('email', isEqualTo: email)
+        .get();
+
+    for (QueryDocumentSnapshot<Map<String, dynamic>> doc in snapshot.docs) {
+      users.add(User.fromJson(doc.data()));
+    }
+
+    return users[0];
+  }
+
   Future<List<Student>> getStudentsByDept(String query) async {
     List<Student> Students = [];
 
     QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
         .instance
         .collection('student')
-        .where('dept', isGreaterThanOrEqualTo: query)
-        .where('dept', isLessThan: query + 'z')
+        .where('dept', isEqualTo: query)
         .get();
 
     for (QueryDocumentSnapshot<Map<String, dynamic>> doc in snapshot.docs) {
@@ -109,6 +124,7 @@ class FirestoreService {
       String? email, String? name, BuildContext context) async {
     final RegExp isStudent = RegExp(r'^[a-z]{2,4}\d{9}@iiti\.ac\.in$');
     User user = User(
+      ID: '${AuthService().user?.uid}',
       email: email ?? "",
       name: name ?? "",
     );
@@ -181,7 +197,7 @@ class FirestoreService {
   }) async {
     final docuser = FirebaseFirestore.instance.collection('student').doc();
     final json = {
-      'ID': docuser.id,
+      'ID': AuthService().user?.uid,
       'dept': dept,
       'email': email,
       'grad_yr': grad_yr,
