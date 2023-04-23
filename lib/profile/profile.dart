@@ -4,7 +4,7 @@ import 'package:firstapp/prof/prof.dart';
 import 'package:firstapp/prof/projects.dart';
 import 'package:firstapp/profile/picture.dart';
 import 'package:firstapp/services/firestore.dart';
-import 'package:firstapp/services/models.dart';
+import 'package:firstapp/services/models.dart' as lol;
 import 'package:flutter/material.dart';
 import 'package:firstapp/services/auth.dart';
 import 'package:firstapp/login/login.dart';
@@ -13,7 +13,7 @@ import 'package:firstapp/services/gmail.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firstapp/admin/admin.dart';
 import 'package:firstapp/admin/add_entity.dart';
-
+import 'package:firstapp/services/models.dart';
 import 'package:get/get.dart';
 import 'package:googleapis/analyticsreporting/v4.dart';
 // import 'package:googleapis/bigquery/v2.dart';
@@ -71,7 +71,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.initState();
   }
 
-  List<Student>? thing;
+  lol.User? thing;
 
   final queryResult = ['a', 'b', 'ak', 'c'];
   @override
@@ -261,12 +261,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   style: lalpiwla,
                                   onPressed: () async {
                                     thing = await (FirestoreService()
-                                        .getStudentsByDept('H'));
-                                    if (thing != null) {
-                                      for (final i in thing ?? []) {
-                                        print(i.grad_yr);
-                                      }
-                                    }
+                                        .getUsersByEmail(
+                                            "cse210001027@iiti.ac.in"));
+                                    print(thing?.ID);
                                   },
                                   child: Text(
                                     'PSQF',

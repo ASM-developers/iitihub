@@ -27,22 +27,18 @@ class _viewProfileState extends State<viewProfile> {
   String spp = 'Show profile Picture';
   String hpp = 'Hide profile Picture';
 
+  final refreal = FirebaseDatabase.instance.ref();
+
   void setImag() async {
-    final docRef = db.collection("users").doc("jzfKDolTF9kV42yNB1W6");
-    String addr = '';
-    docRef.get().then(
-      (DocumentSnapshot doc) {
-        final data = doc.data() as Map<String, dynamic>;
-        print(data);
-        addr = data['ID'];
-        print(addr);
-      },
-      onError: (e) => print("Error getting document: $e"),
-    );
-    final a = await ref.child('${addr}/photoURL').get();
+    User thing = await (FirestoreService().getUsersByEmail(widget.user.email));
+    print(thing?.ID);
+    final docRef = thing?.ID;
+    print(docRef);
+    final a = await ref.child('${docRef}/photoURL').get();
     if (a.value == null) {}
+    print('mad');
     print(a.value.toString());
-    print('Thank You Madhav');
+
     setState(() {
       b = a.value.toString();
       String mad = spp;
@@ -54,6 +50,7 @@ class _viewProfileState extends State<viewProfile> {
   void setImag2() {
     setState(() {
       b = AuthService().user?.photoURL.toString();
+
       String mad = spp;
       spp = hpp;
       hpp = mad;
