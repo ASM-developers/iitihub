@@ -81,7 +81,10 @@ class _ProjectScreenState extends State<ProjectScreen> {
     adminval = await FirestoreService().checkadmin(
       AuthService().user?.email,
     );
-    isStudent = await FirestoreService().isStudent(AuthService().user?.email);
+    final det = await FirestoreService().isStudent(AuthService().user?.email);
+    setState(() {
+      isStudent = det;
+    });
     print(isStudent);
   }
 

@@ -48,7 +48,6 @@ Future<void> checkUserType() async {
     AuthService().user?.email,
   );
   isStudent = await FirestoreService().isStudent(AuthService().user?.email);
-  print(isStudent);
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
