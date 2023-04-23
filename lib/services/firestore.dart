@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter/material.dart';
 import 'package:firstapp/services/auth.dart';
@@ -8,7 +9,6 @@ import 'package:firstapp/profile/profile.dart';
 import 'package:firstapp/prof/quickalertsProjectCreation.dart';
 
 import '../tags/tagsInput.dart';
-
 
 class FirestoreService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -31,36 +31,46 @@ class FirestoreService {
 
     return Students;
   }
-  
-  Stream<List<Projects>> getprojectbyTag(List<String> query,String searchQuery) {
-    if(query.isNotEmpty){
-      return FirebaseFirestore
-          .instance
+
+  Stream<List<Projects>> getprojectbyTag(
+      List<String> query, String searchQuery) {
+    if (query.isNotEmpty) {
+      return FirebaseFirestore.instance
           .collection('Projects')
           .orderBy('date', descending: true)
-          .where('tags',arrayContainsAny:query)
+          .where('tags', arrayContainsAny: query)
           .snapshots()
-          .map((snapshot) =>
-      snapshot.docs.where((doc) =>
-          doc.data().toString().toLowerCase().contains(searchQuery.toLowerCase()))
-          .map((doc) => Projects.fromJson(doc.data()))
-          .toList()..sort((a, b) => b.tags.where((tag) => query.contains(tag)).length.compareTo(a.tags.where((tag) => query.contains(tag)).length))
-      );
-    }else{
-      return FirebaseFirestore
-          .instance
+          .map((snapshot) => snapshot.docs
+              .where((doc) => doc
+                  .data()
+                  .toString()
+                  .toLowerCase()
+                  .contains(searchQuery.toLowerCase()))
+              .map((doc) => Projects.fromJson(doc.data()))
+              .toList()
+            ..sort((a, b) => b.tags
+                .where((tag) => query.contains(tag))
+                .length
+                .compareTo(a.tags.where((tag) => query.contains(tag)).length)));
+    } else {
+      return FirebaseFirestore.instance
           .collection('Projects')
           .orderBy('date', descending: true)
           .snapshots()
-          .map((snapshot) =>
-      snapshot.docs.where((doc) =>
-          doc.data().toString().toLowerCase().contains(searchQuery.toLowerCase()))
-          .map((doc) => Projects.fromJson(doc.data()))
-          .toList()..sort((a, b) => b.tags.where((tag) => query.contains(tag)).length.compareTo(a.tags.where((tag) => query.contains(tag)).length))
-      );
+          .map((snapshot) => snapshot.docs
+              .where((doc) => doc
+                  .data()
+                  .toString()
+                  .toLowerCase()
+                  .contains(searchQuery.toLowerCase()))
+              .map((doc) => Projects.fromJson(doc.data()))
+              .toList()
+            ..sort((a, b) => b.tags
+                .where((tag) => query.contains(tag))
+                .length
+                .compareTo(a.tags.where((tag) => query.contains(tag)).length)));
     }
   }
-
 
   Future<List<User>> getUsersByName(String query) async {
     List<User> users = [];
@@ -96,9 +106,7 @@ class FirestoreService {
   }
 
   Future<void> createUser(
-      String? email,
-      String? name,
-      BuildContext context) async {
+      String? email, String? name, BuildContext context) async {
     final RegExp isStudent = RegExp(r'^[a-z]{2,4}\d{9}@iiti\.ac\.in$');
     User user = User(
       email: email ?? "",
@@ -122,6 +130,8 @@ class FirestoreService {
     } else {
       await showModalBottomSheet(
         context: context,
+        isDismissible:
+            false, // prevent modal from being dismissed on tap outside
         isScrollControlled: true,
         builder: (BuildContext context) {
           return SingleChildScrollView(
@@ -130,22 +140,37 @@ class FirestoreService {
                 bottom: MediaQuery.of(context).viewInsets.bottom,
               ),
               child: Container(
-                child: TagInput(
-                  onSubmit: (tags) async {
-                    // Do something with the tags
-                    user.tags = tags;
-                    await FirebaseFirestore.instance
-                        .collection('users')
-                        .add(user.toJson());
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.close),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ],
+                    ),
+                    TagInput(
+                      onSubmit: (tags) async {
+                        // Do something with the tags
+                        user.tags = tags;
+                        await FirebaseFirestore.instance
+                            .collection('users')
+                            .add(user.toJson());
 
-                    Navigator.pop(context);
-                  },
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
                 ),
               ),
             ),
           );
         },
-      ); //Note: for a particular insti we have to add another regexp isMember for testing purposes not added
+      );
     }
   }
 
@@ -164,10 +189,11 @@ class FirestoreService {
     await docuser.set(json);
   }
 
-  Future submitEntitydata(
-      {required String entityname,
-        required String entityemail,
-        required List<String> tags,}) async {
+  Future submitEntitydata({
+    required String entityname,
+    required String entityemail,
+    required List<String> tags,
+  }) async {
     final docuser = FirebaseFirestore.instance.collection('Entities').doc();
     final json = {
       'ID': docuser.id,
@@ -183,10 +209,7 @@ class FirestoreService {
       required String projdes,
       required List<String> tags,
       required String date,
-      required BuildContext context }
-       ) async {
-
-
+      required BuildContext context}) async {
     final docuser = FirebaseFirestore.instance.collection('Projects').doc();
 
     final snapshot = await FirebaseFirestore.instance
@@ -194,8 +217,10 @@ class FirestoreService {
         .where('name', isEqualTo: projname)
         .get();
 
-    if (snapshot.docs.isNotEmpty) {qa_nameAlreadyExists(context); return 0;}
-    else {
+    if (snapshot.docs.isNotEmpty) {
+      qa_nameAlreadyExists(context);
+      return 0;
+    } else {
       final json = {
         'ID': docuser.id,
         'date': date,
@@ -205,7 +230,7 @@ class FirestoreService {
         'tags': tags,
       };
       await docuser.set(json);
-      qa_successMsg(context, projname, projdes, tags, date );
+      qa_successMsg(context, projname, projdes, tags, date);
     }
 
     return 1;
