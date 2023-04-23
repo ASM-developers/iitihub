@@ -19,19 +19,19 @@ class MessageDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final headers = message.payload!.headers;
+    final headers = message.payload?.headers;
 
     final fromHeader =
-        headers!.firstWhere((header) => header.name == 'From').value;
+        headers?.firstWhere((header) => header.name == 'From').value;
 
-    final toHeader = headers.firstWhere((header) => header.name == 'To').value;
+    final toHeader = headers?.firstWhere((header) => header.name == 'To').value;
 
     final subjectHeader =
-        headers.firstWhere((header) => header.name == 'Subject').value;
+        headers?.firstWhere((header) => header.name == 'Subject').value;
 
-    final body = message.payload!.parts![0].body!.data;
+    final body = message.payload?.parts?[0].body?.data;
 
-    final decodedBody = utf8.decode(base64.decode(body!));
+    final decodedBody = utf8.decode(base64.decode(body ?? ""));
 
     return Scaffold(
       appBar: AppBar(

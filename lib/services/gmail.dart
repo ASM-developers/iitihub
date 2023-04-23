@@ -72,6 +72,4 @@ class mailStreamliner {
   }
 }
 
-
-  //labels can be displayed by mapping mailStreamliner.labels so you don't need a function for that
-
+//labels can be displayed by mapping mailStreamliner.labels so you don't need a function for that

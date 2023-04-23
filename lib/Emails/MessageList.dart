@@ -72,11 +72,11 @@ class MessageList extends StatelessWidget {
   String _getBodySnippet(gmail.Message message) {
     if (message.payload?.parts != null) {
       final body = utf8.decode(
-          base64.decode(message.payload?.parts?.first.body?.data! ?? ""));
+          base64.decode(message.payload?.parts?.first.body?.data ?? ""));
       return body.substring(0, body.indexOf('\n')).trim();
     } else {
       return utf8
-          .decode(base64.decode(message.payload?.body?.data! ?? ""))
+          .decode(base64.decode(message.payload?.body?.data ?? ""))
           .trim();
     }
   }

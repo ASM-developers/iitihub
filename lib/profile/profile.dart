@@ -25,15 +25,12 @@ import 'package:firstapp/news/news.dart';
 import 'dart:io';
 import 'package:provider/provider.dart';
 
-
-import 'package:firstapp/Emails/querymap.dart';
 import 'package:firstapp/Emails/MessageDetiails.dart';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firstapp/services/firestore.dart';
-import 'package:firstapp/Emails/querymap.dart';
 import 'package:firstapp/Emails/MessageDetiails.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -76,7 +73,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   lol.User? thing;
-  List<Student>? thing;
 
   final queryResult = ['a', 'b', 'ak', 'c'];
   @override
@@ -217,122 +213,128 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
         body: Container(
-            color: Colors.black54,
-            child: Center(
-                child: Container(
-                    width: 320,
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Center(
-                            child: CircularImage(
-                              imageFile: 'assets/images/download.png',
-                            ),
-                          ),
-                          TextField(
-                            controller: data1,
-                          ),
-                          TextField(
-                            controller: data2,
-                          ),
-                          TextField(
-                            controller: data3,
-                          ),
-                          ElevatedButton(
-                            style: lalpiwla,
-                            onPressed: () async {
-                              await FirestoreService().createStudent(
-                                  dept: data1.text,
-                                  email: data2.text,
-                                  grad_yr: data3.text);
-                            },
-                            child: Text(
-                              'Submits',
-                              style: robo,
-                            ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                                                      ElevatedButton(
-                          style: lalpiwla,
-                          onPressed: () async {
-                            await FirestoreService().createStudent(
-                                dept: data1.text,
-                                email: data2.text,
-                                grad_yr: data3.text);
-                          },
-                          child: Text(
-                            'Submits',
-                            style: robo,
-                          ),
+          color: Colors.black54,
+          child: Center(
+            child: Container(
+              width: 320,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Center(
+                    child: CircularImage(
+                      imageFile: 'assets/images/download.png',
+                    ),
+                  ),
+                  TextField(
+                    controller: data1,
+                  ),
+                  TextField(
+                    controller: data2,
+                  ),
+                  TextField(
+                    controller: data3,
+                  ),
+                  ElevatedButton(
+                    style: lalpiwla,
+                    onPressed: () async {
+                      await FirestoreService().createStudent(
+                          dept: data1.text,
+                          email: data2.text,
+                          grad_yr: data3.text);
+                    },
+                    child: Text(
+                      'Submits',
+                      style: robo,
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton(
+                        style: lalpiwla,
+                        onPressed: () async {
+                          await FirestoreService().createStudent(
+                              dept: data1.text,
+                              email: data2.text,
+                              grad_yr: data3.text);
+                        },
+                        child: Text(
+                          'Submits',
+                          style: robo,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            ElevatedButton(
-                                style: lalpiwla,
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => MailList(
-                                                buttonTexts: {
-                                                  'TECH': [
-                                                    'Cynaptics',
-                                                    'Robotics',
-                                                    'IVDC',
-                                                    'PClub',
-                                                    'GDSC'
-                                                  ],
-                                                  'CULT': [
-                                                    'Kalakriti',
-                                                    'Aaina',
-                                                    'debsoc',
-                                                    'literary',
-                                                    'dance',
-                                                    'music'
-                                                  ],
-                                                  'CERP': ['CERP'],
-                                                  'SPORTS': [
-                                                    'Swimming',
-                                                    'Table',
-                                                    'Tennis',
-                                                    'Cricket'
-                                                  ],
-                                                  'Dinning': ['Ajay'],
-                                                  'Hostel': [
-                                                    'Room',
-                                                    'Hostel',
-                                                  ]
-                                                },
-                                              )));
-                                },
-                                child: Text(
-                                  'Email',
-                                  style: robo,
-                                )),
-                              ElevatedButton(
-                                  style: lalpiwla,
-                                  onPressed: () async {
-                                    thing = await (FirestoreService()
-                                        .getUsersByEmail(
-                                            "cse210001027@iiti.ac.in"));
-                                    print(thing?.ID);
-                                  },
-                                  child: Text(
-                                    'PSQF',
-                                    style: robo,
-                                  )),
-                            ],
-                          ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          ElevatedButton(
+                              style: lalpiwla,
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => MailList(
+                                              buttonTexts: {
+                                                'TECH': [
+                                                  'Cynaptics',
+                                                  'Robotics',
+                                                  'IVDC',
+                                                  'PClub',
+                                                  'GDSC'
+                                                ],
+                                                'CULT': [
+                                                  'Kalakriti',
+                                                  'Aaina',
+                                                  'debsoc',
+                                                  'literary',
+                                                  'dance',
+                                                  'music'
+                                                ],
+                                                'CERP': ['CERP'],
+                                                'SPORTS': [
+                                                  'Swimming',
+                                                  'Table',
+                                                  'Tennis',
+                                                  'Cricket'
+                                                ],
+                                                'Dinning': ['Ajay'],
+                                                'Hostel': [
+                                                  'Room',
+                                                  'Hostel',
+                                                ]
+                                              },
+                                            )));
+                              },
+                              child: Text(
+                                'Email',
+                                style: robo,
+                              )),
+                          ElevatedButton(
+                              style: lalpiwla,
+                              onPressed: () async {
+                                thing = await (FirestoreService()
+                                    .getUsersByEmail(
+                                        "cse210001027@iiti.ac.in"));
+                                print(thing?.ID);
+                              },
+                              child: Text(
+                                'PSQF',
+                                style: robo,
+                              )),
+                        ],
+                      ),
 
-                          // News(),
-                          // ListView(
-                          //   shrinkWrap: true,
-                          //   children: [News()],
-                          // ),
-                        ])))));
+                      // News(),
+                      // ListView(
+                      //   shrinkWrap: true,
+                      //   children: [News()],
+                      // ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ));
     // Future.delayed(Duration.zero, () {
     //   FirestoreService().createUser(
     //       AuthService().user?.email, AuthService().user?.displayName, context);
