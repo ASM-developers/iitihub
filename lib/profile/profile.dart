@@ -26,14 +26,11 @@ import 'package:provider/provider.dart';
 
 import 'package:firstapp/Emails/querymap.dart';
 
-
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firstapp/services/firestore.dart';
 import 'package:firstapp/Emails/querymap.dart';
-
-
 
 class ProfileScreen extends StatefulWidget {
   ProfileScreen({super.key});
@@ -42,22 +39,21 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-
-int adminval = 0 ;
+int adminval = 0;
 
 Future<int> updateadminval() async {
-
-  int valS = await  FirestoreService().checkadmin(AuthService().user?.email.toString(),) ;
+  int valS = await FirestoreService().checkadmin(
+    AuthService().user?.email.toString(),
+  );
   print('valS $valS');
 
-  adminval = valS ; //= vals
+  adminval = valS; //= vals
   print('adminval $valS ');
 
-
-  return valS ;
+  return valS;
 }
 
-class _ProfileScreenState extends State<ProfileScreen>  {
+class _ProfileScreenState extends State<ProfileScreen> {
   final data1 = TextEditingController();
   final data2 = TextEditingController();
   final data3 = TextEditingController();
@@ -75,16 +71,13 @@ class _ProfileScreenState extends State<ProfileScreen>  {
     super.initState();
   }
 
-
-
   List<Student>? thing;
 
   final queryResult = ['a', 'b', 'ak', 'c'];
   @override
   Widget build(BuildContext context) {
-
     FirestoreService().createUser(
-          AuthService().user?.email, AuthService().user?.displayName, context);
+        AuthService().user?.email, AuthService().user?.displayName, context);
     // sleep(const Duration(milliseconds: 2000));
     // print('inside build $adminval');
     updateadminval();
@@ -92,218 +85,208 @@ class _ProfileScreenState extends State<ProfileScreen>  {
     // print('just before scaffold $adminval');
 
     return Scaffold(
-
-      resizeToAvoidBottomInset : false,
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        leading: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: const Icon(Icons.menu),
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-            );
-          },
-        ),
-        title: Text('Hello ${AuthService().user?.displayName}'),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.search),
-            onPressed: () {
-              showSearch(
-                  context: context,
-                  delegate: SearchBar(FirestoreService().getUsersByName));
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+          leading: Builder(
+            builder: (BuildContext context) {
+              return IconButton(
+                icon: const Icon(Icons.menu),
+                onPressed: () {
+                  Scaffold.of(context).openDrawer();
+                },
+              );
             },
-            color: Colors.white,
-            splashColor: Colors.white60,
-            highlightColor: Colors.white30,
-            tooltip: 'Search',
           ),
-        ],
-      ),
-      drawer: Drawer(
-        child: ListView (
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            Container(
-              height: 100,
-              child: DrawerHeader(
-                padding: EdgeInsetsDirectional.fromSTEB(10, 20, 5, 10),
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                ),
-                child: Text(
-                  'Welcome to IITIHUB',
-                  style: TextStyle(fontSize: 25, fontFamily: 'Roboto'),
+          title: Text('Hello ${AuthService().user?.displayName}'),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                showSearch(
+                    context: context,
+                    delegate: SearchBar(FirestoreService().getUsersByName));
+              },
+              color: Colors.white,
+              splashColor: Colors.white60,
+              highlightColor: Colors.white30,
+              tooltip: 'Search',
+            ),
+          ],
+        ),
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              Container(
+                height: 100,
+                child: DrawerHeader(
+                  padding: EdgeInsetsDirectional.fromSTEB(10, 20, 5, 10),
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                  ),
+                  child: Text(
+                    'Welcome to IITIHUB',
+                    style: TextStyle(fontSize: 25, fontFamily: 'Roboto'),
+                  ),
                 ),
               ),
-            ),
-            ListTile(
-              title: Text('ABOUT'),
-              onTap: () {
-                // Handle about press
-              },
-            ),
-            ListTile(
-              title: Text('SETTINGS'),
-              onTap: () {},
-            ),
-            ListTile(
-              title: Text('NEWS'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => News()),
-                ); // Handle settings press
-              },
-            ),
-            ListTile(
-                title: Text('MAP'),
+              ListTile(
+                title: Text('ABOUT'),
+                onTap: () {
+                  // Handle about press
+                },
+              ),
+              ListTile(
+                title: Text('SETTINGS'),
+                onTap: () {},
+              ),
+              ListTile(
+                title: Text('NEWS'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => News()),
+                  ); // Handle settings press
+                },
+              ),
+              ListTile(
+                  title: Text('MAP'),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const CommonExampleRouteWrapper(
+                          imageProvider:
+                              const AssetImage("assets/images/campus.png"),
+                        ),
+                      ),
+                    );
+                  }),
+              ListTile(
+                title: Text('PROJECTS'),
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const CommonExampleRouteWrapper(
-                        imageProvider:
-                            const AssetImage("assets/images/campus.png"),
-                      ),
-                    ),
-                  );
-                }),
-            ListTile(
-              title: Text('PROJECTS'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const ProjectScreen()),
-                ); // Handle settings press
-              },
-            ),
-            ListTile(
-              title: Text('ADD PROJECTS'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ProfScreen()),
-                ); // Handle settings press
-              },
-            ),
-
-            if ( adminval == 1) ...[
-              ListTile(
-                title: Text('Admin'),
-                onTap: () {
-
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Admin()),
+                        builder: (context) => const ProjectScreen()),
                   ); // Handle settings press
                 },
               ),
-            ],
-            ListTile(
-              title: Text('Add Enitties'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => AddEntityScreen()),
-                ); // Handle settings press
-              },
-            ),
-            LoginButton(
-              text: 'sign out',
-              color: Colors.black45,
-              icon: FontAwesomeIcons.doorOpen,
-              loginMethod: AuthService().signOut,
-            ),
-          ],
-        ),
-      ),
-      body: Container(
-        color: Colors.black54,
-        child: Center(
-          child: Container(
-            width: 320,
-            child: SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
-              child: Column(children: [
-                Center(
-                  child: CircularImage(
-                    imageFile: 'assets/images/download.png',
-                  ),
-                ),
-                TextField(
-                  controller: data1,
-                ),
-                TextField(
-                  controller: data2,
-                ),
-                TextField(
-                  controller: data3,
-                ),
-                ElevatedButton(
-                  style: lalpiwla,
-                  onPressed: () async {
-                    await FirestoreService().createStudent(
-                        dept: data1.text,
-                        email: data2.text,
-                        grad_yr: data3.text);
+              ListTile(
+                title: Text('ADD PROJECTS'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ProfScreen()),
+                  ); // Handle settings press
+                },
+              ),
+              if (adminval == 1) ...[
+                ListTile(
+                  title: Text('Admin'),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Admin()),
+                    ); // Handle settings press
                   },
-                  child: Text(
-                    'Submits',
-                    style: robo,
-                  ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton(
-                        style: lalpiwla,
-                        onPressed: (){ },//Navigator.push(context , MaterialPageRoute(builder: (context)=>GmailWidget() ) ); },
-                        child: Text(
-                          'Email Aankh',
-                          style: robo,
-                        )),
-                    ElevatedButton(
-                        style: lalpiwla,
-                        onPressed: () async {
-                          thing =
-                              await (FirestoreService().getStudentsByDept('H'));
-                          if (thing != null) {
-                            for (final i in thing ?? []) {
-                              print(i.grad_yr);
-                            }
-                          }
-                        },
-                        child: Text(
-                          'PSQF',
-                          style: robo,
-                        )),
-                  ],
-                ),
+              ],
+              ListTile(
+                title: Text('Add Enitties'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AddEntityScreen()),
+                  ); // Handle settings press
+                },
+              ),
+              LoginButton(
+                text: 'sign out',
+                color: Colors.black45,
+                icon: FontAwesomeIcons.doorOpen,
+                loginMethod: AuthService().signOut,
+              ),
+            ],
+          ),
+        ),
+        body: Container(
+            color: Colors.black54,
+            child: Center(
+                child: Container(
+                    width: 320,
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Center(
+                            child: CircularImage(
+                              imageFile: 'assets/images/download.png',
+                            ),
+                          ),
+                          TextField(
+                            controller: data1,
+                          ),
+                          TextField(
+                            controller: data2,
+                          ),
+                          TextField(
+                            controller: data3,
+                          ),
+                          ElevatedButton(
+                            style: lalpiwla,
+                            onPressed: () async {
+                              await FirestoreService().createStudent(
+                                  dept: data1.text,
+                                  email: data2.text,
+                                  grad_yr: data3.text);
+                            },
+                            child: Text(
+                              'Submits',
+                              style: robo,
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              ElevatedButton(
+                                  style: lalpiwla,
+                                  onPressed:
+                                      () {}, //Navigator.push(context , MaterialPageRoute(builder: (context)=>GmailWidget() ) ); },
+                                  child: Text(
+                                    'Email Aankh',
+                                    style: robo,
+                                  )),
+                              ElevatedButton(
+                                  style: lalpiwla,
+                                  onPressed: () async {
+                                    thing = await (FirestoreService()
+                                        .getStudentsByDept('H'));
+                                    if (thing != null) {
+                                      for (final i in thing ?? []) {
+                                        print(i.grad_yr);
+                                      }
+                                    }
+                                  },
+                                  child: Text(
+                                    'PSQF',
+                                    style: robo,
+                                  )),
+                            ],
+                          ),
 
-        // News(),
-        // ListView(
-        //   shrinkWrap: true,
-        //   children: [News()],
-        // ),
-      ]),
-    )
-    )
-    )
-      )
-    );
+                          // News(),
+                          // ListView(
+                          //   shrinkWrap: true,
+                          //   children: [News()],
+                          // ),
+                        ])))));
     // Future.delayed(Duration.zero, () {
     //   FirestoreService().createUser(
     //       AuthService().user?.email, AuthService().user?.displayName, context);
     // });
     // return CircularProgressIndicator();
-
-
-  }//build
+  } //build
 }
 
 // class SearchBar extends SearchDelegate {
@@ -477,9 +460,45 @@ class _CircularImageState extends State<CircularImage> {
             CircleAvatar(
               foregroundImage: NetworkImage('${b}'),
               radius: 55,
-            )],
-          ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 10.0),
+              child: Card(
+                color: Colors.black45,
+                elevation: 10,
+                child: TextButton(
+                  onPressed: () {
+                    if (spp == 'Show profile Picture') {
+                      setImag();
+                    } else {
+                      setImag2();
+                    }
+                  },
+                  child: Text(
+                    spp,
+                    style: TextStyle(
+                      color: Colors.orange.shade200,
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 8.0),
+              child: IconButton(
+                icon: Icon(
+                  FontAwesomeIcons.camera,
+                  size: 30.0,
+                ),
+                onPressed: () {
+                  pickGalleryImage(context);
+                },
+              ),
+            ),
+          ],
         ),
+      ),
     );
   }
 }
