@@ -257,4 +257,20 @@ class FirestoreService {
       .snapshots()
       .map((snapshot) =>
           snapshot.docs.map((e) => Projects.fromJson(e.data())).toList());
+
+  Future<bool> isStudent(String? email) async {
+    List<User> users = [];
+
+    QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+        .instance
+        .collection('users')
+        .where('email', isEqualTo: email)
+        .get();
+    for (QueryDocumentSnapshot<Map<String, dynamic>> doc in snapshot.docs) {
+      users.add(User.fromJson(doc.data()));
+    }
+
+    print(users[0].type);
+    return !users.isEmpty && users[0].type == 'student';
+  }
 }
