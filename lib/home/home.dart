@@ -20,10 +20,6 @@ class HomeScreen extends StatelessWidget {
             child: Text('error'),
           );
         } else if (snapshot.hasData) {
-          // return News();
-
-          // FirestoreService().createUser(AuthService().user?.email,
-          //     AuthService().user?.displayName, context);
           return ProfileScreen();
         } else {
           return LoginScreen();

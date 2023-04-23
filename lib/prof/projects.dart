@@ -74,7 +74,7 @@ class _MultiSelectState extends State<MultiSelect> {
 }
 
 class _ProjectScreenState extends State<ProjectScreen> {
-  bool isStudent = false;
+  bool isStudent = true;
   int adminval = 0;
 
   Future<void> checkUserType() async {

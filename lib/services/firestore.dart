@@ -269,7 +269,6 @@ class FirestoreService {
     for (QueryDocumentSnapshot<Map<String, dynamic>> doc in snapshot.docs) {
       users.add(User.fromJson(doc.data()));
     }
-
     print(users[0].type);
     return users[0].type[0] == 's';
   }

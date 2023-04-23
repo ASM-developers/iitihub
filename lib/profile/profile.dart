@@ -73,8 +73,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final queryResult = ['a', 'b', 'ak', 'c'];
   @override
   Widget build(BuildContext context) {
-    FirestoreService().createUser(
-        AuthService().user?.email, AuthService().user?.displayName, context);
     // sleep(const Duration(milliseconds: 2000));
     // print('inside build $adminval');
     checkUserType();
