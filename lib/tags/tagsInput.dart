@@ -30,34 +30,55 @@ class _TagInputState extends State<TagInput> {
     }
   }
 
+  void _removeTag(String tag) {
+    setState(() {
+      tags.remove(tag);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Expanded(
-          child: TextField(
-            controller: _tagController,
-            decoration: InputDecoration(
-              hintText: 'Add tags',
-              border: OutlineInputBorder(),
-            ),
-            onSubmitted: (tag) {
-              _addTag(tag.trim());
-            },
-            onChanged: (tag) {
-              if (tag.endsWith(' ')) {
-                _addTag(tag.trim());
-              }
-            },
-          ),
+        Wrap(
+          spacing: 8,
+          runSpacing: 4,
+          children: tags
+              .map((tag) => InputChip(
+                    label: Text(tag),
+                    onDeleted: () => _removeTag(tag),
+                  ))
+              .toList(),
         ),
-        ElevatedButton(
-          style: lalpiwla,
-          onPressed: () {
-            widget.onSubmit(tags);
-            tags.clear();
-          },
-          child: Text('Submit'),
+        Row(
+          children: [
+            Expanded(
+              child: TextField(
+                controller: _tagController,
+                decoration: InputDecoration(
+                  hintText: 'Add tags',
+                  border: OutlineInputBorder(),
+                ),
+                onSubmitted: (tag) {
+                  _addTag(tag.trim());
+                },
+                onChanged: (tag) {
+                  if (tag.endsWith(' ')) {
+                    _addTag(tag.trim());
+                  }
+                },
+              ),
+            ),
+            ElevatedButton(
+              style: lalpiwla,
+              onPressed: () {
+                widget.onSubmit(tags);
+                tags.clear();
+              },
+              child: Text('Submit'),
+            ),
+          ],
         ),
       ],
     );

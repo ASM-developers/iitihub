@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter/material.dart';
 import 'package:firstapp/services/auth.dart';
@@ -145,6 +146,8 @@ class FirestoreService {
     } else {
       await showModalBottomSheet(
         context: context,
+        isDismissible:
+            false, // prevent modal from being dismissed on tap outside
         isScrollControlled: true,
         builder: (BuildContext context) {
           return SingleChildScrollView(
@@ -153,22 +156,37 @@ class FirestoreService {
                 bottom: MediaQuery.of(context).viewInsets.bottom,
               ),
               child: Container(
-                child: TagInput(
-                  onSubmit: (tags) async {
-                    // Do something with the tags
-                    user.tags = tags;
-                    await FirebaseFirestore.instance
-                        .collection('users')
-                        .add(user.toJson());
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.close),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ],
+                    ),
+                    TagInput(
+                      onSubmit: (tags) async {
+                        // Do something with the tags
+                        user.tags = tags;
+                        await FirebaseFirestore.instance
+                            .collection('users')
+                            .add(user.toJson());
 
-                    Navigator.pop(context);
-                  },
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
                 ),
               ),
             ),
           );
         },
-      ); //Note: for a particular insti we have to add another regexp isMember for testing purposes not added
+      );
     }
   }
 

@@ -9,13 +9,8 @@ import 'package:googleapis_auth/auth_io.dart';
 
 import 'dart:convert';
 
-
 class mailStreamliner {
-
-
-
   final List<String> labels = [];
-
 
   //labels can be appended using addLabel function
   void addLabel({required String newLabel}) {
@@ -30,9 +25,6 @@ class mailStreamliner {
   //we need a function that returns all the messages requested under each label: will be called getUserMails
   //getUserMails will be the endpoint of this API that will be used to return a bunch of Mails
 
-  
-
-
   Future<List<gmail.Message>> printWatchQuery(List<String> searchStrings) {
     // Construct a query string that watches for new messages containing any of the search strings
     String query = "in:inbox ";
@@ -43,12 +35,12 @@ class mailStreamliner {
       query += ") ";
     }
     // query += "category:primary";
-    print('query final $query') ;
+    print('query final $query');
 
     // Return the query string
     return PrintMessages(query);
   }
-  
+
   Future<List<gmail.Message>> PrintMessages(String? query) async {
     //gets the current client authenticated from auth service
     final client = (await AuthService().httpClient());
@@ -57,31 +49,29 @@ class mailStreamliner {
     //checks if the user is anonymously logged in or not
     if (client != null) {
       final gmail.GmailApi? gmailAPI = gmail.GmailApi(client);
-      final response = await gmailAPI!.users.messages.list('me', q: query, maxResults: 1);
+      final response =
+          await gmailAPI!.users.messages.list('me', q: query, maxResults: 3);
 
       final messages = response.messages;
-
+      List<gmail.Message> messageList = [];
       for (final message in messages ?? []) {
         final fullMessage =
-            await gmailAPI.users.messages.get('me', (message.id)!);
-        final headers = fullMessage.payload!.headers;
-        final subjectHeader =
-            headers!.firstWhere((header) => header.name == 'Subject');
-        print(subjectHeader.value);
+            await gmailAPI.users.messages.get('me', message.id!);
+        messageList.add(fullMessage);
       }
 
       if (messages == null) {
         print('no results found');
       }
 
-      return messages ?? [] ;
+      return messageList;
     } else {
-      print('');
-      return [] ;
+      print('something went wrong');
+      return [];
     }
-
-
   }
 }
+
+
   //labels can be displayed by mapping mailStreamliner.labels so you don't need a function for that
 
