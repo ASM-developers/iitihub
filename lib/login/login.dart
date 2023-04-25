@@ -1,5 +1,5 @@
-import 'dart:ffi';
-import 'dart:ui';
+// import 'dart:ffi';
+// import 'dart:ui';
 
 import 'package:firstapp/services/auth.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -17,9 +17,7 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-
 //TODO : add a modal onClick to a button. Next we add a
-
 
 class _LoginScreenState extends State<LoginScreen> {
   @override
@@ -78,6 +76,8 @@ class _LoginScreenState extends State<LoginScreen> {
               icon: FontAwesomeIcons.google,
               text: 'Continue via google',
               loginMethod: AuthService().googleLogin,
+              // await FirestoreService().createUser(AuthService().user?.email,
+              //     AuthService().user?.displayName, context);
             ),
             // ElevatedButton(
             //   onPressed: () {
@@ -91,7 +91,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
-
 //make a class which returns a button given login method, color, string and icon
 
 class LoginButton extends StatelessWidget {

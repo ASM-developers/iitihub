@@ -1,3 +1,6 @@
+// import 'dart:js';
+
+import 'package:firstapp/camap/camap.dart';
 import 'package:firstapp/home/home.dart';
 import 'package:firstapp/login/login.dart';
 import 'package:firstapp/news/new_input.dart';
@@ -14,6 +17,10 @@ var appRoutes = {
   '/about': (context) => const AboutScreen(),
   '/news': (context) => const News(),
   '/newinput': (context)=> Newinput(),
-  '/project': (context)=>const ProjectScreen(),
-  '/profscreen': (context)=>ProfScreen(),
+  '/project': (context) => const ProjectScreen(),
+  '/profscreen': (context) => ProfScreen(),
+
+  '/map': (context) => CommonUseCasesExamples(),
+
+
 };

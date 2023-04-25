@@ -44,7 +44,7 @@ class DetailsScreen extends StatelessWidget {
             child: Align(
               alignment: Alignment.topLeft,
               child: Text(
-                'Proffessor name: \n${project.prof}',
+                'Professor name: \n${project.prof}',
                 style:
                     const TextStyle(fontWeight: FontWeight.normal, fontSize: 18),
                 textAlign: TextAlign.left,
@@ -56,7 +56,7 @@ class DetailsScreen extends StatelessWidget {
             child: Align(
               alignment: Alignment.topLeft,
               child: Text(
-                'Date: \n${project.name}',
+                'Date: \n${project.date}',
                 style:
                     const TextStyle(fontWeight: FontWeight.normal, fontSize: 15),
                 textAlign: TextAlign.left,

@@ -1,3 +1,4 @@
+import 'package:firstapp/services/firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firstapp/profile/profile.dart';
 import 'package:firstapp/login/login.dart';
@@ -19,7 +20,6 @@ class HomeScreen extends StatelessWidget {
             child: Text('error'),
           );
         } else if (snapshot.hasData) {
-          // return News();
           return ProfileScreen();
         } else {
           return LoginScreen();

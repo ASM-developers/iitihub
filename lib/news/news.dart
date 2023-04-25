@@ -46,7 +46,11 @@ Future<void> getData() async {
       ),
       child: Scaffold(
         appBar: AppBar(
-          title: Text("IIT Indore"),
+          title: Text(
+            "Bulletin @ IIT Indore",
+            style: TextStyle(color: Colors.white70, fontFamily: 'Roboto'),
+          ),
+          backgroundColor: Colors.black,
         ),
         body: Padding(
           padding: const EdgeInsets.fromLTRB(8, 80, 8, 0),
