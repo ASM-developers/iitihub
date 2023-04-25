@@ -1,5 +1,6 @@
 import 'package:firstapp/home/home.dart';
 import 'package:firstapp/login/login.dart';
+import 'package:firstapp/news/new_input.dart';
 import 'package:firstapp/prof/prof.dart';
 import 'package:firstapp/prof/projects.dart';
 import 'package:firstapp/profile/profile.dart';
@@ -12,6 +13,7 @@ var appRoutes = {
   '/profile': (context) => ProfileScreen(),
   '/about': (context) => const AboutScreen(),
   '/news': (context) => const News(),
+  '/newinput': (context)=> Newinput(),
   '/project': (context)=>const ProjectScreen(),
   '/profscreen': (context)=>ProfScreen(),
 };

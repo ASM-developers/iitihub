@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firstapp/news/new_input.dart';
 import 'package:firstapp/prof/prof.dart';
 import 'package:firstapp/prof/projects.dart';
 import 'package:firstapp/services/firestore.dart';
@@ -126,6 +127,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
               },
             ),
             ListTile(
+              title: Text('ADD NEWS'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Newinput()),
+                ); // Handle settings press
+              },
+            ),
+            ListTile(
               title: Text('PROJECTS'),
               onTap: () {
                 Navigator.push(
@@ -143,7 +153,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ); // Handle settings press
               },
             ),
-            if(true)...[
+            if(false)...[
 
               ListTile(
               title: Text('Admin'),
