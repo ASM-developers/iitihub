@@ -38,6 +38,20 @@ Map<String, dynamic> _$StudentToJson(Student instance) => <String, dynamic>{
       'grad_yr': instance.grad_yr,
     };
 
+news _$newsFromJson(Map<String, dynamic> json) => news(
+      ID: json['ID'] as String? ?? '',
+      newsTitle: json['newsTitle'] as String? ?? '',
+      newsDesc: json['newsDesc'] as String? ?? '',
+      url: json['url'] as String? ?? '',
+    );
+
+Map<String, dynamic> _$newsToJson(news instance) => <String, dynamic>{
+      'ID': instance.ID,
+      'newsTitle': instance.newsTitle,
+      'newsDesc': instance.newsDesc,
+      'url': instance.url,
+    };
+
 Prof _$ProfFromJson(Map<String, dynamic> json) => Prof(
       ID: json['ID'] as String? ?? '',
       dept: json['dept'] as String? ?? '',

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firstapp/news/new_input.dart';
 import 'package:firstapp/Emails/MailList.dart';
 import 'package:firstapp/camap/camap.dart';
 import 'package:firstapp/prof/prof.dart';
@@ -145,6 +146,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ); // Handle settings press
                 },
               ),
+              ListTile(
+              title: Text('ADD NEWS'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Newinput()),
+                ); // Handle settings press
+              },
+            ),
               ListTile(
                   title: Text('MAP'),
                   onTap: () {

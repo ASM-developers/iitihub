@@ -46,6 +46,23 @@ class Student {
   factory Student.fromJson(Map<String, dynamic> json) =>
       _$StudentFromJson(json);
 }
+@JsonSerializable()
+class news {
+  final String ID;
+  final String newsTitle;
+  final String newsDesc;
+  final String url;
+
+  news({
+    this.ID = '',
+    this.newsTitle = '',
+    this.newsDesc = '',
+    this.url = '',
+  });
+
+  factory news.fromJson(Map<String, dynamic> json) =>
+      _$newsFromJson(json);
+}
 
 @JsonSerializable()
 class Prof {
@@ -97,6 +114,8 @@ class Feed {
   });
   factory Feed.fromJson(Map<String, dynamic> json) => _$FeedFromJson(json);
 }
+
+
 
 @JsonSerializable()
 class Interests {
