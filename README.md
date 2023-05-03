@@ -52,9 +52,9 @@ pictures
 
 <p><a href="#U">6. Usage</a></p>
 
--	a.For Students
--  b. For Professors
-- c. For Admin
+- For Students
+- For Professors
+- For Admin
 
 <p><a href="#F">7. Features</a></p>
 
