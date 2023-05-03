@@ -21,7 +21,6 @@ var appRoutes = {
   '/newinput': (context)=> Newinput(),
   '/project': (context) => const ProjectScreen(),
   '/profscreen': (context) => ProfScreen(),
-
   '/map': (context) => CommonUseCasesExamples(),
 
 

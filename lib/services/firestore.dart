@@ -104,6 +104,8 @@ class FirestoreService {
     return users;
   }
 
+ 
+
   Future<List<news>> getNews() async{
     List<news>newsoutput=[];
     QuerySnapshot<Map<String, dynamic>> snapshot =await FirebaseFirestore
@@ -119,20 +121,47 @@ class FirestoreService {
 
   }
 
-  Future<int> checkadmin(String? email) async {
+  Future<bool> checkadmin(String? email) async {
     final check = await FirebaseFirestore.instance
         .collection('admin')
         .where("email", isEqualTo: email)
         .get();
-
-    if (check.size > 0) {
-      print("Admin has Logged in");
-      // adminval[0] = 1;
-      return 1;
+    print("hello");
+    print(check);
+    return check.size > 0;
+  }
+  Stream<List<Projects>> getmyprojectbyTag(List<String> query,String searchQuery) {
+    if(query.isNotEmpty){
+      return FirebaseFirestore
+          .instance
+          .collection('Projects')
+          .orderBy('date', descending: true)
+          .where('tags',arrayContainsAny:query)
+          .where('prof',isEqualTo: AuthService().user?.email)
+          .snapshots()
+          .map((snapshot) =>
+      snapshot.docs.where((doc) =>
+          doc.data().toString().toLowerCase().contains(searchQuery.toLowerCase()))
+          .map((doc) => Projects.fromJson(doc.data()))
+          .toList()..sort((a, b) => b.tags.where((tag) => query.contains(tag)).length.compareTo(a.tags.where((tag) => query.contains(tag)).length))
+      );
+    }else{
+      return FirebaseFirestore
+          .instance
+          .collection('Projects')
+          .orderBy('date', descending: true)
+          .where('prof',isEqualTo: AuthService().user?.email)
+          .snapshots()
+          .map((snapshot) =>
+      snapshot.docs.where((doc) =>
+          doc.data().toString().toLowerCase().contains(searchQuery.toLowerCase()))
+          .map((doc) => Projects.fromJson(doc.data()))
+          .toList()..sort((a, b) => b.tags.where((tag) => query.contains(tag)).length.compareTo(a.tags.where((tag) => query.contains(tag)).length))
+      );
     }
-    print("User- NOT an Admin");
-    // adminval[0] = 0;
-    return 0;
+  }
+  void deleteProject(String Id) {
+    FirebaseFirestore.instance.collection('Projects').doc(Id).delete();
   }
 
   Future<void> createUser(
@@ -143,11 +172,14 @@ class FirestoreService {
       email: email ?? "",
       name: name ?? "",
     );
-
+  print(user.type);
     if (isStudent.hasMatch(user.email)) {
       user.type = 'student';
-    } else {
-      user.type = 'professor';
+    }
+    if(await  checkadmin(user.email)){
+      user.type = 'admin';
+    }else{
+      user.type='professor';
     }
     //if this expression matches then its a student. Otherwise its a prof
     //use this regex query to decide wh

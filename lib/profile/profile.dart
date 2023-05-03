@@ -15,14 +15,14 @@ import 'package:firstapp/services/gmail.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firstapp/admin/admin.dart';
 import 'package:firstapp/admin/add_entity.dart';
-import 'package:firstapp/services/models.dart';
+import 'package:firstapp/services/models.dart' as model;
 import 'package:get/get.dart';
 import 'package:googleapis/analyticsreporting/v4.dart';
 // import 'package:googleapis/bigquery/v2.dart';
 import 'package:firstapp/camap/common_example_wrapper.dart';
 import 'package:firstapp/profile/searchBar.dart';
 import 'package:firstapp/news/news.dart';
-
+import 'package:firstapp/prof/my_projects.dart';
 import 'dart:io';
 import 'package:provider/provider.dart';
 
@@ -42,11 +42,12 @@ class ProfileScreen extends StatefulWidget {
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
-
+// print(AuthServ);
 bool isStudent = false;
-int adminval = 0;
+bool adminval = false;
 
 Future<void> checkUserType() async {
+  if(AuthService().user==null) return;
   adminval = await FirestoreService().checkadmin(
     AuthService().user?.email,
   );
@@ -66,6 +67,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void initState() {
+    print(AuthService().user==null);
     FirestoreService().createUser(
         AuthService().user?.email, AuthService().user?.displayName, context);
     super.initState();
@@ -212,18 +214,70 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ); // Handle settings press
                 },
               ),
-              if (adminval == 1) ...[
-                ListTile(
-                  title: Text('Admin'),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Admin()),
-                    ); // Handle settings press
-                  },
-                ),
-              ],
-              
+              // if (adminval == true) ...[
+              //   ListTile(
+              //     title: Text('Admin'),
+              //     onTap: () {
+              //       Navigator.push(
+              //         context,
+              //         MaterialPageRoute(builder: (context) => Admin()),
+              //       ); // Handle settings press
+              //     },
+              //   ),
+              // ],
+              // print(AuthService().user?.type);
+              if (AuthService().user != null) ...[
+                FutureBuilder<bool>(
+                    future: FirestoreService().checkadmin(AuthService().user?.email),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData && snapshot.data == true && AuthService().user?.email!=null) {
+                        print(AuthService().user);
+                        print("Admin");
+                        print(AuthService().user?.email);
+                        return ListTile(
+                          title: Text('Admin'),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => Admin()),
+                            );
+                          },
+                        );
+                      } else {
+                        print("not Admin");
+                        print(AuthService().user?.email);
+                        return Container();
+                      }
+                    }
+                )],
+              FutureBuilder<model.User>(
+                  future: FirestoreService().getUsersByEmail(AuthService().user?.email ?? ''),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData && snapshot.data?.type == 'professor' && AuthService().user?.email!=null) {
+                      return ListTile(
+                        title: Text('My PROJECTS'),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => MyProjectScreen()),
+                          ); // Handle settings press
+                        },
+                      );
+                    } else{
+                      return Container();
+                    }
+                  }
+              ),
+
+              // ListTile(
+              //   title: Text('Add Enitties'),
+              //   onTap: () {
+              //     Navigator.push(
+              //       context,
+              //       MaterialPageRoute(builder: (context) => AddEntityScreen()),
+              //     ); // Handle settings press
+              //   },
+              // ),
               LoginButton(
                 text: 'sign out',
                 color: Colors.black45,
