@@ -41,24 +41,24 @@ class MessageList extends StatelessWidget {
             },
             child: Container(
               padding: EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    _getSubjectSnippet(subject?.value ?? ""),
-                    style:
-                        TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  SizedBox(height: 8.0),
-                  Text(
-                    '${message.payload?.headers?.firstWhere((header) => header.name == 'From').value} - ${_getBodySnippet(message)}',
-                    style: TextStyle(fontSize: 16.0),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
+              child: ListTile(
+                title: Text(
+                  _getSubjectSnippet(subject?.value ?? ""),
+                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                subtitle: Text(
+                  '${message.payload?.headers?.firstWhere((header) => header.name == 'From').value} - ${_getBodySnippet(message)}',
+                  style: TextStyle(fontSize: 12.0),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          tileColor: Color.fromRGBO(40, 40, 225, 0.49),
+          leading: Icon(Icons.mail),
               ),
             ),
           );

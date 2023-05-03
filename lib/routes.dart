@@ -10,12 +10,14 @@ import 'package:firstapp/profile/profile.dart';
 import 'package:firstapp/about/about.dart';
 import 'package:firstapp/news/news.dart';
 
+import 'news/news2.dart';
+
 var appRoutes = {
   '/': (context) => const HomeScreen(),
   '/login': (context) => const LoginScreen(),
   '/profile': (context) => ProfileScreen(),
   '/about': (context) => const AboutScreen(),
-  '/news': (context) => const News(),
+  '/news': (context) =>  News2(),
   '/newinput': (context)=> Newinput(),
   '/project': (context) => const ProjectScreen(),
   '/profscreen': (context) => ProfScreen(),
