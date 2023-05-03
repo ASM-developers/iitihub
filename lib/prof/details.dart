@@ -1,3 +1,4 @@
+import 'package:firstapp/prof/updateProject.dart';
 import 'package:firstapp/services/auth.dart';
 import 'package:firstapp/services/firestore.dart';
 import 'package:firstapp/services/models.dart';
@@ -38,7 +39,8 @@ class DetailsScreen extends StatelessWidget {
               alignment: Alignment.topLeft,
               child: Text(
                 'Project Name: \n${project.name}',
-                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 35),
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 35),
                 textAlign: TextAlign.left,
               ),
             ),
@@ -49,8 +51,8 @@ class DetailsScreen extends StatelessWidget {
               alignment: Alignment.topLeft,
               child: Text(
                 'Professor name: \n${project.prof}',
-                style:
-                    const TextStyle(fontWeight: FontWeight.normal, fontSize: 18),
+                style: const TextStyle(
+                    fontWeight: FontWeight.normal, fontSize: 18),
                 textAlign: TextAlign.left,
               ),
             ),
@@ -61,8 +63,8 @@ class DetailsScreen extends StatelessWidget {
               alignment: Alignment.topLeft,
               child: Text(
                 'Date: \n${project.date}',
-                style:
-                    const TextStyle(fontWeight: FontWeight.normal, fontSize: 15),
+                style: const TextStyle(
+                    fontWeight: FontWeight.normal, fontSize: 15),
                 textAlign: TextAlign.left,
               ),
             ),
@@ -73,14 +75,14 @@ class DetailsScreen extends StatelessWidget {
               alignment: Alignment.topLeft,
               child: Text(
                 'Description: \n${project.description}',
-                style:
-                    const TextStyle(fontWeight: FontWeight.normal, fontSize: 18),
+                style: const TextStyle(
+                    fontWeight: FontWeight.normal, fontSize: 18),
                 textAlign: TextAlign.left,
                 maxLines: null,
               ),
             ),
           ),
-          if(project.prof==AuthService().user?.email)...[
+          if (project.prof == AuthService().user?.email) ...[
             ElevatedButton(
               onPressed: () {
                 FirestoreService().deleteProject(project.ID);
@@ -88,8 +90,20 @@ class DetailsScreen extends StatelessWidget {
                   context,
                   MaterialPageRoute(builder: (context) => MyProjectScreen()),
                 );
-            },
+              },
               child: Text('Delete Project'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => updateProject(
+                            project: project,
+                          )),
+                );
+              },
+              child: Text('update Project'),
             ),
           ]
         ]),
