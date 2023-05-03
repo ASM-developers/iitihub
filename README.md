@@ -29,9 +29,9 @@ Contributors
 - [Samip Shah](https://github.com/snarkyidiot) **210001061**
 
 
+
+
 ------------------------------------------------------------------------
-pictures
----------------------------------------------------------------------------=
 
 ## Table of Contents
  
@@ -69,6 +69,13 @@ pictures
 <div id="Demo"></div>
 
 ## 0. Sneak Peek 
+
+Home Page    |  Email Tags |  Project |
+:-------------------------:|:-------------------------:|:-------------------------:
+<img src="https://user-images.githubusercontent.com/104747561/236025803-c6b0a31e-d906-4ff1-84c2-1d96b9186c3d.jpeg" width="210" height="400" />  |<img src="https://user-images.githubusercontent.com/104747561/236027399-0dbae050-1591-41f3-9dcb-e8e98f314bce.jpeg" width="210" height="400" /> | <img src="https://user-images.githubusercontent.com/104747561/236027971-b2036e8f-e9fc-4901-9607-43bd6b3edf3c.jpeg" width="210" height="400" />
+
+
+
 
 <div id="ProjD"></div>
 
@@ -125,6 +132,7 @@ $ git clone https://github.com/ASM-developers/iitihub.git
 $ cd iitihub
 $ flutter pub get
 ``` 
+
 
 ## 6. Usage
 - download apk file provide in main repo
