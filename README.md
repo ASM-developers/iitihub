@@ -68,7 +68,7 @@ number.
 
 We hope that this SRS document will provide a clear understanding of the
 IITI-HUB app’s purpose and scope and will serve as a useful reference
-throughout the development process. IITI-HUB is a customizable app that
+throughout the development process. IITI-HUB is an app that
 is being developed for the college community. The app will be used by
 students, professors, and administrators of the college to provide
 information and various services to the users. The SRS document will be
@@ -85,8 +85,7 @@ in this document
 
 ## Purpose
 
-The purpose of the project is to make an app(customizable for each
-institute) for the college community. It can be used by college students
+The purpose of the project is to make an app for the college community. It can be used by college students
 and professors and even by administrations. This app will provide
 information and regular updates about any technical, cultural, academic
 and sports events, a platform for student-professor collaboration, and
