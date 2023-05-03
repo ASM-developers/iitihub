@@ -113,7 +113,36 @@ class FirestoreService {
     print(check);
     return check.size > 0;
   }
-
+  Stream<List<Projects>> getmyprojectbyTag(List<String> query,String searchQuery) {
+    if(query.isNotEmpty){
+      return FirebaseFirestore
+          .instance
+          .collection('Projects')
+          .orderBy('date', descending: true)
+          .where('tags',arrayContainsAny:query)
+          .where('prof',isEqualTo: AuthService().user?.email)
+          .snapshots()
+          .map((snapshot) =>
+      snapshot.docs.where((doc) =>
+          doc.data().toString().toLowerCase().contains(searchQuery.toLowerCase()))
+          .map((doc) => Projects.fromJson(doc.data()))
+          .toList()..sort((a, b) => b.tags.where((tag) => query.contains(tag)).length.compareTo(a.tags.where((tag) => query.contains(tag)).length))
+      );
+    }else{
+      return FirebaseFirestore
+          .instance
+          .collection('Projects')
+          .orderBy('date', descending: true)
+          .where('prof',isEqualTo: AuthService().user?.email)
+          .snapshots()
+          .map((snapshot) =>
+      snapshot.docs.where((doc) =>
+          doc.data().toString().toLowerCase().contains(searchQuery.toLowerCase()))
+          .map((doc) => Projects.fromJson(doc.data()))
+          .toList()..sort((a, b) => b.tags.where((tag) => query.contains(tag)).length.compareTo(a.tags.where((tag) => query.contains(tag)).length))
+      );
+    }
+  }
   Future<void> createUser(
       String? email, String? name, BuildContext context) async {
     final RegExp isStudent = RegExp(r'^[a-z]{2,4}\d{9}@iiti\.ac\.in$');
@@ -122,11 +151,14 @@ class FirestoreService {
       email: email ?? "",
       name: name ?? "",
     );
-
+  print(user.type);
     if (isStudent.hasMatch(user.email)) {
       user.type = 'student';
-    } else {
-      user.type = 'professor';
+    }
+    if(await  checkadmin(user.email)){
+      user.type = 'admin';
+    }else{
+      user.type='professor';
     }
     //if this expression matches then its a student. Otherwise its a prof
     //use this regex query to decide wh

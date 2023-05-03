@@ -74,7 +74,7 @@ class _MultiSelectState extends State<MultiSelect> {
 }
 
 class _ProjectScreenState extends State<ProjectScreen> {
-  bool isStudent = false;
+  bool isStudent = true;
   bool adminval = false;
 
   Future<void> checkUserType() async {
@@ -89,7 +89,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
     print(isStudent);
   }
 
-  void _showmultiselect() async {
+  void _showffmultiselect() async {
     final List<String> mylist = [
       'CSE',
       'AI/ML',
@@ -184,7 +184,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
             ElevatedButton(
                 style: lalpiwla,
                 onPressed: () {
-                  _showmultiselect();
+                  _showffmultiselect();
                 },
                 child: Text("Add tags")),
             Wrap(
