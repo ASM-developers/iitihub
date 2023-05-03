@@ -8,7 +8,7 @@ Contributors
   
 <div class="FlushRight">
 
-Ashutosh Sammantaray 210001005
+Ashutosh Samantaray 210001005
 
 Madhav Kadam 210001027
 
