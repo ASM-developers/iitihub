@@ -15,7 +15,7 @@ class FirestoreService {
 
   //currently extracts students with a given dept name but can be done for name fetching
   //TODO : add a function that takes in a list of tags and pulls out a matching set of strings
-  Future<User> getUsersByEmail(String email) async {
+  Future<User> getUsersByEmail(String? email) async {
     List<User> users = [];
 
     QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
@@ -126,7 +126,7 @@ class FirestoreService {
         .collection('admin')
         .where("email", isEqualTo: email)
         .get();
-    print("hello");
+    // print("hello");
     print(check);
     return check.size > 0;
   }

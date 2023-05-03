@@ -26,13 +26,11 @@ Future<void> getData() async {
     // Get data from docs and convert map to List
     final List<Object?>allData = querySnapshot.docs.map((doc) => doc.data()).toList();
     newslist=allData;
-    print(newslist[0]);
 }
   @override
   // ignore: override_on_non_overriding_member
   // Stream<List<news>> newslist=FirebaseFirestore.instance.collection("news").snapshots().map((snapshot) => snapshot.docs.map((e) => news.fromJson(e.data())).toList());
   Widget build(BuildContext context) {
-  print(newslist);
   getData();
   // news.fromJson();
     return Container(

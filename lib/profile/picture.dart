@@ -25,13 +25,11 @@ class _CircularImageState extends State<CircularImage> {
   firebase_storage.FirebaseStorage storage =
       firebase_storage.FirebaseStorage.instance;
   var b = AuthService().user?.photoURL.toString();
-  String spp = 'show pic';
-  String hpp = 'hide pic';
+  String spp = 'Show Profile pic';
+  String hpp = 'Hide Profile pic';
   void setImag() async {
     final a = await ref.child('${AuthService().user?.uid}/photoURL').get();
     if (a.value == null) {}
-    print(a.value.toString());
-    print('Thank You Madhav');
     setState(() {
       b = a.value.toString();
       String mad = spp;
@@ -95,9 +93,10 @@ class _CircularImageState extends State<CircularImage> {
     return Center(
       child: Padding(
         padding: const EdgeInsets.only(
-          left: 50.0,
+
+          top: 10.0,
         ),
-        child: Row(
+        child: Column(
           children: [
             CircleAvatar(
               foregroundImage: NetworkImage('${b}'),
