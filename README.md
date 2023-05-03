@@ -151,6 +151,8 @@ $ flutter pub get
 
 - **Map of IIT Indore** ( specially for visitors/ guests)
 
+- **Search and View Profiles of IITI community** ( specially for visitors/ guests)
+	
 <div id="#FW"></div>
 
 ## 8. Future Work
