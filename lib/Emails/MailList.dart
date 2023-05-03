@@ -45,11 +45,33 @@ class _MailListState extends State<MailList> {
       body: Column(
         children: [
           for (var entry in widget.buttonTexts.entries)
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                onPressed: () => _getMessages(entry.key),
-                child: Text(entry.key),
+            Center(
+              child: Padding(
+                padding: EdgeInsets.all(6.0),
+                child: Center(
+                  child: Container(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        // backgroundColor: Color.fromARGB(0, 255, 255, 255),
+                        // shape: ContinuousRectangleBorder()
+                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(0.0),
+                          ),
+                        ),
+                        padding: MaterialStateProperty.all<EdgeInsets>(
+                          EdgeInsets.all(15.0),
+                        ),
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                          Color.fromARGB(255, 0, 0, 0),
+                        ),
+                      ),
+                      onPressed: () => _getMessages(entry.key),
+                      child: Text(entry.key),
+                    ),
+                  ),
+                ),
               ),
             ),
           if (_isLoading) CircularProgressIndicator(),

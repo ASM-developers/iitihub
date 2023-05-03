@@ -43,19 +43,71 @@ class MessageDetails extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'From: $fromHeader',
-                style: TextStyle(fontSize: 16),
-              ),
-              SizedBox(height: 8.0),
-              Text(
-                'To: $toHeader',
-                style: TextStyle(fontSize: 16),
-              ),
+              Container(
+                  padding: EdgeInsets.all(5),
+                  alignment: Alignment.centerLeft,
+                  decoration: BoxDecoration(
+                    color: Color.fromRGBO(153, 153, 153, 1),
+                    borderRadius: BorderRadius.all(Radius.circular(
+                            5.0) //                 <--- border radius here
+                        ),
+                  ),
+                  child: Column(
+                    children: [
+                      Align(
+                        alignment: Alignment.bottomLeft,
+                        child: Row(children: [
+                          Text("From:   ",
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  color: Color.fromRGBO(119, 119, 119, 1),
+                                  fontWeight: FontWeight.bold)),
+                          Expanded(
+                            child: Text(
+                              '$fromHeader',
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  color: Color.fromRGBO(12, 12, 12, 1),
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ]),
+                      ),
+                      SizedBox(height: 6.0),
+                      Align(
+                        alignment: Alignment.bottomLeft,
+                        child: Row(children: [
+                          Text("To:   ",
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  color: Color.fromRGBO(119, 119, 119, 1),
+                                  fontWeight: FontWeight.bold)),
+                          Expanded(
+                            child: Text(
+                              '$toHeader',
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  color: Color.fromRGBO(12, 12, 12, 1),
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ]),
+                      ),
+                    ],
+                  )),
               SizedBox(height: 16.0),
-              Text(
-                decodedBody,
-                style: TextStyle(fontSize: 16),
+              Container(
+                padding: EdgeInsets.all(7),
+                decoration: BoxDecoration(
+                  color: Color.fromRGBO(12, 12, 12, 0.5),
+                  borderRadius: BorderRadius.all(Radius.circular(
+                          5.0) //                 <--- border radius here
+                      ),
+                ),
+                child: Text(
+                  decodedBody,
+                  style: TextStyle(fontSize: 16, color: Color.fromRGBO(148, 147, 147, 1)),
+                ),
               ),
             ],
           ),

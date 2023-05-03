@@ -15,11 +15,6 @@ class News extends StatefulWidget {
 }
 
 class _NewsState extends State<News> {
-  // final Future<QuerySnapshot<Map<String, dynamic>>> newslist=FirebaseFirestore.instance.collection("news").get();
-
-  // final newslist2=newslist.docs.map((e)=>{
-
-  // })
 
   CollectionReference _collectionRef =
     FirebaseFirestore.instance.collection('news');
@@ -59,16 +54,16 @@ Future<void> getData() async {
             items: [
               for(int x = 1; x<=newslist.length ;x++)...[
       InkWell(
-                onTap: () {
-                  if (kDebugMode) {
-                    // print(newslist);
-                  }
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const NewsDetail()),
-                  );
-                },
+                // onTap: () {
+                //   if (kDebugMode) {
+                //     // print(newslist);
+                //   }
+                //   Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //         builder: (context) => NewsDetail()),
+                //   );
+                // },
                 child: SingleChildScrollView(
                   child: Card(
                     elevation: 10,

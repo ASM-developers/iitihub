@@ -104,6 +104,21 @@ class FirestoreService {
     return users;
   }
 
+  Future<List<news>> getNews() async{
+    List<news>newsoutput=[];
+    QuerySnapshot<Map<String, dynamic>> snapshot =await FirebaseFirestore
+    .instance.collection("news")
+    .get();
+
+    for(QueryDocumentSnapshot<Map<String, dynamic>> doc in snapshot.docs)
+    {
+      newsoutput.add(news.fromJson(doc.data()));
+    }
+    
+    return newsoutput;
+
+  }
+
   Future<int> checkadmin(String? email) async {
     final check = await FirebaseFirestore.instance
         .collection('admin')

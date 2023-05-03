@@ -25,70 +25,75 @@ class _NewinputState extends State<Newinput> {
     return Scaffold(
       appBar: AppBar(title: const Text("Add News")),
       body: Padding(padding: const EdgeInsets.all(15),
-      child: Column(children: [
-         Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: newsTitle,
-                maxLines: null,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'News Title',
-                  hintText: 'Enter Title Name',
+      child: SingleChildScrollView(
+        child: Column(children: [
+           Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: newsTitle,
+                  maxLines: null,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'News Title',
+                    hintText: 'Enter Title Name',
+                  ),
                 ),
               ),
-            ),
-         Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: newsDesc,
-                minLines: 4,
-                maxLines: null,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'News Description',
-                  hintText: 'Enter Description',
+           SingleChildScrollView(
+             child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    controller: newsDesc,
+                    minLines: 4,
+                    maxLines: null,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'News Description',
+                      hintText: 'Enter Description',
+                    ),
+                  ),
                 ),
-              ),
-            ),
-
-            Padding(
-
-              padding: const EdgeInsets.all(15.0),
-              child: IconButton(onPressed: () async
-              {
-                ImagePicker imagepicker =ImagePicker();
-                XFile? file=await imagepicker.pickImage(source: ImageSource.gallery);
-            
-                print(file?.path);
-            
-                if(file==null )return;
-            
-                Reference referenceRoot=FirebaseStorage.instance.ref();
-                Reference referenceDirimages=referenceRoot.child('images');
-            
-                  Reference referenceImageToUpload=referenceDirimages.child(file.name);
-                try{
-            
-                await referenceImageToUpload.putFile(File(file!.path));
-                imageUrl=await referenceImageToUpload.getDownloadURL();
-                }catch(e)
+           ),
+      
+              Padding(
+      
+                padding: const EdgeInsets.all(15.0),
+                child: IconButton(onPressed: () async
                 {
-                }
-                
-            
-              }, icon: Icon(Icons.image, size: 50,)
+                  ImagePicker imagepicker =ImagePicker();
+                  XFile? file=await imagepicker.pickImage(source: ImageSource.gallery);
+              
+                  print(file?.path);
+              
+                  if(file==null )return;
+              
+                  Reference referenceRoot=FirebaseStorage.instance.ref();
+                  Reference referenceDirimages=referenceRoot.child('images');
+              
+                    Reference referenceImageToUpload=referenceDirimages.child(file.name);
+                  try{
+              
+                  await referenceImageToUpload.putFile(File(file.path));
+                  imageUrl=await referenceImageToUpload.getDownloadURL();
+                  }catch(e)
+                  {
+                    
+                  }
+                  
+              
+                }, icon: Icon(Icons.image, size: 50,)
+                ),
               ),
-            ),
-            ElevatedButton(onPressed: (){
-              final _news_title=newsTitle.text;
-              final _newsDesc=newsDesc.text;
-              final _url=imageUrl;
-
-              _submitdata(newsTitle: _news_title, newsDesc: _newsDesc, url: _url);
-            }, child: Text("Submit"))
-          
-      ]),
+              ElevatedButton(onPressed: (){
+                final _news_title=newsTitle.text;
+                final _newsDesc=newsDesc.text;
+                final _url=imageUrl;
+                print(_url);
+                _submitdata(newsTitle: _news_title, newsDesc: _newsDesc, url: _url);
+              }, child: Text("Submit"))
+            
+        ]),
+      ),
       ),
 
     );
@@ -105,5 +110,22 @@ class _NewinputState extends State<Newinput> {
       'url': url,
     };
     await docuser.set(json);
+
+    await showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        content: const Text('News is succesfully added'),
+        actions: <Widget>[
+          TextButton(
+            child: Text('OK'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
 }
 }

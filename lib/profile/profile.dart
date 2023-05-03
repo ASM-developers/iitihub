@@ -34,6 +34,8 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firstapp/services/firestore.dart';
 import 'package:firstapp/Emails/MessageDetiails.dart';
 
+import '../news/news2.dart';
+
 class ProfileScreen extends StatefulWidget {
   ProfileScreen({super.key});
 
@@ -127,6 +129,46 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
               ),
+
+              ListTile(
+                title: Text('EMAIL'),
+                onTap: () {
+                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => MailList(
+                                              buttonTexts: const {
+                                                'TECH': [
+                                                  'Cynaptics',
+                                                  'Robotics',
+                                                  'IVDC',
+                                                  'PClub',
+                                                  'GDSC'
+                                                ],
+                                                'CULT': [
+                                                  'Kalakriti',
+                                                  'Aaina',
+                                                  'debsoc',
+                                                  'literary',
+                                                  'dance',
+                                                  'music'
+                                                ],
+                                                'CERP': ['CERP'],
+                                                'SPORTS': [
+                                                  'Swimming',
+                                                  'Table',
+                                                  'Tennis',
+                                                  'Cricket'
+                                                ],
+                                                'Dinning': ['Ajay'],
+                                                'Hostel': [
+                                                  'Room',
+                                                  'Hostel',
+                                                ]
+                                              },
+                                            )));
+                },
+              ),
               ListTile(
                 title: Text('ABOUT'),
                 onTap: () {
@@ -142,19 +184,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => News()),
+                    MaterialPageRoute(builder: (context) => News2()),
                   ); // Handle settings press
                 },
               ),
-              ListTile(
-              title: Text('ADD NEWS'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Newinput()),
-                ); // Handle settings press
-              },
-            ),
+             
               ListTile(
                   title: Text('MAP'),
                   onTap: () {
@@ -189,15 +223,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   },
                 ),
               ],
-              ListTile(
-                title: Text('Add Enitties'),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => AddEntityScreen()),
-                  ); // Handle settings press
-                },
-              ),
+              
               LoginButton(
                 text: 'sign out',
                 color: Colors.black45,
@@ -259,48 +285,51 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          ElevatedButton(
-                              style: lalpiwla,
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => MailList(
-                                              buttonTexts: {
-                                                'TECH': [
-                                                  'Cynaptics',
-                                                  'Robotics',
-                                                  'IVDC',
-                                                  'PClub',
-                                                  'GDSC'
-                                                ],
-                                                'CULT': [
-                                                  'Kalakriti',
-                                                  'Aaina',
-                                                  'debsoc',
-                                                  'literary',
-                                                  'dance',
-                                                  'music'
-                                                ],
-                                                'CERP': ['CERP'],
-                                                'SPORTS': [
-                                                  'Swimming',
-                                                  'Table',
-                                                  'Tennis',
-                                                  'Cricket'
-                                                ],
-                                                'Dinning': ['Ajay'],
-                                                'Hostel': [
-                                                  'Room',
-                                                  'Hostel',
-                                                ]
-                                              },
-                                            )));
-                              },
-                              child: Text(
-                                'Email',
-                                style: robo,
-                              )),
+                          // ElevatedButton(
+                          //     style: ButtonStyle(
+                          //       // backgroundColor: Color.fromARGB(34, r, g, b),
+                          //       alignment: Alignment.center
+                          //     ),
+                          //     onPressed: () {
+                          //       Navigator.push(
+                          //           context,
+                          //           MaterialPageRoute(
+                          //               builder: (context) => MailList(
+                          //                     buttonTexts: {
+                          //                       'TECH': [
+                          //                         'Cynaptics',
+                          //                         'Robotics',
+                          //                         'IVDC',
+                          //                         'PClub',
+                          //                         'GDSC'
+                          //                       ],
+                          //                       'CULT': [
+                          //                         'Kalakriti',
+                          //                         'Aaina',
+                          //                         'debsoc',
+                          //                         'literary',
+                          //                         'dance',
+                          //                         'music'
+                          //                       ],
+                          //                       'CERP': ['CERP'],
+                          //                       'SPORTS': [
+                          //                         'Swimming',
+                          //                         'Table',
+                          //                         'Tennis',
+                          //                         'Cricket'
+                          //                       ],
+                          //                       'Dinning': ['Ajay'],
+                          //                       'Hostel': [
+                          //                         'Room',
+                          //                         'Hostel',
+                          //                       ]
+                          //                     },
+                          //                   )));
+                          //     },
+                          //     child: Text(
+                          //       'Email',
+                          //       style: robo,
+                          //     )),
                           //   ElevatedButton(
                           //       style: lalpiwla,
                           //       onPressed: () async {

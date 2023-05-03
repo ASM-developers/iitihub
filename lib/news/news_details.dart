@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:firstapp/services/models.dart';
 
-class NewsDetail extends StatefulWidget {
-  const NewsDetail({super.key});
 
-  @override
-  State<NewsDetail> createState() => _NewsDetailState();
-}
+class NewsDetail extends StatelessWidget {
+  const NewsDetail({super.key, required this.newsdetail});
 
-class _NewsDetailState extends State<NewsDetail> {
+  final news newsdetail;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +23,7 @@ class _NewsDetailState extends State<NewsDetail> {
                 child: Align(
                   alignment: Alignment.topCenter,
                   child: Text(
-                    "TITLE",
+                    newsdetail.newsTitle,
                     style: TextStyle(
                       fontSize: 50,
                       color: Color.fromARGB(255, 255, 254, 254),
@@ -37,7 +36,7 @@ class _NewsDetailState extends State<NewsDetail> {
                   borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(0), topRight: Radius.circular(10)),
                   child: Image.network(
-                    "https://cdn.vox-cdn.com/thumbor/sP9sPjh-2PfK76HRsOfHNYNQWAo=/0x285:4048x2404/fit-in/1200x630/cdn.vox-cdn.com/uploads/chorus_asset/file/23761862/1235927096.jpg",
+                    newsdetail.url,
                     height: 200,
                     width: MediaQuery.of(context).size.width,
                     fit: BoxFit.fill,
@@ -56,12 +55,12 @@ class _NewsDetailState extends State<NewsDetail> {
                       );
                     },
                   )),
-              const Padding(
+               Padding(
                 padding: EdgeInsets.all(6),
                 child: Align(
                   alignment: Alignment.topCenter,
                   child: Text(
-                    "News API trending news",
+                    newsdetail.newsTitle,
                     maxLines: 2,
                     style: TextStyle(
                         color: Color.fromARGB(255, 255, 255, 255),
@@ -70,13 +69,14 @@ class _NewsDetailState extends State<NewsDetail> {
                   ),
                 ),
               ),
-              const Padding(
+              Padding(
                 padding: EdgeInsets.all(10),
                 child: Align(
                   alignment: Alignment.center,
                   child: Text(
-                    "Go to NewsAPI.org and sign up with your email ID and password. As  as you sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.",
+                    // "Go to NewsAPI.org and sign up with your email ID and password. As  as you sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.u sign up, it will generate a unique API key for yourself that we will use to request news articles. Save that key as a constant in the Flutter project.",
                     // maxLines: 5,
+                    newsdetail.newsDesc,
                     style: TextStyle(
                         color: Color.fromRGBO(255, 255, 255, 1), fontSize: 14),
                   ),

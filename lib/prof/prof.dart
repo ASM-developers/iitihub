@@ -224,6 +224,22 @@ class _ProfScreenState extends State<ProfScreen> {
                         date: _date1,
                         context: context);
                   }
+                  await showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        content: const Text('News is succesfully added'),
+                        actions: <Widget>[
+                          TextButton(
+                            child: Text('OK'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
 
                   // if(val ==0){ qa_nameAlreadyExists(context);}
                   // else if (val ==1  ){ qa_successMsg(context, _projname,_projdes,_tags,_date1);  }
