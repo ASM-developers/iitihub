@@ -3,7 +3,9 @@
 ------------------------------------------------------------------------
 
 <div class="bfseries">
+  
 Contributors
+  
 <div class="FlushRight">
 
 Ashutosh Sammantaray 210001005
@@ -18,10 +20,14 @@ Samip Shah 210001061
 
 </div>
 
-Organization  
-ASM Developers  
+Organization : ASM Developers  
   
 
+ <div class="flushright">
+
+------------------------------------------------------------------------
+
+<div class="bfseries">
 </div>
 
 </div>
