@@ -3,9 +3,7 @@
 ------------------------------------------------------------------------
 
 <div class="bfseries">
-
-SOFTWARE REQUIREMENTS SPECIFICATION for IITIHUB 
-
+Contributors
 <div class="FlushRight">
 
 Ashutosh Sammantaray 210001005
