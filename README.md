@@ -1,4 +1,6 @@
 
+
+
 <div class="flushright">
 
 <div id="top"></div>
@@ -70,9 +72,9 @@ Contributors
 
 ## 0. Sneak Peek 
 
-Home Page    |  Email Tags |  Project |
+Home Page    |  Email Default Labels |Project |
 :-------------------------:|:-------------------------:|:-------------------------:
-<img src="https://user-images.githubusercontent.com/104747561/236025803-c6b0a31e-d906-4ff1-84c2-1d96b9186c3d.jpeg" width="210" height="400" />  |<img src="https://user-images.githubusercontent.com/104747561/236027399-0dbae050-1591-41f3-9dcb-e8e98f314bce.jpeg" width="210" height="400" /> | <img src="https://user-images.githubusercontent.com/104747561/236027971-b2036e8f-e9fc-4901-9607-43bd6b3edf3c.jpeg" width="210" height="400" />
+<img src="https://user-images.githubusercontent.com/104747561/236025803-c6b0a31e-d906-4ff1-84c2-1d96b9186c3d.jpeg" width="210" height="400" />  |<img src="https://user-images.githubusercontent.com/104747561/236047852-b86a8668-3179-493d-8a16-52f979004288.jpeg" width="210" height="400" /> | <img src="https://user-images.githubusercontent.com/104747561/236027971-b2036e8f-e9fc-4901-9607-43bd6b3edf3c.jpeg" width="210" height="400" />
 
 
 
@@ -145,13 +147,40 @@ $ flutter pub get
 - **Student Professor Collaboration Platform**
 	- Professor Fills details of his/her project
 	- Student view these and contact the professor for further correspondence
+	
+	
+
+Prof. Fills Projects Details  |  Adding Project Tags |
+|:-------------------------:|:-------------------------:|
+<img src="https://user-images.githubusercontent.com/104747561/236045878-3a610565-2cbf-4002-acae-d7f3892547ed.jpeg" width="210" height="400" />  |<img src="https://user-images.githubusercontent.com/104747561/236027399-0dbae050-1591-41f3-9dcb-e8e98f314bce.jpeg" width="210" height="400" /> | 
+
+ |  Successful Project Submission  |  Project Name Already taken| Incomplete Project Details
+:-------------------------:|:-------------------------:|:-------------------------:
+<img src="https://user-images.githubusercontent.com/104747561/236046565-166699ee-fc63-4c8d-ab4a-04ee597963d6.jpeg" width="210" height="400" />  |<img src="https://user-images.githubusercontent.com/104747561/236047025-b3afd03d-e889-473b-af37-f732637fa51c.jpeg" width="210" height="400" /> | <img src="https://user-images.githubusercontent.com/104747561/236046777-206e51bc-f627-4149-a2a6-05634a49214d.jpeg" width="210" height="400" />
+
+  |  Project Search | Project Description (Update/Delete available for Prof.) |
+:-------------------------:|:-------------------------:|
+<img src="https://user-images.githubusercontent.com/104747561/236047131-4bd97cc1-3c8f-4e85-8564-1ff1a0ab5cd5.jpeg" width="210" height="400" />  |<img src="https://user-images.githubusercontent.com/104747561/236047404-abe62548-e28e-47a0-9485-21f7045ce822.jpeg" width="210" height="400" /> | 
+
+-------------------------------------------------------------------------------------------------------------
 - **Automatic Categorization of Incoming Emails**
 		- Provided Custom Labels ( for TECH, CULTURAL, CERPS, etc ) 
+		
+Default Categories  |  Specific Category emails | Email Content |
+:-------------------------:|:-------------------------:|:-------------------------:
+<img src="https://user-images.githubusercontent.com/104747561/236047852-b86a8668-3179-493d-8a16-52f979004288.jpeg" width="210" height="400" />  |<img src="" width="210" height="400" /> | <img src="" width="210" height="400" />
+------------
 - **News Bulletin for IIT Indore**
 
+N1  | N2 | N3 |
+:-------------------------:|:-------------------------:|:-------------------------:
+<img src="" width="210" height="400" />  |<img src="" width="210" height="400" /> | <img src="" width="210" height="400" />-------------
 - **Map of IIT Indore** ( specially for visitors/ guests)
-
+<img src="https://user-images.githubusercontent.com/104747561/236048072-12bbfce2-b74f-4471-a549-92d88fd0fee9.jpeg" width="210" height="400" />  
+	
+-------------
 - **Search and View Profiles of IITI community**
+	
 	
 <div id="#FW"></div>
 
