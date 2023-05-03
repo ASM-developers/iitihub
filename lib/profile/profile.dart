@@ -15,14 +15,14 @@ import 'package:firstapp/services/gmail.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firstapp/admin/admin.dart';
 import 'package:firstapp/admin/add_entity.dart';
-import 'package:firstapp/services/models.dart';
+import 'package:firstapp/services/models.dart' as model;
 import 'package:get/get.dart';
 import 'package:googleapis/analyticsreporting/v4.dart';
 // import 'package:googleapis/bigquery/v2.dart';
 import 'package:firstapp/camap/common_example_wrapper.dart';
 import 'package:firstapp/profile/searchBar.dart';
 import 'package:firstapp/news/news.dart';
-
+import 'package:firstapp/prof/my_projects.dart';
 import 'dart:io';
 import 'package:provider/provider.dart';
 
@@ -191,6 +191,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               //     },
               //   ),
               // ],
+              // print(AuthService().user?.type);
               if (AuthService().user != null) ...[
                 FutureBuilder<bool>(
                     future: FirestoreService().checkadmin(AuthService().user?.email),
@@ -215,6 +216,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       }
                     }
                 )],
+              FutureBuilder<model.User>(
+                  future: FirestoreService().getUsersByEmail(AuthService().user?.email ?? ''),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData && snapshot.data?.type == 'professor' && AuthService().user?.email!=null) {
+                      return ListTile(
+                        title: Text('My PROJECTS'),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => MyProjectScreen()),
+                          ); // Handle settings press
+                        },
+                      );
+                    } else{
+                      return Container();
+                    }
+                  }
+              ),
+
               ListTile(
                 title: Text('Add Enitties'),
                 onTap: () {

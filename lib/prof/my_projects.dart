@@ -1,5 +1,3 @@
-import 'package:firstapp/prof/prof.dart';
-import 'package:firstapp/services/auth.dart';
 import 'package:firstapp/services/firestore.dart';
 import 'package:firstapp/services/models.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -11,11 +9,11 @@ import 'package:firstapp/services/firestore.dart';
 // import 'package:firstapp/prof/prof.dart';
 // FirestoreService ins= FirestoreService()
 
-class ProjectScreen extends StatefulWidget {
-  const ProjectScreen({super.key});
+class MyProjectScreen extends StatefulWidget {
+  const MyProjectScreen({super.key});
 
   @override
-  State<ProjectScreen> createState() => _ProjectScreenState();
+  State<MyProjectScreen> createState() => _MyProjectScreenState();
 }
 
 class MultiSelect extends StatefulWidget {
@@ -58,11 +56,11 @@ class _MultiSelectState extends State<MultiSelect> {
           child: ListBody(
             children: widget.items
                 .map((item) => CheckboxListTile(
-                      value: _selectedItems.contains(item),
-                      title: Text(item),
-                      controlAffinity: ListTileControlAffinity.leading,
-                      onChanged: (isChecked) => _itemChange(item, isChecked!),
-                    ))
+              value: _selectedItems.contains(item),
+              title: Text(item),
+              controlAffinity: ListTileControlAffinity.leading,
+              onChanged: (isChecked) => _itemChange(item, isChecked!),
+            ))
                 .toList(),
           ),
         ),
@@ -73,23 +71,8 @@ class _MultiSelectState extends State<MultiSelect> {
   }
 }
 
-class _ProjectScreenState extends State<ProjectScreen> {
-  bool isStudent = true;
-  bool adminval = false;
-
-  Future<void> checkUserType() async {
-    if(AuthService().user==null) return;
-    adminval = await FirestoreService().checkadmin(
-      AuthService().user?.email,
-    );
-    final det = await FirestoreService().isStudent(AuthService().user?.email);
-    setState(() {
-      isStudent = det;
-    });
-    print(isStudent);
-  }
-
-  void _showffmultiselect() async {
+class _MyProjectScreenState extends State<MyProjectScreen> {
+  void _showmultiselect() async {
     final List<String> mylist = [
       'CSE',
       'AI/ML',
@@ -122,48 +105,22 @@ class _ProjectScreenState extends State<ProjectScreen> {
   }
 
   Stream<List<Projects>> _projectStream = FirestoreService()
-      .getprojectbyTag(["Competitive programming", "Material Science"], '');
+      .getmyprojectbyTag([], '');
   List<String> _selectedTags = [];
-  List<String> _availableTags = [
-    "Competitive programming",
-    "Material Science",
-    "Tag 3",
-    "Tag 4"
-  ];
   TextEditingController searchtext = TextEditingController();
   void searchProject(String searchText) {
     setState(() {
       _projectStream =
-          FirestoreService().getprojectbyTag(_selectedTags, searchText);
+          FirestoreService().getmyprojectbyTag(_selectedTags, searchText);
     });
   }
-
   ButtonStyle lalpiwla = ButtonStyle(
     backgroundColor: MaterialStatePropertyAll<Color>(Colors.black26),
     elevation: MaterialStatePropertyAll<double>(10),
   );
   @override
-  void initState() {
-    super.initState();
-    checkUserType();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: Visibility(
-          visible: !isStudent,
-          child: ElevatedButton(
-            child: Text("+"),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ProfScreen()),
-              );
-              // Handle settings press
-            },
-          ),
-        ),
         appBar: AppBar(
           title: Text("Projects"),
         ),
@@ -184,17 +141,17 @@ class _ProjectScreenState extends State<ProjectScreen> {
             ElevatedButton(
                 style: lalpiwla,
                 onPressed: () {
-                  _showffmultiselect();
+                  _showmultiselect();
                 },
                 child: Text("Add tags")),
             Wrap(
               children: _selectedTags
                   .map((e) => Padding(
-                        padding: const EdgeInsets.all(3.0),
-                        child: Chip(
-                          label: Text(e),
-                        ),
-                      ))
+                padding: const EdgeInsets.all(3.0),
+                child: Chip(
+                  label: Text(e),
+                ),
+              ))
                   .toList(),
             ),
             Flexible(
@@ -219,23 +176,23 @@ class _ProjectScreenState extends State<ProjectScreen> {
   }
 
   Widget buildProject(Projects projects) => Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: ListTile(
-          // leading: (Icon(Icons.person_pin_circle_sharp)),
-          title: Text(projects.name),
-          subtitle: Text(projects.prof),
-          trailing: (Icon(Icons.menu)),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          tileColor: Color.fromRGBO(228, 228, 247, 0.494),
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => DetailsScreen(project: projects),
-                ));
-          },
-        ),
-      );
+    padding: const EdgeInsets.all(10.0),
+    child: ListTile(
+      // leading: (Icon(Icons.person_pin_circle_sharp)),
+      title: Text(projects.name),
+      subtitle: Text(projects.prof),
+      trailing: (Icon(Icons.menu)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      tileColor: Color.fromRGBO(228, 228, 247, 0.494),
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DetailsScreen(project: projects),
+            ));
+      },
+    ),
+  );
 }
