@@ -143,6 +143,10 @@ class FirestoreService {
       );
     }
   }
+  Future<void> deleteProject(String Id)async {
+    FirebaseFirestore.instance.collection('Projects').doc(Id).delete();
+  }
+
   Future<void> createUser(
       String? email, String? name, BuildContext context) async {
     final RegExp isStudent = RegExp(r'^[a-z]{2,4}\d{9}@iiti\.ac\.in$');
