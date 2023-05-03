@@ -76,8 +76,7 @@ class DetailsScreen extends StatelessWidget {
               ),
             ),
           ),
-      
-          
+          ElevatedButton(onPressed: onPressed, child: child)
         ]),
       ),
     );
