@@ -1,5 +1,9 @@
+import 'package:firstapp/services/auth.dart';
+import 'package:firstapp/services/firestore.dart';
 import 'package:firstapp/services/models.dart';
 import 'package:flutter/material.dart';
+
+import 'my_projects.dart';
 
 class DetailsScreen extends StatelessWidget {
   const DetailsScreen({super.key, required this.project});
@@ -76,7 +80,18 @@ class DetailsScreen extends StatelessWidget {
               ),
             ),
           ),
-          ElevatedButton(onPressed: onPressed, child: child)
+          if(project.prof==AuthService().user?.email)...[
+            ElevatedButton(
+              onPressed: () {
+                FirestoreService().deleteProject(project.ID);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MyProjectScreen()),
+                );
+            },
+              child: Text('Delete Project'),
+            ),
+          ]
         ]),
       ),
     );
