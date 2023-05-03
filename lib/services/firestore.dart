@@ -143,7 +143,7 @@ class FirestoreService {
       );
     }
   }
-  Future<void> deleteProject(String Id)async {
+  void deleteProject(String Id) {
     FirebaseFirestore.instance.collection('Projects').doc(Id).delete();
   }
 
