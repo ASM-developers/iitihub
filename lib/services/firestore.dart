@@ -104,20 +104,14 @@ class FirestoreService {
     return users;
   }
 
-  Future<int> checkadmin(String? email) async {
+  Future<bool> checkadmin(String? email) async {
     final check = await FirebaseFirestore.instance
         .collection('admin')
         .where("email", isEqualTo: email)
         .get();
-
-    if (check.size > 0) {
-      print("Admin has Logged in");
-      // adminval[0] = 1;
-      return 1;
-    }
-    print("User- NOT an Admin");
-    // adminval[0] = 0;
-    return 0;
+    print("hello");
+    print(check);
+    return check.size > 0;
   }
 
   Future<void> createUser(

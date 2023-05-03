@@ -74,10 +74,11 @@ class _MultiSelectState extends State<MultiSelect> {
 }
 
 class _ProjectScreenState extends State<ProjectScreen> {
-  bool isStudent = true;
-  int adminval = 0;
+  bool isStudent = false;
+  bool adminval = false;
 
   Future<void> checkUserType() async {
+    if(AuthService().user==null) return;
     adminval = await FirestoreService().checkadmin(
       AuthService().user?.email,
     );

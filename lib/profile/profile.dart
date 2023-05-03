@@ -40,11 +40,12 @@ class ProfileScreen extends StatefulWidget {
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
-
+// print(AuthServ);
 bool isStudent = false;
-int adminval = 0;
+bool adminval = false;
 
 Future<void> checkUserType() async {
+  if(AuthService().user==null) return;
   adminval = await FirestoreService().checkadmin(
     AuthService().user?.email,
   );
@@ -64,6 +65,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void initState() {
+    print(AuthService().user==null);
     FirestoreService().createUser(
         AuthService().user?.email, AuthService().user?.displayName, context);
     super.initState();
@@ -178,17 +180,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ); // Handle settings press
                 },
               ),
-              if (adminval == 1) ...[
-                ListTile(
-                  title: Text('Admin'),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Admin()),
-                    ); // Handle settings press
-                  },
-                ),
-              ],
+              // if (adminval == true) ...[
+              //   ListTile(
+              //     title: Text('Admin'),
+              //     onTap: () {
+              //       Navigator.push(
+              //         context,
+              //         MaterialPageRoute(builder: (context) => Admin()),
+              //       ); // Handle settings press
+              //     },
+              //   ),
+              // ],
+              if (AuthService().user != null) ...[
+                FutureBuilder<bool>(
+                    future: FirestoreService().checkadmin(AuthService().user?.email),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData && snapshot.data == true && AuthService().user?.email!=null) {
+                        print(AuthService().user);
+                        print("Admin");
+                        print(AuthService().user?.email);
+                        return ListTile(
+                          title: Text('Admin'),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => Admin()),
+                            );
+                          },
+                        );
+                      } else {
+                        print("not Admin");
+                        print(AuthService().user?.email);
+                        return Container();
+                      }
+                    }
+                )],
               ListTile(
                 title: Text('Add Enitties'),
                 onTap: () {
