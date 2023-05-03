@@ -104,21 +104,16 @@ class FirestoreService {
     return users;
   }
 
- 
+  Future<List<news>> getNews() async {
+    List<news> newsoutput = [];
+    QuerySnapshot<Map<String, dynamic>> snapshot =
+        await FirebaseFirestore.instance.collection("news").get();
 
-  Future<List<news>> getNews() async{
-    List<news>newsoutput=[];
-    QuerySnapshot<Map<String, dynamic>> snapshot =await FirebaseFirestore
-    .instance.collection("news")
-    .get();
-
-    for(QueryDocumentSnapshot<Map<String, dynamic>> doc in snapshot.docs)
-    {
+    for (QueryDocumentSnapshot<Map<String, dynamic>> doc in snapshot.docs) {
       newsoutput.add(news.fromJson(doc.data()));
     }
-    
-    return newsoutput;
 
+    return newsoutput;
   }
 
   Future<bool> checkadmin(String? email) async {
@@ -130,36 +125,49 @@ class FirestoreService {
     print(check);
     return check.size > 0;
   }
-  Stream<List<Projects>> getmyprojectbyTag(List<String> query,String searchQuery) {
-    if(query.isNotEmpty){
-      return FirebaseFirestore
-          .instance
+
+  Stream<List<Projects>> getmyprojectbyTag(
+      List<String> query, String searchQuery) {
+    if (query.isNotEmpty) {
+      return FirebaseFirestore.instance
           .collection('Projects')
           .orderBy('date', descending: true)
-          .where('tags',arrayContainsAny:query)
-          .where('prof',isEqualTo: AuthService().user?.email)
+          .where('tags', arrayContainsAny: query)
+          .where('prof', isEqualTo: AuthService().user?.email)
           .snapshots()
-          .map((snapshot) =>
-      snapshot.docs.where((doc) =>
-          doc.data().toString().toLowerCase().contains(searchQuery.toLowerCase()))
-          .map((doc) => Projects.fromJson(doc.data()))
-          .toList()..sort((a, b) => b.tags.where((tag) => query.contains(tag)).length.compareTo(a.tags.where((tag) => query.contains(tag)).length))
-      );
-    }else{
-      return FirebaseFirestore
-          .instance
+          .map((snapshot) => snapshot.docs
+              .where((doc) => doc
+                  .data()
+                  .toString()
+                  .toLowerCase()
+                  .contains(searchQuery.toLowerCase()))
+              .map((doc) => Projects.fromJson(doc.data()))
+              .toList()
+            ..sort((a, b) => b.tags
+                .where((tag) => query.contains(tag))
+                .length
+                .compareTo(a.tags.where((tag) => query.contains(tag)).length)));
+    } else {
+      return FirebaseFirestore.instance
           .collection('Projects')
           .orderBy('date', descending: true)
-          .where('prof',isEqualTo: AuthService().user?.email)
+          .where('prof', isEqualTo: AuthService().user?.email)
           .snapshots()
-          .map((snapshot) =>
-      snapshot.docs.where((doc) =>
-          doc.data().toString().toLowerCase().contains(searchQuery.toLowerCase()))
-          .map((doc) => Projects.fromJson(doc.data()))
-          .toList()..sort((a, b) => b.tags.where((tag) => query.contains(tag)).length.compareTo(a.tags.where((tag) => query.contains(tag)).length))
-      );
+          .map((snapshot) => snapshot.docs
+              .where((doc) => doc
+                  .data()
+                  .toString()
+                  .toLowerCase()
+                  .contains(searchQuery.toLowerCase()))
+              .map((doc) => Projects.fromJson(doc.data()))
+              .toList()
+            ..sort((a, b) => b.tags
+                .where((tag) => query.contains(tag))
+                .length
+                .compareTo(a.tags.where((tag) => query.contains(tag)).length)));
     }
   }
+
   void deleteProject(String Id) {
     FirebaseFirestore.instance.collection('Projects').doc(Id).delete();
   }
@@ -172,14 +180,14 @@ class FirestoreService {
       email: email ?? "",
       name: name ?? "",
     );
-  print(user.type);
+    print(user.type);
     if (isStudent.hasMatch(user.email)) {
       user.type = 'student';
     }
-    if(await  checkadmin(user.email)){
+    if (await checkadmin(user.email)) {
       user.type = 'admin';
-    }else{
-      user.type='professor';
+    } else {
+      user.type = 'professor';
     }
     //if this expression matches then its a student. Otherwise its a prof
     //use this regex query to decide wh
@@ -297,6 +305,22 @@ class FirestoreService {
     }
 
     return 1;
+  }
+
+  Future<void> updateProject(Projects project) async {
+    try {
+      final projectRef =
+          FirebaseFirestore.instance.collection('Projects').doc(project.ID);
+      final projectDoc = await projectRef.get();
+
+      if (projectDoc.exists) {
+        await projectRef.update(project.toJson());
+      } else {
+        print('Project with ID ${project.ID} does not exist.');
+      }
+    } catch (e) {
+      print('Error updating project: $e');
+    }
   }
 
   Stream<List<Projects>> readProjects() => FirebaseFirestore.instance

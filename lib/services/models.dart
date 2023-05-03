@@ -17,7 +17,7 @@ class User {
     this.name = '',
     this.type = '',
     this.tags = const ['a', 'b'],
-    this.desc='',
+    this.desc = '',
   });
 
   Map<String, dynamic> toJson() => {
@@ -49,6 +49,7 @@ class Student {
   factory Student.fromJson(Map<String, dynamic> json) =>
       _$StudentFromJson(json);
 }
+
 @JsonSerializable()
 class news {
   final String ID;
@@ -63,8 +64,7 @@ class news {
     this.url = '',
   });
 
-  factory news.fromJson(Map<String, dynamic> json) =>
-      _$newsFromJson(json);
+  factory news.fromJson(Map<String, dynamic> json) => _$newsFromJson(json);
 }
 
 @JsonSerializable()
@@ -86,11 +86,11 @@ class Prof {
 @JsonSerializable()
 class Projects {
   final String ID;
-  final String date;
-  final String description;
-  final String name;
+  String date;
+  String description;
+  String name;
   final String prof;
-  final List<String> tags;
+  List<String> tags;
 
   Projects({
     this.ID = '',
@@ -100,6 +100,16 @@ class Projects {
     this.prof = '',
     this.tags = const [],
   });
+
+  Map<String, dynamic> toJson() => {
+        'ID': ID,
+        'name': name,
+        'prof': prof,
+        'date': date,
+        'tags': tags,
+        'description': description,
+      };
+
   factory Projects.fromJson(Map<String, dynamic> json) =>
       _$ProjectsFromJson(json);
 }
@@ -117,8 +127,6 @@ class Feed {
   });
   factory Feed.fromJson(Map<String, dynamic> json) => _$FeedFromJson(json);
 }
-
-
 
 @JsonSerializable()
 class Interests {
