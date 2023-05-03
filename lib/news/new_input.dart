@@ -88,7 +88,6 @@ class _NewinputState extends State<Newinput> {
                 final _news_title=newsTitle.text;
                 final _newsDesc=newsDesc.text;
                 final _url=imageUrl;
-                print(_url);
                 _submitdata(newsTitle: _news_title, newsDesc: _newsDesc, url: _url);
               }, child: Text("Submit"))
             
