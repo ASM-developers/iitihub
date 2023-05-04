@@ -43,12 +43,13 @@ class ProfileScreen extends StatefulWidget {
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
+
 // print(AuthServ);
 bool isStudent = false;
 bool adminval = false;
 
 Future<void> checkUserType() async {
-  if(AuthService().user==null) return;
+  if (AuthService().user == null) return;
   adminval = await FirestoreService().checkadmin(
     AuthService().user?.email,
   );
@@ -66,7 +67,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     elevation: MaterialStatePropertyAll<double>(10),
   );
 
-  Future<model.User> myself=FirestoreService().getUsersByEmail(AuthService().user?.email);
+  Future<model.User> myself =
+      FirestoreService().getUsersByEmail(AuthService().user?.email);
   @override
   void initState() {
     // print(AuthService().user==null);
@@ -82,8 +84,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 //   throw UnimplementedError();
 // }
 
-
-  final queryResult = ['a', 'b', 'ak', 'c'];
+  // final queryResult = ['a', 'b', 'ak', 'c'];
   @override
   Widget build(BuildContext context) {
     // sleep(const Duration(milliseconds: 2000));
@@ -94,7 +95,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     // print('just before scaffold $adminval');
 
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           backgroundColor: Colors.black,
           leading: Builder(
@@ -145,39 +146,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 title: Text('EMAIL'),
                 onTap: () {
                   Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => MailList(
-                                              buttonTexts: const {
-                                                'TECH': [
-                                                  'Cynaptics',
-                                                  'Robotics',
-                                                  'IVDC',
-                                                  'PClub',
-                                                  'GDSC'
-                                                ],
-                                                'CULT': [
-                                                  'Kalakriti',
-                                                  'Aaina',
-                                                  'debsoc',
-                                                  'literary',
-                                                  'dance',
-                                                  'music'
-                                                ],
-                                                'CERP': ['CERP'],
-                                                'SPORTS': [
-                                                  'Swimming',
-                                                  'Table',
-                                                  'Tennis',
-                                                  'Cricket'
-                                                ],
-                                                'Dinning': ['Ajay'],
-                                                'Hostel': [
-                                                  'Room',
-                                                  'Hostel',
-                                                ]
-                                              },
-                                            )));
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MailList(
+                                buttonTexts: const {
+                                  'TECH': [
+                                    'Cynaptics',
+                                    'Robotics',
+                                    'IVDC',
+                                    'PClub',
+                                    'GDSC'
+                                  ],
+                                  'CULT': [
+                                    'Kalakriti',
+                                    'Aaina',
+                                    'debsoc',
+                                    'literary',
+                                    'dance',
+                                    'music'
+                                  ],
+                                  'CERP': ['CERP'],
+                                  'SPORTS': [
+                                    'Swimming',
+                                    'Table',
+                                    'Tennis',
+                                    'Cricket'
+                                  ],
+                                  'Dinning': ['Ajay'],
+                                  'Hostel': [
+                                    'Room',
+                                    'Hostel',
+                                  ]
+                                },
+                              )));
                 },
               ),
               ListTile(
@@ -199,7 +200,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ); // Handle settings press
                 },
               ),
-             
+
               ListTile(
                   title: Text('MAP'),
                   onTap: () {
@@ -223,12 +224,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ); // Handle settings press
                 },
               ),
-              
+
               if (AuthService().user != null) ...[
                 FutureBuilder<bool>(
-                    future: FirestoreService().checkadmin(AuthService().user?.email),
+                    future: FirestoreService()
+                        .checkadmin(AuthService().user?.email),
                     builder: (context, snapshot) {
-                      if (snapshot.hasData && snapshot.data == true && AuthService().user?.email!=null) {
+                      if (snapshot.hasData &&
+                          snapshot.data == true &&
+                          AuthService().user?.email != null) {
                         // print(AuthService().user);
                         // print("Admin");
                         // print(AuthService().user?.email);
@@ -246,26 +250,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         // print(AuthService().user?.email);
                         return Container();
                       }
-                    }
-                )],
+                    })
+              ],
               FutureBuilder<model.User>(
-                  future: FirestoreService().getUsersByEmail(AuthService().user?.email ?? ''),
+                  future: FirestoreService()
+                      .getUsersByEmail(AuthService().user?.email ?? ''),
                   builder: (context, snapshot) {
-                    if (snapshot.hasData && snapshot.data?.type == 'professor' && AuthService().user?.email!=null) {
+                    if (snapshot.hasData &&
+                        snapshot.data?.type == 'professor' &&
+                        AuthService().user?.email != null) {
                       return ListTile(
                         title: Text('MY PROJECTS'),
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => MyProjectScreen()),
+                            MaterialPageRoute(
+                                builder: (context) => MyProjectScreen()),
                           ); // Handle settings press
                         },
                       );
-                    } else{
+                    } else {
                       return Container();
                     }
-                  }
-              ),
+                  }),
 
               // ListTile(
               //   title: Text('Add Enitties'),
@@ -303,14 +310,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     padding: const EdgeInsets.all(20.0),
                     child: Container(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Color.fromRGBO(12, 12, 12, 1)
-                      ),
+                          borderRadius: BorderRadius.circular(10),
+                          color: Color.fromRGBO(12, 12, 12, 1)),
                       child: Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: Text(
                           "The purpose of the project is to make an app for the college community. It can be used by college students and professors and even by administrations. This app will provide information and regular updates about any technical, cultural, academic and sports events, a platform for student-professor collaboration, and many more things. Thus acting as a bridge between the members of the institute community.",
-                                            
                           style: const TextStyle(
                             fontSize: 16,
                           ),
@@ -318,20 +323,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                   ),
-                  
-                 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                         
-                        ],
+                        children: [],
                       ),
-
-                      
                     ],
                   ),
                 ],
@@ -341,6 +339,3 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ));
   } //build
 }
-
-
-

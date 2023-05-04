@@ -93,7 +93,6 @@ class _CircularImageState extends State<CircularImage> {
     return Center(
       child: Padding(
         padding: const EdgeInsets.only(
-
           top: 10.0,
         ),
         child: Column(
@@ -125,7 +124,7 @@ class _CircularImageState extends State<CircularImage> {
                       elevation: 10,
                       child: TextButton(
                         onPressed: () {
-                          if (spp == 'show pic') {
+                          if (spp == 'Show Profile pic') {
                             setImag();
                           } else {
                             setImag2();
