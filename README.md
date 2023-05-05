@@ -137,6 +137,7 @@ $ flutter pub get
 ``` 
 
 <div id="U"></div>
+	
 ## 6. Usage
 - download apk file provide in main repo
 - run the file in mobile( not published 
