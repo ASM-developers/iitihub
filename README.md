@@ -187,8 +187,10 @@ N1  | N2 | N3 |
 
 <div id="FW"></div>
 
-## 8. Future Work
-- **Making the email rendering more efficient** ( although functionality will remain the same , but rendering the only visible emails)
+## 8. Ways to improve our current work! 
+- add status on professor's projects (completed / positions full / positions vacant)
+- add some extra ways to handle duplication of projects ( open for creativity)
+-  **Making the email rendering more efficient** ( although functionality will remain the same , but rendering the only visible emails)
 - **Custom labels for automatic email sort**( can be done very easily, not done given the time constraint), requires just to implement add labels to a given entity in the list( refer code)
 - **Collaborating with other CS208 projects of IIT Indore** to Include other components like EV tracking , Food/Mess Delivery, 
 
