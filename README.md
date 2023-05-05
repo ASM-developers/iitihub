@@ -135,13 +135,13 @@ $ cd iitihub
 $ flutter pub get
 ``` 
 
-
+<div id="U"></div>
 ## 6. Usage
 - download apk file provide in main repo
 - run the file in mobile( not published 
 
 <div id="F"></div>
-
+	
 ## 7.  Features
 
 - **Student Professor Collaboration Platform**
@@ -166,23 +166,26 @@ Prof. Fills Projects Details  |  Adding Project Tags |
 - **Automatic Categorization of Incoming Emails**
 		- Provided Custom Labels ( for TECH, CULTURAL, CERPS, etc ) 
 		
-Default Categories  |  Specific Category emails | Email Content |
-:-------------------------:|:-------------------------:|:-------------------------:
-<img src="https://user-images.githubusercontent.com/104747561/236047852-b86a8668-3179-493d-8a16-52f979004288.jpeg" width="210" height="400" />  |<img src="" width="210" height="400" /> | <img src="" width="210" height="400" />
+Default Categories  |  Specific Category emails( say CULT) | Email Content(one of them) |
+:-------------------------:|:-------------------------:|:--------------
+-----------:
+<img src="https://user-images.githubusercontent.com/104747561/236047852-b86a8668-3179-493d-8a16-52f979004288.jpeg" width="210" height="400" />  |<img src="https://user-images.githubusercontent.com/104747561/236382251-01345ac6-aa4c-4890-88e4-1b1b3706e4b9.jpeg" width="210" height="400" /> | <img src="https://user-images.githubusercontent.com/104747561/236382175-61cb19fd-863c-4f6e-9b2e-70cff018bcef.jpeg" width="210" height="400" />
 ------------
 - **News Bulletin for IIT Indore**
 
 N1  | N2 | N3 |
 :-------------------------:|:-------------------------:|:-------------------------:
-<img src="" width="210" height="400" />  |<img src="" width="210" height="400" /> | <img src="" width="210" height="400" />-------------
+<img src="https://user-images.githubusercontent.com/104747561/236382530-1a6baf50-f00c-4198-9baa-fcbf83e7ab9f.jpeg" width="210" height="400" />  |<img src="https://user-images.githubusercontent.com/104747561/236382582-e6a183e0-26a4-4af6-950f-97f7a4e8f7d4.jpeg" width="210" height="400" /> | <img src="https://user-images.githubusercontent.com/104747561/236383072-43093630-95f6-4835-a76b-101535fede33.jpeg" width="210" height="400" />-------------
+
 - **Map of IIT Indore** ( specially for visitors/ guests)
+
 <img src="https://user-images.githubusercontent.com/104747561/236048072-12bbfce2-b74f-4471-a549-92d88fd0fee9.jpeg" width="210" height="400" />  
 	
 -------------
 - **Search and View Profiles of IITI community**
-	
-	
-<div id="#FW"></div>
+
+
+<div id="FW"></div>
 
 ## 8. Future Work
 - **Making the email rendering more efficient** ( although functionality will remain the same , but rendering the only visible emails)
