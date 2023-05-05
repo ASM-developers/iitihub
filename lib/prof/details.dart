@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 
 import 'my_projects.dart';
 
+import 'package:linkwell/linkwell.dart';
+
 class DetailsScreen extends StatelessWidget {
   const DetailsScreen({super.key, required this.project});
 
@@ -73,7 +75,7 @@ class DetailsScreen extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(24, 20, 0, 0),
             child: Align(
               alignment: Alignment.topLeft,
-              child: Text(
+              child: LinkWell(
                 'Description: \n${project.description}',
                 style: const TextStyle(
                     fontWeight: FontWeight.normal, fontSize: 18),
