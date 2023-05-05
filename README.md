@@ -57,6 +57,7 @@ Contributors
 - For Students
 - For Professors
 - For Admin
+- For Guests
 
 <p><a href="#F">7. Features</a></p>
 
